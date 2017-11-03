@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "__MSG_extensionName__",
+    "description": "__MSG_extensionDescription__",
+    "author": "Fiona Klute",
+    "version": "0.4",
+    "default_locale": "en",
+
+    "icons": {
+    },
+
+    "permissions": [
+		"webRequest",
+		"webRequestBlocking",
+		"<all_urls>",
+		"storage"
+    ],
+
+    "options_ui": {
+		"page": "options.html",
+		"browser_style": true
+    },
+
+    "background": {
+		"scripts": ["background.js"]
+    },
+
+    "applications": {
+		"gecko": {
+			"id": "referer-mod@9a5ba22d-c08f-494f-86c2-e9fd04a6a42c",
+			"strict_min_version": "56.0"
+		}
+    }
+}

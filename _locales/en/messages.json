@@ -1,0 +1,10 @@
+{
+	"extensionName": {
+		"message": "Referer Modifier",
+		"description": "Name of this extension"
+	},
+	"extensionDescription": {
+		"message": "Modify the Referer header in HTTP requests",
+		"description": "Description of this extension"
+	}
+}

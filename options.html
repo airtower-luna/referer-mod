@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style type="text/css">
+      body {
+      font: message-box;
+      font-size: 1.25rem;
+      text-rendering: optimizeLegibility;
+      }
+      .documentation {
+      max-width: 550px;
+      text-align: justify;
+      hyphens: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <section>
+      <h3>Configure Referers</h3>
+      <form id="ref_conf">
+	<table>
+	  <thead>
+	    <tr id="header">
+	      <th title="Domain of the requested URL, also matches subdomains">Target Domain</th>
+	      <th title="What to do with the Referer in a request matching the target domain">Action</th>
+	      <th title="If the action &quot;Replace&quot; is selected, the Referer is set to this value.">Replacement Referer</th>
+	    </tr>
+	  </thead>
+	  <tbody id="hosts">
+	    <tr>
+	      <td title="Applies to any request that does not match one of the other rules.">&lt;ANY&gt;</td>
+	      <td>
+		<select id="any_action" class="action">
+		  <option value="keep" title="Do not modify the Referer">Keep</option>
+		  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
+		  <option value="remove" title="Do not send any Referer">Remove</option>
+		  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+		</select>
+	      </td>
+	      <td><input id="any_referer" class="referer" type="text"
+			 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+			 value=""/></td>
+	    </tr>
+	    <tr>
+	      <td title="Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.">&lt;SAME&gt;</td>
+	      <td>
+		<select id="same_action" class="action">
+		  <option value="keep" title="Do not modify the Referer">Keep</option>
+		  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
+		  <option value="remove" title="Do not send any Referer">Remove</option>
+		  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+		</select>
+	      </td>
+	      <td><input id="same_referer" class="referer" type="text"
+			 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+			 value=""/></td>
+	    </tr>
+	  </tbody>
+	</table>
+	<button type="button" id="add_row">Add domain</button>
+	<button type="button" id="safe_conf">Save configuration</button>
+      </form>
+      <p class="documentation">Please check the tool tips for details
+      on the meaning of the configuration fields. Domains also match
+      subdomains, if a request matches multiple rules the longest
+      match is used. For example, if you have separate rules for both
+      www.example.com and example.com, a request to
+      https://www.example.com/ will be subject to the former
+      rule. Referer Modifier does not add Referer headers, it only
+      modifies or removes existing ones.</p>
+    </section>
+
+    <section>
+      <h3>Configuration Backup</h3>
+      <p>
+	<button type="button" id="export">Export configuration</button>
+	<div id="export_text" hidden>
+	  Please save this <a id="export_blob">JSON file</a>.
+	</div>
+      </p>
+      <p>
+	<div>
+	  <label for="import_file">Choose backup file to import</label>
+	  <input type="file" id="import_file" name="import_file"
+		 accept="application/json">
+	</div>
+	<div id="import_warn" hidden><strong>Warning:</strong>
+	  Importing will overwrite your current configuration.
+	  <div>
+	    <button id="import_button" type="button" disabled>
+	      Import configuration
+	    </button>
+	  </div>
+	</div>
+      </p>
+    </section>
+
+    <template id="ref_row">
+      <tr class="ref_entry">
+	<td><input class="hostname" type="text" placeholder="cdn.example.com"
+		   title="Domain of the requested URL, also matches subdomains"
+		   value=""/></td>
+	<td>
+	  <select class="action">
+	    <option value="keep" title="Do not modify the Referer">Keep</option>
+	    <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
+	    <option value="remove" title="Do not send any Referer">Remove</option>
+	    <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+	  </select>
+	</td>
+	<td><input class="referer" type="text"
+		   placeholder="https://www.example.com/"
+		   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+		   value=""/></td>
+	<td>
+	  <button type="button" title="Delete rule" class="delete_row">
+	    <b>-</b>
+	  </button>
+	</td>
+      </tr>
+    </template>
+    <script src="options.js"></script>
+  </body>
+</html>
