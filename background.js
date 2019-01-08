@@ -51,7 +51,7 @@ function findHostConf(url, originUrl)
 	let match = domains.filter(d => d.regexp.test(target.hostname))
 		.reduce((acc, current) =>
 				{
-					acc == null ? current :
+					return acc == null ? current :
 						(acc.domain.length >= current.domain.length ?
 						 acc : current)
 				}, null);
