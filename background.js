@@ -1,6 +1,6 @@
 /*
  * Referer Modifier: Modify the Referer header in HTTP requests
- * Copyright (C) 2017  Fiona Klute
+ * Copyright (C) 2017-2019 Fiona Klute
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -149,7 +149,14 @@ function refreshConfig(change, area)
 
 
 
-browser.storage.sync.remove(["hosts"]).then(console.log("deleted legacy hosts config"));
+browser.storage.sync.get(["domain"]).then(
+	(result) => {
+		if (result.domain !== undefined)
+		{
+			browser.storage.sync.remove(["domain"])
+				.then(console.log("deleted broken legacy domain config"));
+		}
+	});
 /* Load configuration, or initialize with defaults */
 browser.storage.sync.get(["domains", "same", "any"]).then(
 	(result) => {

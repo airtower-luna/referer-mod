@@ -1,6 +1,6 @@
 /*
  * Referer Modifier: Modify the Referer header in HTTP requests
- * Copyright (C) 2017  Fiona Klute
+ * Copyright (C) 2017-2019 Fiona Klute
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -109,8 +109,9 @@ function restoreOptions()
 		}, null);
 
 	browser.storage.sync.get({
-		domain: []
+		domains: []
 	}).then((result) => {
+		console.log("Refreshing domains: " + JSON.stringify(result));
 		let hosts = document.getElementById("hosts");
 		/* Remove currently shown domain rows, if any */
 		let entries = hosts.getElementsByClassName("ref_entry");
@@ -118,7 +119,7 @@ function restoreOptions()
 		{
 			entries.item(0).remove();
 		}
-		if (result.domain.length == 0)
+		if (result.domains.length == 0)
 		{
 			/* Add one empty row that will show the placeholders */
 			hosts.appendChild(createDomainRow("", "replace", ""));
@@ -126,7 +127,7 @@ function restoreOptions()
 		else
 		{
 			/* Add currently configured domains */
-			for (let line of result.domain)
+			for (let line of result.domains)
 			{
 				hosts.appendChild(createDomainRow(line.domain,
 												  line.action,
@@ -181,7 +182,7 @@ function saveOptions()
 	let same_action = document.querySelector("#same_action");
 	let same_referer = document.querySelector("#same_referer");
 	browser.storage.sync.set({
-		domain: domains,
+		domains: domains,
 		any: {
 			action: any_action.options[any_action.selectedIndex].value,
 			referer: any_referer.value
@@ -197,12 +198,12 @@ function saveOptions()
 
 function exportConfig()
 {
-	browser.storage.sync.get(["same", "any", "domain"]).then(
+	browser.storage.sync.get(["same", "any", "domains"]).then(
 		(result) => {
 			let exportConf = {
 				any:     result.any,
 				same:    result.same,
-				domains: result.domain
+				domains: result.domains
 			};
 			let blob = new Blob([JSON.stringify(exportConf, null, 2)],
 								{ type: "application/json" });
@@ -236,9 +237,9 @@ function importConfigJSON(string)
 	let conf = JSON.parse(string);
 	console.log(conf);
 	browser.storage.sync.set({
-		domain: conf.domains,
-		any:    conf.any,
-		same:   conf.same
+		domains: conf.domains,
+		any:     conf.any,
+		same:    conf.same
 	}).then(function() {
 		restoreOptions();
 	}, null);
