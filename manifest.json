@@ -3,7 +3,8 @@
     "name": "__MSG_extensionName__",
     "description": "__MSG_extensionDescription__",
     "author": "Fiona Klute",
-    "version": "0.4",
+    "version": "0.5",
+    "homepage_url": "https://github.com/airtower-luna/referer-mod",
     "default_locale": "en",
 
     "icons": {
@@ -28,7 +29,7 @@
     "applications": {
 		"gecko": {
 			"id": "referer-mod@9a5ba22d-c08f-494f-86c2-e9fd04a6a42c",
-			"strict_min_version": "56.0"
+			"strict_min_version": "57.0"
 		}
     }
 }
