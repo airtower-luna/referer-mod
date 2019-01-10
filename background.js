@@ -83,10 +83,10 @@ function modifyReferer(e)
 			switch (conf.action)
 			{
 				case "prune":
-					header.value = new URL(header.value).origin;
+					header.value = new URL(header.value).origin + "/";
 					break;
 				case "target":
-					header.value = new URL(e.url).origin;
+					header.value = new URL(e.url).origin + "/";
 					break;
 				case "replace":
 					header.value = conf.referer;
