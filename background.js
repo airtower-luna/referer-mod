@@ -188,6 +188,9 @@ browser.storage.sync.get(["domains", "same", "any"]).then(
 /* Listen for configuration changes */
 browser.storage.onChanged.addListener(refreshConfig);
 /* Listen for HTTP requests to modify */
-browser.webRequest.onBeforeSendHeaders.addListener(modifyReferer,
-												   {urls: ["<all_urls>"]},
-												   ["blocking", "requestHeaders"]);
+browser.webRequest.onBeforeSendHeaders.addListener(
+	(e) => new Promise((resolve, reject) => {
+		resolve(modifyReferer(e));
+	}),
+	{urls: ["<all_urls>"]},
+	["blocking", "requestHeaders"]);
