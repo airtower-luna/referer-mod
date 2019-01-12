@@ -82,7 +82,7 @@ function addDomainRow()
 	b.addEventListener("click",
 					   function()
 					   {
-						   row.remove();
+						   b.parentElement.parentElement.remove();
 					   },
 					   { once: true });
 	let act = row.querySelector(".action");
