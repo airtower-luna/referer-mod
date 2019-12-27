@@ -70,8 +70,11 @@
       match is used. For example, if you have separate rules for both
       www.example.com and example.com, a request to
       https://www.example.com/ will be subject to the former
-      rule. Referer Modifier does not add Referer headers, it only
-      modifies or removes existing ones.</p>
+      rule.</p>
+      <p class="documentation">The "replace" and "target" actions will
+      add a Referer header to the request if necessary, the other
+      actions only take effect if the browser would send one by
+      default.</p>
     </section>
 
     <section>

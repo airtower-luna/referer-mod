@@ -71,15 +71,27 @@ function findHostConf(url, originUrl)
 	}
 }
 
+/*
+ * Return a header entry as required for webRequest.HttpHeaders. The
+ * name is always "Referer", the value the given string.
+ */
+function genRefererHeader(value)
+{
+	let header = {};
+	header.name = "Referer";
+	header.value = value;
+	return header;
+}
+
 function modifyReferer(e)
 {
+	const conf = findHostConf(e.url, e.originUrl);
+
 	for (let i = 0; i < e.requestHeaders.length; i++)
 	{
 		let header = e.requestHeaders[i];
 		if (header.name.toLowerCase() === "referer")
 		{
-			const conf = findHostConf(e.url, e.originUrl);
-
 			switch (conf.action)
 			{
 				case "prune":
@@ -98,8 +110,19 @@ function modifyReferer(e)
 				default:
 					;
 			}
-			break;
+			return {requestHeaders: e.requestHeaders};
 		}
+	}
+
+	/* If we get to this point there was no referer in the request
+	 * headers. */
+	if (conf.action === "target")
+	{
+		e.requestHeaders.push(genRefererHeader(new URL(e.url).origin + "/"));
+	}
+	if (conf.action === "replace")
+	{
+		e.requestHeaders.push(genRefererHeader(conf.referer));
 	}
 	return {requestHeaders: e.requestHeaders};
 }
