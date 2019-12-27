@@ -1,35 +1,35 @@
 {
-    "manifest_version": 2,
-    "name": "__MSG_extensionName__",
-    "description": "__MSG_extensionDescription__",
-    "author": "Fiona Klute",
-    "version": "0.6",
-    "homepage_url": "https://github.com/airtower-luna/referer-mod",
-    "default_locale": "en",
+	"manifest_version": 2,
+	"name": "__MSG_extensionName__",
+	"description": "__MSG_extensionDescription__",
+	"author": "Fiona Klute",
+	"version": "0.6",
+	"homepage_url": "https://github.com/airtower-luna/referer-mod",
+	"default_locale": "en",
 
-    "icons": {
-    },
+	"icons": {
+	},
 
-    "permissions": [
+	"permissions": [
 		"webRequest",
 		"webRequestBlocking",
 		"<all_urls>",
 		"storage"
-    ],
+	],
 
-    "options_ui": {
+	"options_ui": {
 		"page": "options.html",
 		"browser_style": true
-    },
+	},
 
-    "background": {
+	"background": {
 		"scripts": ["background.js"]
-    },
+	},
 
-    "browser_specific_settings": {
+	"browser_specific_settings": {
 		"gecko": {
 			"id": "referer-mod@9a5ba22d-c08f-494f-86c2-e9fd04a6a42c",
 			"strict_min_version": "57.0"
 		}
-    }
+	}
 }
