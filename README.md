@@ -1,4 +1,5 @@
 # referer-mod
+
 Referer Modifier is a Web Extension for Firefox to modify the Referer header in HTTP requests. For each target domain, one of five actions can be configured:
 
 * Keep: Do not modify the Referer
@@ -7,7 +8,13 @@ Referer Modifier is a Web Extension for Firefox to modify the Referer header in 
 * Remove: Send no Referer at all
 * Replace: Replace the Referer with a configured value
 
-You can configure default actions for requests originating from the same domain, and any other request not matching a domain rule. Referer Modifier does not add Referer headers, it only modifies or removes existing ones. The configuration can be exported as and imported from JSON files.
+You can configure default actions for requests originating from the same domain, and any other request not matching a domain rule. The "replace" and "target" actions will create a Referer header if necessary, the others only modify or remove existing ones. The configuration can be exported as and imported from JSON files.
+
+## Installation
+
+Users should install the add-on from the [addons.mozilla.org page](https://addons.mozilla.org/firefox/addon/referer-modifier/).
+
+If you're working on the code you can load your work in progress as a temporary add-on using the Firefox `about:debugging` page.
 
 ## Developer information
 
