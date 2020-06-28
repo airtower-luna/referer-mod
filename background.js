@@ -1,6 +1,6 @@
 /*
  * Referer Modifier: Modify the Referer header in HTTP requests
- * Copyright (C) 2017-2019 Fiona Klute
+ * Copyright (C) 2017-2020 Fiona Klute
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,6 +57,9 @@ function findHostConf(url, originUrl)
 				}, null);
 	if (match != null)
 		return match;
+
+	if (originUrl === '' || originUrl === null || originUrl === undefined)
+		return anyConf;
 
 	let source = new URL(originUrl);
 	if (target.hostname === source.hostname)
@@ -125,6 +128,36 @@ function modifyReferer(e)
 		e.requestHeaders.push(genRefererHeader(conf.referer));
 	}
 	return {requestHeaders: e.requestHeaders};
+}
+
+
+
+/*
+ * This function is called when the inject-referer.js content script
+ * asks for the value to set as document.referrer.
+ */
+function handleContentMsg(request, sender, sendResponse) {
+	const conf = findHostConf(request.target, request.referrer);
+	var referrer = null;
+	switch (conf.action)
+	{
+		case "prune":
+			referrer = new URL(request.referrer).origin + "/";
+			break;
+		case "target":
+			referrer = new URL(request.target).origin + "/";
+			break;
+		case "replace":
+			referrer = conf.referer;
+			break;
+		case "remove":
+			referrer = '';
+			break;
+		default:
+			/* "keep" */
+			referrer = request.referrer;
+	}
+	sendResponse({referrer: referrer});
 }
 
 
@@ -217,3 +250,5 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 	}),
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
+/* Listen to messages from content script */
+browser.runtime.onMessage.addListener(handleContentMsg);

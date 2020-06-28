@@ -3,7 +3,7 @@
 	"name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
 	"author": "Fiona Klute",
-	"version": "0.7",
+	"version": "0.8",
 	"homepage_url": "https://github.com/airtower-luna/referer-mod",
 	"default_locale": "en",
 
@@ -25,6 +25,14 @@
 	"background": {
 		"scripts": ["background.js"]
 	},
+
+	"content_scripts": [
+		{
+			"matches": ["https://*/*", "http://*/*"],
+			"js": ["inject-referer.js"],
+			"run_at": "document_start"
+		}
+	],
 
 	"browser_specific_settings": {
 		"gecko": {
