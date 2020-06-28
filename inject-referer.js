@@ -31,13 +31,8 @@ function handleError(error) {
 	console.log(`Could not determine document.referrer override: ${error}`);
 }
 
-function update_referrer()
-{
-	var sending = browser.runtime.sendMessage({
-		target: window.location.href,
-		referrer: document.referrer
-	});
-	sending.then(setReferrer, handleError);
-}
-
-update_referrer();
+let sending = browser.runtime.sendMessage({
+	target: window.location.href,
+	referrer: document.referrer
+});
+sending.then(setReferrer, handleError);
