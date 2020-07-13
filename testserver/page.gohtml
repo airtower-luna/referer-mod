@@ -7,18 +7,28 @@
   </head>
   <body>
     <h1>Referer test page</h1>
-    <p><a href="/">Home</a></p>
-    <p><a href="/page/">Page</a></p>
-    <p><a href="https://browserleaks.com/javascript">Browserleaks</a></p>
+    <h2>Test Links</h2>
+    <table>
+      <tbody>
+        <tr>
+          <th>Local</th><td><a href="/">Home</a></td>
+          <td><a href="/page/">Page</a></td>
+        </tr>
+        {{range $l := .Links}}
+        <tr><th>{{ $l }}</th><td><a href="{{ $l }}/">Home</a></td><td><a href="{{ $l }}/page/">Page</a></td></tr>
+        {{end}}
+      </tbody>
+    </table>
+    <table>
     <h2>Headers</h2>
     <table>
       <thead>
-	<tr><th>Name</th><th>Value</th></tr>
+        <tr><th>Name</th><th>Value</th></tr>
       </thead>
       <tbody>
-	{{range $key, $value := .}}{{range $v := $value}}
-	<tr><td>{{ $key }}</td><td>{{ $v }}</td></tr>
-	{{end}}{{end}}
+        {{range $key, $value := .H}}{{range $v := $value}}
+        <tr><td>{{ $key }}</td><td>{{ $v }}</td></tr>
+        {{end}}{{end}}
       </tbody>
     </table>
     <h2>Javascript</h2>
