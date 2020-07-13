@@ -9,6 +9,7 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("%v %v %v%v\n", r.RemoteAddr, r.Method, r.Host, r.URL)
 	templates.ExecuteTemplate(w, "page.gohtml", r.Header)
 }
 
