@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Referer test page</title>
+  </head>
+  <body>
+    <h1>Referer test page</h1>
+    <p><a href="/">Home</a></p>
+    <p><a href="/page/">Page</a></p>
+    <p><a href="https://browserleaks.com/javascript">Browserleaks</a></p>
+    <h2>Headers</h2>
+    <table>
+      <thead>
+	<tr><th>Name</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+	{{range $key, $value := .}}{{range $v := $value}}
+	<tr><td>{{ $key }}</td><td>{{ $v }}</td></tr>
+	{{end}}{{end}}
+      </tbody>
+    </table>
+    <h2>Javascript</h2>
+    <p>document.referrer:
+      <span id="referrer">(Unknown, are scripts enabled?)</noscript>
+    </p>
+    <script>
+      document.getElementById("referrer").innerText = document.referrer
+    </script>
+  </body>
+</html>
