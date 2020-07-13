@@ -3,24 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Referer test page</title>
-    <style>
-      body {
-          margin: 5% 10% auto 10%;
-      }
-      table {
-          width: 100%;
-      }
-      table, td, th {
-          border-collapse: collapse;
-          border-color: grey;
-          border-style: solid;
-          border-width: 1px;
-      }
-      td {
-          padding-left: 5px;
-          padding-right: 5px;
-      }
-    </style>
+    <link href="/static/style.css" rel="stylesheet"/>
   </head>
   <body>
     <h1>Referer test page</h1>
@@ -42,11 +25,6 @@
     <p>document.referrer:
       <span id="referrer">(Unknown, are scripts enabled?)</span>
     </p>
-    <script>
-      function showReferrer() {
-          document.getElementById("referrer").innerText = document.referrer;
-      }
-      window.setTimeout(showReferrer, 0);
-    </script>
+    <script src="/static/show-referrer.js"></script>
   </body>
 </html>
