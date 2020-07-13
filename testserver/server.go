@@ -18,6 +18,7 @@ var templates = template.Must(template.ParseFiles("page.gohtml"))
 func main() {
 	flag.Parse()
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/favicon.ico", http.NotFound)
 	http.Handle("/static/", http.StripPrefix("/static/",
 		http.FileServer(http.Dir("./static"))))
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
