@@ -7,6 +7,9 @@
       body {
           margin: 5% 10% auto 10%;
       }
+      table {
+          width: 100%;
+      }
       table, td, th {
           border-collapse: collapse;
           border-color: grey;
@@ -40,7 +43,10 @@
       <span id="referrer">(Unknown, are scripts enabled?)</span>
     </p>
     <script>
-      document.getElementById("referrer").innerText = document.referrer
+      function showReferrer() {
+          document.getElementById("referrer").innerText = document.referrer;
+      }
+      window.setTimeout(showReferrer, 0);
     </script>
   </body>
 </html>
