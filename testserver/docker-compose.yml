@@ -1,0 +1,35 @@
+version: '3.7'
+x-command: &testcmd
+  - '--port'
+  - '80'
+  - '--links'
+  - 'http://www.x.test,http://web.x.test,http://www.y.test,http://site.y.test'
+services:
+  test1:
+    build:
+      context: .
+    image: testserver
+    command: *testcmd
+    networks:
+      testnet:
+        aliases:
+          - www.x.test
+          - web.x.test
+  test2:
+    image: testserver
+    command: *testcmd
+    networks:
+      testnet:
+        aliases:
+          - www.y.test
+          - site.y.test
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    ports:
+      - '127.0.0.1:8080:80'
+    networks:
+      testnet:
+networks:
+  testnet:
