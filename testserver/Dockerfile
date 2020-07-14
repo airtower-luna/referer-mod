@@ -1,4 +1,4 @@
 FROM debian:sid
-COPY testserver /testserver
-COPY page.gohtml /page.gohtml
+COPY testserver page.gohtml /
+COPY static/ /static/
 ENTRYPOINT ["/testserver"]
