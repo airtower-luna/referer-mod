@@ -28,3 +28,6 @@ The following three files implement the core functionality:
 Settings are saved in the [`browser.storage.sync` storage area](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync), so if the user is using Firefox sync their settings will be synchronized automatically, otherwise the storage is local.
 
 There is limited localization data in the [`_locales/`](./_locales/) directory. The [`Makefile`](./Makefile) serves to build a ZIP archive for upload to AMO.
+
+The [`testserver/`](./testserver/) directory of this repository contains
+a test environment based on Go and Docker that you can use locally.
