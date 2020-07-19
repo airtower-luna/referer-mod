@@ -1,0 +1,41 @@
+name: Referer Mod
+on:
+  pull_request:
+  push:
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    name: test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.13'
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Install Selenium
+        run: |
+          pip install selenium
+      - name: Build add-on archive
+        run: |
+          make dist
+      - name: Build test server
+        run: |
+          go build
+        working-directory: testserver/
+      - name: Build container images
+        run: |
+          docker-compose build
+        working-directory: testserver/
+      - name: Start test environment
+        run: |
+          docker-compose up -d
+        working-directory: testserver/
+      - name: Run add-on test
+        run: |
+          python test.py
+      - name: Stop test environment
+        run: |
+          docker-compose down
+        working-directory: testserver/
