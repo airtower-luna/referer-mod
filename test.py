@@ -37,7 +37,7 @@ class RefModTest(unittest.TestCase):
             manifest = json.load(fh)
 
         cls.addon_path = (cls.ext_dir /
-                           f'referer-mod-{manifest["version"]}.zip').resolve()
+                          f'referer-mod-{manifest["version"]}.zip').resolve()
         addon_id = manifest["browser_specific_settings"]["gecko"]["id"]
         addon_dyn_id = str(uuid.uuid4())
         cls.config_url = f'moz-extension://{addon_dyn_id}/options.html'
