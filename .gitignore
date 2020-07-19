@@ -1,3 +1,4 @@
 *~
 *.xpi
+/geckodriver.log
 /referer-mod-*.zip

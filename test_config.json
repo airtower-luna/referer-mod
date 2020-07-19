@@ -1,0 +1,22 @@
+{
+    "any": {
+        "action": "prune",
+        "referer": ""
+    },
+    "same": {
+        "action": "keep",
+        "referer": ""
+    },
+    "domains": [
+        {
+            "domain": "y.test",
+            "action": "remove",
+            "referer": ""
+        },
+        {
+            "domain": "site.y.test",
+            "action": "replace",
+            "referer": "https://www.example.com/"
+        }
+    ]
+}
