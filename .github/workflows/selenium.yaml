@@ -4,12 +4,6 @@ on:
   push:
 
 jobs:
-  check_display:
-    runs-on: ubuntu-20.04
-    steps:
-      - run: |
-          echo ${DISPLAY}
-
   build:
     runs-on: ubuntu-20.04
     name: test

@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import json
+import os
 import sys
 import unittest
 import uuid
@@ -52,7 +53,8 @@ class RefModTest(unittest.TestCase):
         profile.set_preference('network.proxy.http_port', 8080)
         cls.options = FirefoxOptions()
         cls.options.profile = profile
-        cls.options.headless = True
+        if not os.environ.get('DISPLAY'):
+            cls.options.headless = True
 
     def setUp(self):
         self.browser = webdriver.Firefox(options=self.options)
