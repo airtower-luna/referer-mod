@@ -52,6 +52,7 @@ class RefModTest(unittest.TestCase):
         profile.set_preference('network.proxy.http_port', 8080)
         cls.options = FirefoxOptions()
         cls.options.profile = profile
+        cls.options.headless = True
 
     def setUp(self):
         self.browser = webdriver.Firefox(options=self.options)
