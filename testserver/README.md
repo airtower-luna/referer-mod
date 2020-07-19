@@ -67,5 +67,3 @@ When done, you can stop the test environment with:
 ```sh
 docker-compose down
 ```
-
-There are no automated tests yet, patches would be very welcome!

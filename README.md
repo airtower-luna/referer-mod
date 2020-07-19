@@ -29,5 +29,12 @@ Settings are saved in the [`browser.storage.sync` storage area](https://develope
 
 There is limited localization data in the [`_locales/`](./_locales/) directory. The [`Makefile`](./Makefile) serves to build a ZIP archive for upload to AMO.
 
-The [`testserver/`](./testserver/) directory of this repository contains
-a test environment based on Go and Docker that you can use locally.
+## Testing
+
+The [`testserver/`](./testserver/) directory of this repository
+contains a test environment based on Go and Docker that you can use
+locally. You can use it manually (see the
+[README](./testserver/README.md)), or run [`test.py`](./test.py) for
+automated tests. The automated tests require the [Selenium Python
+client](https://www.selenium.dev/selenium/docs/api/py/) and
+[Geckodriver](https://github.com/mozilla/geckodriver).
