@@ -21,12 +21,17 @@ import os
 import sys
 import unittest
 import uuid
+from collections import namedtuple
 from pathlib import Path
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from urllib.parse import urlparse
+
+# Contains data for testing a link: The page to load initially
+# (source), the link to click there (target), and the expected Referer
+# header for the second request (referer).
+testlink = namedtuple('testlink', ['source', 'target', 'referer'])
 
 
 class RefModTest(unittest.TestCase):
@@ -63,15 +68,14 @@ class RefModTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def click_page_link(self, domain):
-        links = self.browser.find_elements_by_link_text('Page')
+    def click_link(self, target):
+        links = self.browser.find_elements_by_tag_name('a')
         for l in links:
-            href = urlparse(l.get_attribute('href'))
-            if href.netloc == domain:
-                # Link to /page/ on the tagret domain, click
-                print(f'Loading {l.get_attribute("href")}')
+            if l.get_attribute('href') == target:
+                # Found target link, click
                 l.click()
-                break
+                return
+        self.fail(f'No link to {target} found!')
 
     def testReferers(self):
         # load configuration
@@ -83,26 +87,30 @@ class RefModTest(unittest.TestCase):
         import_button.click()
 
         # mapping from next target to click to expected Referer, in order
-        tests = {'web.x.test': 'http://web.x.test/page/',
-                 'www.x.test': 'http://web.x.test/',
-                 'site.y.test': 'https://www.example.com/',
-                 'www.y.test': None}
+        tests = [
+            testlink('http://web.x.test/page/', 'http://web.x.test/page/',
+                     'http://web.x.test/page/'),
+            testlink('http://web.x.test/page/', 'http://www.x.test/page/',
+                     'http://web.x.test/'),
+            testlink('http://www.x.test/page/', 'http://site.y.test/page/',
+                     'https://www.example.com/'),
+            testlink('http://site.y.test/page/', 'http://www.y.test/page/',
+                     None),
+        ]
 
-        start_page = f'http://web.x.test/page/'
-        self.browser.get(start_page)
-        print(f'Starting from {start_page}')
-
-        for target, expected_referer in tests.items():
-            with self.subTest(target=target, expected_referer=expected_referer):
-                self.click_page_link(target)
+        for link in tests:
+            with self.subTest(link=link):
+                self.browser.get(link.source)
+                self.click_link(link.target)
+                print(f'Navigating {link.source} -> {link.target}')
                 try:
                     http_referer = self.browser.find_element(
                         By.XPATH, '//td[text()="Referer"]//following::td')
                     print(f'Page shows referer: {http_referer.text}')
-                    self.assertEqual(expected_referer, http_referer.text)
+                    self.assertEqual(link.referer, http_referer.text)
                 except NoSuchElementException:
                     print('Page shows no Referer.')
-                    if expected_referer is not None:
+                    if link.referer is not None:
                         raise
 
 
