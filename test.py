@@ -102,7 +102,7 @@ class RefModTest(unittest.TestCase):
             with self.subTest(link=link):
                 self.browser.get(link.source)
                 self.click_link(link.target)
-                print(f'Navigating {link.source} -> {link.target}')
+                print(f'Navigating: {link.source} -> {link.target}')
                 try:
                     http_referer = self.browser.find_element(
                         By.XPATH, '//td[text()="Referer"]//following::td')
@@ -112,6 +112,8 @@ class RefModTest(unittest.TestCase):
                     print('Page shows no Referer.')
                     if link.referer is not None:
                         raise
+                script_referrer = self.browser.find_element_by_id('referrer')
+                self.assertEqual(link.referer or '', script_referrer.text)
 
 
 if __name__ == '__main__':
