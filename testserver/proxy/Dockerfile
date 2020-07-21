@@ -4,8 +4,6 @@ RUN sed -i\
     -e 's/^#\(LoadModule .*mod_proxy_connect.so\)/\1/' \
     -e 's/^#\(LoadModule .*mod_proxy_http.so\)/\1/' \
     /usr/local/apache2/conf/httpd.conf && \
-    echo "ProxyRequests" on >> /usr/local/apache2/conf/httpd.conf && \
-    echo -e "<Proxy \"*\">\n    Require all denied\n</Proxy>" \
-    >> /usr/local/apache2/conf/httpd.conf && \
-    echo -e "<Proxy \"*://*.test/*\">\n    Require all granted\n</Proxy>" \
+    echo "Include conf/extra/proxy-http.conf" \
     >> /usr/local/apache2/conf/httpd.conf
+COPY proxy-http.conf /usr/local/apache2/conf/extra/

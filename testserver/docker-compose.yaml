@@ -25,8 +25,7 @@ services:
           - site.y.test
   proxy:
     build:
-      context: .
-      dockerfile: Dockerfile.proxy
+      context: proxy/
     ports:
       - '127.0.0.1:8080:80'
     networks:
