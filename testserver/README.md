@@ -37,7 +37,7 @@ There are two dockerfiles involved:
 
 * [`Dockerfile`](./Dockerfile) sets up a container for the
   `testserver` binary with the required support files.
-* [`Dockerfile.proxy`](./Dockerfile.proxy) is based on
+* [`proxy/Dockerfile`](./proxy/Dockerfile) is based on
   [`httpd:alpine`](https://hub.docker.com/_/httpd) and sets up an HTTP
   proxy that allows access to the `.test` domain.
 
