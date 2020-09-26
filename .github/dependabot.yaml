@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+  - package-ecosystem: 'gomod'
+    directory: '/testserver'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+  - package-ecosystem: 'docker'
+    directory: '/testserver'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+  - package-ecosystem: 'docker'
+    directory: '/testserver/proxy'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
