@@ -10,12 +10,6 @@ jobs:
         working-directory: testserver
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
-        with:
-          go-version: '1.15'
-      - name: Build server
-        run: |
-          go build
       - name: Build container images
         run: |
           docker-compose build
