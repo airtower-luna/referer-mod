@@ -19,7 +19,7 @@
 
 function setReferrer(response)
 {
-	Reflect.defineProperty(document.wrappedJSObject,
+	Reflect.defineProperty(Document.wrappedJSObject.prototype,
 						   'referrer', {
 							   get: exportFunction(function() {
 								   return response.referrer;
