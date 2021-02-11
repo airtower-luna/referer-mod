@@ -28,7 +28,7 @@ jobs:
         working-directory: testserver/
       - name: Run add-on test
         run: |
-          python test.py
+          python -u test.py
       - name: Stop test environment
         run: |
           docker-compose down
