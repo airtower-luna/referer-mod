@@ -70,10 +70,10 @@ class RefModTest(unittest.TestCase):
 
     def click_link(self, target):
         links = self.browser.find_elements_by_tag_name('a')
-        for l in links:
-            if l.get_attribute('href') == target:
+        for link in links:
+            if link.get_attribute('href') == target:
                 # Found target link, click
-                l.click()
+                link.click()
                 return
         self.fail(f'No link to {target} found!')
 
