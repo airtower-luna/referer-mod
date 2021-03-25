@@ -31,7 +31,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 	const documentMap = new WeakMap();
 
 	const dummy = {
-			get referrer() {
+		get referrer() {
 			// `this` is an XPCNativeWrapper instance
 
 			// In case someone calls us on some random things
