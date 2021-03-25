@@ -30,37 +30,40 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 	const documentMap = new WeakMap();
 
-	function referrer() {
-		// `this` is an XPCNativeWrapper instance
+	const dummy = {
+			get referrer() {
+			// `this` is an XPCNativeWrapper instance
 
-		// In case someone calls us on some random things
-		if (Object.prototype.toString.call(this) !== "[object HTMLDocument]") {
-			return originalGetter.call(this);
-		}
+			// In case someone calls us on some random things
+			if (Object.prototype.toString.call(this) !== "[object HTMLDocument]") {
+				return originalGetter.call(this);
+			}
 
-		// In case someone calls us on another Document instance
-		let computedReferrer = documentMap.get(this.wrappedJSObject);
-		if (typeof computedReferrer !== 'undefined') {
+			// In case someone calls us on another Document instance
+			let computedReferrer = documentMap.get(this.wrappedJSObject);
+			if (typeof computedReferrer !== 'undefined') {
+				return computedReferrer;
+			}
+
+			// [NUANCE]
+			//  If history.pushState/replaceState was used,
+			//  location.href will return the adulterated url.
+			//  Fortunately, this cannot change the origin,
+			//  but this will be a problem if we ever
+			//  make decisions based on the full URL.
+			let url = this.location.href;
+			let originUrl = originalGetter.call(this);
+			computedReferrer = engineInstance.computeReferrer(url, originUrl);
+			documentMap.set(this.wrappedJSObject, computedReferrer);
+
 			return computedReferrer;
 		}
-
-		// [NUANCE]
-		//  If history.pushState/replaceState was used,
-		//  location.href will return the adulterated url.
-		//  Fortunately, this cannot change the origin,
-		//  but this will be a problem if we ever
-		//  make decisions based on the full URL.
-		let url = this.location.href;
-		let originUrl = originalGetter.call(this);
-		computedReferrer = engineInstance.computeReferrer(url, originUrl);
-		documentMap.set(this.wrappedJSObject, computedReferrer);
-
-		return computedReferrer;
-	}
+	};
 
 	// [NUANCE]
 	//  The function name is exposed on .name and .toString() on the exported function object.
-	let exported = exportFunction(referrer, document);
+	let hook = Reflect.getOwnPropertyDescriptor(dummy, 'referrer').get;
+	let exported = exportFunction(hook, document);
 	Reflect.defineProperty(Document.wrappedJSObject.prototype, "referrer", {
 		configurable: true,
 		enumerable: true,
