@@ -100,7 +100,7 @@ class RefererModEngine {
 		switch (conf.action) {
 			case "prune":
 				if (!originUrl) {
-					referrer = '';
+					referrer = "";
 				} else {
 					referrer = new URL(originUrl).origin + "/";
 				}

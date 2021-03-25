@@ -41,7 +41,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 			// In case someone calls us on another Document instance
 			let computedReferrer = documentMap.get(this.wrappedJSObject);
-			if (typeof computedReferrer !== 'undefined') {
+			if (typeof computedReferrer !== "undefined") {
 				return computedReferrer;
 			}
 
@@ -62,7 +62,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 	// [NUANCE]
 	//  The function name is exposed on .name and .toString() on the exported function object.
-	let hook = Reflect.getOwnPropertyDescriptor(dummy, 'referrer').get;
+	let hook = Reflect.getOwnPropertyDescriptor(dummy, "referrer").get;
 	let exported = exportFunction(hook, document);
 	Reflect.defineProperty(Document.wrappedJSObject.prototype, "referrer", {
 		configurable: true,
