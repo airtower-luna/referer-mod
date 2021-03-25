@@ -19,9 +19,7 @@
 
 class RefererModEngine {
 	constructor(config) {
-		if (config) {
-			RefererModEngine.createDomainRegex(config.domains);
-		} else {
+		if (!config) {
 			config = {
 				/* Default empty domain configuration */
 				domains: [],
@@ -101,10 +99,10 @@ class RefererModEngine {
 		var referrer = null;
 		switch (conf.action) {
 			case "prune":
-				referrer = new URL(url).origin + "/";
+				referrer = new URL(originUrl).origin + "/";
 				break;
 			case "target":
-				referrer = new URL(originUrl).origin + "/";
+				referrer = new URL(url).origin + "/";
 				break;
 			case "replace":
 				referrer = conf.referer;
