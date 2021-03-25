@@ -17,62 +17,19 @@
  */
 "use strict";
 
-/*
- * Configuration for specific domains
- *
- * Elements are expected to have this structure in the stored
- * configuration:
- *
- * { domain: "www.example.com", action: "keep", referer: "" }
- *
- * While loading the configuration, a "regexp" field will be added that
- * contains the regular expression compiled form the "domain" field to
- * include subdomains.
- */
-var domains = [];
-/* Default configuration for same domain requests */
-var sameConf = { action: "keep", referer: "" };
-/* Default configuration for any other requests */
-var anyConf = { action: "prune", referer: "" };
+/* An instance of Engine */
+var engine = new RefererModEngine();
+/* Reference to our registered dynamic content script */
+var registeredContentScript = null;
 
-
-
-/*
- * Look up the action to take on any referer based on target URL (url)
- * and URL of the request origin (originURL).
- */
-function findHostConf(url, originUrl)
-{
-	let target = new URL(url);
-	/* Check if we have a specific configuration for the target
-	 * domain, if yes return it. The reduce step chooses the longest
-	 * (most precise) match in case we have multiple filter
-	 * matches. */
-	let match = domains.filter(d => d.regexp.test(target.hostname))
-		.reduce((acc, current) =>
-				{
-					return acc == null ? current :
-						(acc.domain.length >= current.domain.length ?
-						 acc : current)
-				}, null);
-	if (match != null)
-		return match;
-
-	if (originUrl === '' || originUrl === null || originUrl === undefined)
-		return anyConf;
-
-	let source = new URL(originUrl);
-	if (target.hostname === source.hostname)
-	{
-		/* same domain */
-		return sameConf;
-	}
-	else
-	{
-		/* default */
-		return anyConf;
-	}
-}
+var config = {
+	/* Default empty domain configuration */
+	domains: [],
+	/* Default configuration for same domain requests */
+	sameConf: { action: "keep", referer: "" },
+	/* Default configuration for any other requests */
+	anyConf: { action: "prune", referer: "" }
+};
 
 /*
  * Return a header entry as required for webRequest.HttpHeaders. The
@@ -88,7 +45,7 @@ function genRefererHeader(value)
 
 function modifyReferer(e)
 {
-	const conf = findHostConf(e.url, e.originUrl);
+	const conf = engine.findHostConf(e.url, e.originUrl);
 
 	for (let i = 0; i < e.requestHeaders.length; i++)
 	{
@@ -133,79 +90,58 @@ function modifyReferer(e)
 
 
 /*
- * This function is called when the inject-referer.js content script
- * asks for the value to set as document.referrer.
- */
-function handleContentMsg(request, sender, sendResponse) {
-	const conf = findHostConf(request.target, request.referrer);
-	var referrer = null;
-	switch (conf.action)
-	{
-		case "prune":
-			referrer = new URL(request.referrer).origin + "/";
-			break;
-		case "target":
-			referrer = new URL(request.target).origin + "/";
-			break;
-		case "replace":
-			referrer = conf.referer;
-			break;
-		case "remove":
-			referrer = '';
-			break;
-		default:
-			/* "keep" */
-			referrer = request.referrer;
-	}
-	sendResponse({referrer: referrer});
-}
-
-
-
-/*
- * Escape function from
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
- */
-function escapeRegExp(string)
-{
-	return string.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
-	// $& means the whole matched string
-}
-
-
-
-/*
- * Create regular expressions from domains to also match subdomains.
- */
-function createDomainRegex()
-{
-	for (let domain of domains)
-	{
-		let pattern = "(\\.|^)" + escapeRegExp(domain.domain) + "$";
-		console.log("domain '" + domain.domain + "', pattern: " + pattern);
-		domain.regexp = new RegExp(pattern);
-	}
-}
-
-
-
-/*
  * Listener function for storage changes: Forward any changes to the
  * global variables.
  */
-function refreshConfig(change, area)
+async function refreshConfig(change, area)
 {
-	if (area === "sync" && change.hasOwnProperty("domains"))
-	{
-		domains = change.domains.newValue;
-		createDomainRegex();
+	let dirty = false;
+	if (area === "sync") {
+		if (change.hasOwnProperty("domains")) {
+			config.domains = change.domains.newValue;
+			dirty = true;
+		}
+		if (change.hasOwnProperty("any")) {
+			config.anyConf = change.any.newValue;
+			dirty = true;
+		}
+		if (change.hasOwnProperty("same")) {
+			config.sameConf = change.same.newValue;
+			dirty = true;
+		}
 	}
-	if (area === "sync" && change.hasOwnProperty("any"))
-		anyConf = change.any.newValue;
-	if (area === "sync" && change.hasOwnProperty("same"))
-		sameConf = change.same.newValue;
+
+	if (dirty) {
+		engine.setConfig(config);
+		await registerContentScript(config);
+	}
 }
 
+
+/*
+ * Register (or re-register) our dynamic content script.
+ */
+async function registerContentScript(config) {
+	if (registeredContentScript) {
+		await registeredContentScript.unregister();
+	}
+
+	// [CAVEAT]
+	//  We may be run before or after ["engine.js", "content.js"]
+	let code = `;
+		var engineConfig = JSON.parse('${JSON.stringify(config)}');
+		if (typeof engineInstance === 'object') {
+			engineInstance.setConfig(engineConfig);
+		}
+	`;
+	registeredContentScript = await browser.contentScripts.register({
+		"matches": ["https://*/*", "http://*/*"],
+		"js": [{
+			"code": code
+		}],
+		"runAt": "document_start"
+	});
+}
 
 
 browser.storage.sync.get(["domain"]).then(
@@ -218,7 +154,7 @@ browser.storage.sync.get(["domain"]).then(
 	});
 /* Load configuration, or initialize with defaults */
 browser.storage.sync.get(["domains", "same", "any"]).then(
-	(result) => {
+	async (result) => {
 		if (result.domains === undefined || result.domains === null
 			|| result.same === undefined || result.same === null
 			|| result.any === undefined || result.any === null)
@@ -226,17 +162,19 @@ browser.storage.sync.get(["domains", "same", "any"]).then(
 			console.log(browser.i18n.getMessage("extensionName") +
 						": initialized default configuration");
 			browser.storage.sync.set({
-				domains: domains,
-				any:     anyConf,
-				same:    sameConf
+				domains: config.domains,
+				any: config.anyConf,
+				same: config.sameConf
 			});
 		}
 		else
 		{
-			domains = result.domains;
-			createDomainRegex();
-			anyConf = result.any;
-			sameConf = result.same;
+			config.domains = result.domains;
+			config.anyConf = result.any;
+			config.sameConf = result.same;
+
+			engine.setConfig(config);
+			await registerContentScript(config);
 		}
 	},
 	(err) => console.log(browser.i18n.getMessage("extensionName") +
@@ -250,5 +188,3 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 	}),
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
-/* Listen to messages from content script */
-browser.runtime.onMessage.addListener(handleContentMsg);
