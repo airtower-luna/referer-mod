@@ -26,7 +26,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 (function() {
 
-	const originalGetter = Reflect.getOwnPropertyDescriptor(Document.prototype, "referrer").get;
+	const originalGetter = Reflect.getOwnPropertyDescriptor(Document.prototype.wrappedJSObject, "referrer").get;
 
 	const documentMap = new WeakMap();
 
@@ -36,7 +36,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 			// In case someone calls us on some random things
 			if (Object.prototype.toString.call(this) !== "[object HTMLDocument]") {
-				return originalGetter.call(this);
+				return Function.prototype.call.call(originalGetter, this);
 			}
 
 			// In case someone calls us on another Document instance
@@ -52,7 +52,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 			//  but this will be a problem if we ever
 			//  make decisions based on the full URL.
 			let url = this.location.href;
-			let originUrl = originalGetter.call(this);
+			let originUrl = Function.prototype.call.call(originalGetter, this);
 			computedReferrer = engineInstance.computeReferrer(url, originUrl);
 			documentMap.set(this.wrappedJSObject, computedReferrer);
 
