@@ -76,14 +76,14 @@ function modifyReferer(e)
 
 	/* If we get to this point there was no referer in the request
 	 * headers. */
-	if (conf.action === "target")
+	/*if (conf.action === "target")
 	{
 		e.requestHeaders.push(genRefererHeader(new URL(e.url).origin + "/"));
 	}
 	if (conf.action === "replace")
 	{
 		e.requestHeaders.push(genRefererHeader(conf.referer));
-	}
+	}*/
 	return {requestHeaders: e.requestHeaders};
 }
 
@@ -122,25 +122,33 @@ async function refreshConfig(change, area)
  * Register (or re-register) our dynamic content script.
  */
 async function registerContentScript(config) {
-	if (registeredContentScript) {
-		await registeredContentScript.unregister();
-	}
-
-	// [CAVEAT]
-	//  We may be run before or after ["engine.js", "content.js"]
 	let code = `;
 		var engineConfig = JSON.parse('${JSON.stringify(config)}');
 		if (typeof engineInstance === 'object') {
 			engineInstance.setConfig(engineConfig);
 		}
 	`;
-	registeredContentScript = await browser.contentScripts.register({
+
+	if (registeredContentScript) {
+		registeredContentScript.unregister();
+		registeredContentScript = null;
+	}
+
+	// [CAVEAT]
+	//  We may be run before or after ["engine.js", "content.js"]
+	let newRegisteredContentScript = await browser.contentScripts.register({
 		"matches": ["https://*/*", "http://*/*"],
 		"js": [{
 			"code": code
 		}],
 		"runAt": "document_start"
 	});
+
+	if (registeredContentScript) {
+		registeredContentScript.unregister();
+	}
+
+	registeredContentScript = newRegisteredContentScript;
 }
 
 
