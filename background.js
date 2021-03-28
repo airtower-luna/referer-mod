@@ -76,14 +76,14 @@ function modifyReferer(e)
 
 	/* If we get to this point there was no referer in the request
 	 * headers. */
-	/*if (conf.action === "target")
+	if (conf.action === "target")
 	{
 		e.requestHeaders.push(genRefererHeader(new URL(e.url).origin + "/"));
 	}
 	if (conf.action === "replace")
 	{
 		e.requestHeaders.push(genRefererHeader(conf.referer));
-	}*/
+	}
 	return {requestHeaders: e.requestHeaders};
 }
 

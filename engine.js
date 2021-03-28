@@ -95,14 +95,15 @@ class RefererModEngine {
 	* Compute referrer for a given pair of URL and its origin.
 	*/
 	computeReferrer(url, originUrl) {
-		if (!originUrl) {
-			return "";
-		}
 		const conf = this.findHostConf(url, originUrl);
 		var referrer = null;
 		switch (conf.action) {
 			case "prune":
-				referrer = new URL(originUrl).origin + "/";
+				if (!originUrl) {
+					referrer = "";
+				} else {
+					referrer = new URL(originUrl).origin + "/";
+				}
 				break;
 			case "target":
 				referrer = new URL(url).origin + "/";
