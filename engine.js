@@ -95,6 +95,10 @@ class RefererModEngine {
 	* Compute referrer for a given pair of URL and its origin.
 	*/
 	computeReferrer(url, originUrl) {
+		if (url.startsWith("about:") || url.startsWith("data:")) {
+			return originUrl;
+		}
+
 		const conf = this.findHostConf(url, originUrl);
 		var referrer = null;
 		switch (conf.action) {
