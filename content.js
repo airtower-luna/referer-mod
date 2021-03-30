@@ -30,13 +30,18 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 	const documentMap = new WeakMap();
 
+	const _toString = Object.prototype.toString;
+	const _call = Function.prototype.call;
+
 	const dummy = {
 		get referrer() {
 			// `this` is an XPCNativeWrapper instance
 
 			// In case someone calls us on some random things
-			if (Object.prototype.toString.call(this) !== "[object HTMLDocument]") {
-				return Function.prototype.call.call(originalGetter, this);
+			if (_toString.call(this) !== "[object HTMLDocument]" ||
+				_toString.call(Reflect.getPrototypeOf(this)) !== "[object HTMLDocument]"
+			) {
+				return _call.call(originalGetter, this);
 			}
 
 			// In case someone calls us on another Document instance
@@ -52,7 +57,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 			//  but this will be a problem if we ever
 			//  make decisions based on the full URL.
 			let url = this.location.href;
-			let originUrl = Function.prototype.call.call(originalGetter, this);
+			let originUrl = _call.call(originalGetter, this);
 			computedReferrer = engineInstance.computeReferrer(url, originUrl);
 			documentMap.set(this.wrappedJSObject, computedReferrer);
 
