@@ -29,7 +29,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 (function() {
 
-	const originalGetter = Reflect.getOwnPropertyDescriptor(Document.prototype.wrappedJSObject, "referrer").get;
+	const originalGetter = Reflect.getOwnPropertyDescriptor(Document.wrappedJSObject.prototype, "referrer").get;
 
 	const documentMap = new WeakMap();
 
