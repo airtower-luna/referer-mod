@@ -17,7 +17,7 @@
  */
 "use strict";
 
-// [CAVEAT]
+// [WORKAROUND]
 //  When the dynamic content script is run is undefined.
 //  engineConfig may be prefilled,
 //  or engineInstance.setConfig will be called later.

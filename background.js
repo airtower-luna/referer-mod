@@ -122,6 +122,10 @@ async function refreshConfig(change, area)
  * Register (or re-register) our dynamic content script.
  */
 async function registerContentScript(config) {
+	// [WORKAROUND]
+	//  When the dynamic content script is run is undefined.
+	//  engineConfig may be prefilled,
+	//  or engineInstance.setConfig will be called later.
 	let code = `
 		var engineConfig = JSON.parse('${JSON.stringify(config)}');
 		if (typeof engineInstance === 'object') {
