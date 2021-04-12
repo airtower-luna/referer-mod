@@ -136,8 +136,6 @@ async function registerContentScript(config) {
 	let oldRegisteredContentScript = registeredContentScript;
 	registeredContentScript = null;
 
-	// [CAVEAT]
-	//  We may be run before or after ["engine.js", "content.js"]
 	let newRegisteredContentScript = await browser.contentScripts.register({
 		"matches": ["https://*/*", "http://*/*"],
 		"matchAboutBlank": true,
