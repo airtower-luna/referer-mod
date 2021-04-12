@@ -95,23 +95,23 @@ function modifyReferer(e)
  */
 async function refreshConfig(change, area)
 {
-	let dirty = false;
+	let changed = false;
 	if (area === "sync") {
 		if (change.hasOwnProperty("domains")) {
 			config.domains = change.domains.newValue;
-			dirty = true;
+			changed = true;
 		}
 		if (change.hasOwnProperty("any")) {
 			config.anyConf = change.any.newValue;
-			dirty = true;
+			changed = true;
 		}
 		if (change.hasOwnProperty("same")) {
 			config.sameConf = change.same.newValue;
-			dirty = true;
+			changed = true;
 		}
 	}
 
-	if (dirty) {
+	if (changed) {
 		engine.setConfig(config);
 		await registerContentScript(config);
 	}
