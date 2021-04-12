@@ -19,11 +19,9 @@
 
 // [NUANCE]
 //  It is undefined whether static content scripts will run before
-//  or after dynamic content scripts.
-
-// [WORKAROUND]
-//  engineConfig may be prefilled,
-//  or engineInstance.setConfig will be called later.
+//  or after dynamic content scripts. If the dynamic script ran first,
+//  engineConfig is prefilled here, otherwise engineInstance.setConfig()
+//  will be called later.
 var engineConfig;
 var engineInstance = new RefererModEngine(engineConfig);
 
