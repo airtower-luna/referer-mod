@@ -31,12 +31,16 @@
         {{end}}{{end}}
       </tbody>
     </table>
+    <iframe id="myiframe" src="about:blank" style="display: none;"></iframe>
     <h2>Javascript</h2>
     <p>document.referrer:
       <span id="referrer">(Unknown, are scripts enabled?)</span>
     </p>
     <p>Document.prototype.referrer:
       <span id="referrer-reflect">(Unknown, are scripts enabled?)</span>
+    </p>
+    <p>Document.prototype.referrer via iframe prototype:
+      <span id="referrer-iframe">(Unknown, are scripts enabled?)</span>
     </p>
     <script src="/static/show-referrer.js"></script>
   </body>
