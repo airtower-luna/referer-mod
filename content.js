@@ -17,8 +17,11 @@
  */
 "use strict";
 
+// [NUANCE]
+//  It is undefined whether static content scripts will run before
+//  or after dynamic content scripts.
+
 // [WORKAROUND]
-//  When the dynamic content script is run is undefined.
 //  engineConfig may be prefilled,
 //  or engineInstance.setConfig will be called later.
 var engineConfig;
