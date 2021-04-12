@@ -117,6 +117,9 @@ class RefModTest(unittest.TestCase):
                 reflect_referrer = \
                     self.browser.find_element_by_id('referrer-reflect')
                 self.assertEqual(link.referer or '', reflect_referrer.text)
+                iframe_referrer = \
+                    self.browser.find_element_by_id('referrer-iframe')
+                self.assertEqual(link.referer or '', iframe_referrer.text)
 
 
 if __name__ == '__main__':
