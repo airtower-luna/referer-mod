@@ -42,6 +42,18 @@
     <p>Document.prototype.referrer via iframe prototype:
       <span id="referrer-iframe">(Unknown, are scripts enabled?)</span>
     </p>
-    <script src="/static/show-referrer.js"></script>
+    <script>
+      document.getElementById("referrer").innerText = document.referrer;
+      document.getElementById("referrer-reflect").innerText =
+          Reflect.getOwnPropertyDescriptor(Document.prototype, 'referrer')
+              .get.call(document);
+      var myiframe = document.getElementById('myiframe');
+      var documentPrototype = Reflect.getPrototypeOf(
+          Reflect.getPrototypeOf(myiframe.contentWindow.document));
+      var getReferrer =
+          Reflect.getOwnPropertyDescriptor(documentPrototype, 'referrer').get;
+      document.getElementById("referrer-iframe").innerText =
+          getReferrer.call(document);
+    </script>
   </body>
 </html>
