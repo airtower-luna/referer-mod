@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 "use strict";
+/* from engine.js and the content script environment: */
+/* global RefererModEngine, exportFunction */
 
 // [NUANCE]
 //  It is undefined whether static content scripts will run before

@@ -1,0 +1,39 @@
+extends: 'eslint:recommended'
+
+env:
+  es6: yes
+  browser: yes
+  webextensions: yes
+
+parserOptions:
+  ecmaVersion: 10
+
+rules:
+  semi:
+    - error
+    - always
+  semi-spacing:
+    - error
+  semi-style:
+    - error
+  quotes:
+    - warn
+    - double
+  curly:
+    - warn
+    - all
+  brace-style:
+    - warn
+    - allman
+    - allowSingleLine: true
+  no-mixed-spaces-and-tabs:
+    - error
+    - smart-tabs
+  no-console: 'off'
+  max-len:
+    # git diff output should fit in an 80 wide terminal
+    - warn
+    - code: 78
+      tabWidth: 4
+  no-trailing-spaces:
+    - error
