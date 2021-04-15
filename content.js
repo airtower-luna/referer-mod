@@ -51,13 +51,7 @@ var engineInstance = new RefererModEngine(engineConfig);
 				return computedReferrer;
 			}
 
-			// [NUANCE]
-			//  If history.pushState/replaceState was used,
-			//  location.href will return the adulterated url.
-			//  Fortunately, this cannot change the origin,
-			//  but this will be a problem if we ever
-			//  make decisions based on the full URL.
-			let url = this.location.href;
+			let url = this.URL;
 			let originUrl = String(_call.call(originalGetter, this));
 			computedReferrer = engineInstance.computeReferrer(url, originUrl);
 			documentMap.set(this.wrappedJSObject, computedReferrer);
