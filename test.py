@@ -117,6 +117,8 @@ class RefModTest(unittest.TestCase):
                 reflect_referrer = \
                     self.browser.find_element_by_id('referrer-reflect')
                 self.assertEqual(link.referer or '', reflect_referrer.text)
+                # The iframe manipulation might fail on repeated
+                # loads, maybe because the cache speeds up loading.
                 iframe_referrer = \
                     self.browser.find_element_by_id('referrer-iframe')
                 self.assertEqual(link.referer or '', iframe_referrer.text)
