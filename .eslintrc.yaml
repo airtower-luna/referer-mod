@@ -26,6 +26,10 @@ rules:
     - warn
     - allman
     - allowSingleLine: true
+  indent:
+    - warn
+    - 'tab'
+    - SwitchCase: 1
   no-mixed-spaces-and-tabs:
     - error
     - smart-tabs
