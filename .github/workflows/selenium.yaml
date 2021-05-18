@@ -33,3 +33,12 @@ jobs:
         run: |
           docker-compose down
         working-directory: testserver/
+
+  lint:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install ESLint
+        run: npm install eslint
+      - name: Run ESLint
+        run: npx eslint .
