@@ -38,8 +38,10 @@ function selectOption(select, option)
 			select.options[i].defaultSelected = true;
 		}
 		else
+		{
 			/* Ensure that other options are NOT selected */
 			select.options[i].defaultSelected = false;
+		}
 	}
 }
 
@@ -99,7 +101,8 @@ function addDomainRow()
 function restoreOptions()
 {
 	browser.storage.sync.get(["same", "any"]).then(
-		(result) => {
+		(result) =>
+		{
 			selectOption(document.querySelector("#any_action"),
 						 result.any.action);
 			document.querySelector("#any_referer").value = result.any.referer;
@@ -110,7 +113,8 @@ function restoreOptions()
 
 	browser.storage.sync.get({
 		domains: []
-	}).then((result) => {
+	}).then((result) =>
+	{
 		console.log("Refreshing domains: " + JSON.stringify(result));
 		let hosts = document.getElementById("hosts");
 		/* Remove currently shown domain rows, if any */
@@ -199,14 +203,15 @@ function saveOptions()
 function exportConfig()
 {
 	browser.storage.sync.get(["same", "any", "domains"]).then(
-		(result) => {
+		(result) =>
+		{
 			let exportConf = {
 				any:     result.any,
 				same:    result.same,
 				domains: result.domains
 			};
 			let blob = new Blob([JSON.stringify(exportConf, null, 2)],
-								{ type: "application/json" });
+				{ type: "application/json" });
 			let url = URL.createObjectURL(blob);
 			let link = document.querySelector("#export_blob");
 			link.href = url;
@@ -227,8 +232,8 @@ function importConfig()
 {
 	let importFile = document.getElementById("import_file").files[0];
 	let reader = new FileReader();
-    reader.onload = function(e) { importConfigJSON(e.target.result); };
-    reader.readAsText(importFile);
+	reader.onload = function(e) { importConfigJSON(e.target.result); };
+	reader.readAsText(importFile);
 }
 
 function importConfigJSON(string)
@@ -240,7 +245,8 @@ function importConfigJSON(string)
 		domains: conf.domains,
 		any:     conf.any,
 		same:    conf.same
-	}).then(function() {
+	}).then(function()
+	{
 		restoreOptions();
 	}, null);
 }

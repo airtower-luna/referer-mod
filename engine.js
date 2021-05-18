@@ -18,9 +18,12 @@
 "use strict";
 /* exported RefererModEngine */
 
-class RefererModEngine {
-	constructor(config) {
-		if (!config) {
+class RefererModEngine
+{
+	constructor(config)
+	{
+		if (!config)
+		{
 			config = {
 				/* Default empty domain configuration */
 				domains: [],
@@ -33,7 +36,8 @@ class RefererModEngine {
 		this.setConfig(config);
 	}
 
-	setConfig(config) {
+	setConfig(config)
+	{
 		/*
 		* Configuration for specific domains
 		*
@@ -57,7 +61,8 @@ class RefererModEngine {
 	 * Look up the action to take on any referer based on target URL (url)
 	 * and URL of the request origin (originURL).
 	 */
-	findHostConf(url, originUrl) {
+	findHostConf(url, originUrl)
+	{
 		let target = new URL(url);
 		/* Check if we have a specific configuration for the target
 		* domain, if yes return it. The reduce step chooses the longest
@@ -65,28 +70,39 @@ class RefererModEngine {
 		* matches. */
 		let match = this._domains
 			.filter(d => d.regexp.test(target.hostname))
-			.reduce((acc, current) => {
-				if (acc == null) {
+			.reduce((acc, current) =>
+			{
+				if (acc == null)
+				{
 					return current;
-				} else if (acc.domain.length >= current.domain.length) {
+				}
+				else if (acc.domain.length >= current.domain.length)
+				{
 					return acc;
-				} else {
+				}
+				else
+				{
 					return current;
 				}
 			}, null);
-		if (match != null) {
+		if (match != null)
+		{
 			return match;
 		}
 
-		if (originUrl === "" || originUrl === null || originUrl === undefined) {
+		if (originUrl === "" || originUrl === null || originUrl === undefined)
+		{
 			return this._anyConf;
 		}
 
 		let source = new URL(originUrl);
-		if (target.hostname === source.hostname) {
+		if (target.hostname === source.hostname)
+		{
 			/* same domain */
 			return this._sameConf;
-		} else {
+		}
+		else
+		{
 			/* default */
 			return this._anyConf;
 		}
@@ -95,18 +111,24 @@ class RefererModEngine {
 	/*
 	* Compute referrer for a given pair of URL and its origin.
 	*/
-	computeReferrer(url, originUrl) {
-		if (url.startsWith("about:") || url.startsWith("data:")) {
+	computeReferrer(url, originUrl)
+	{
+		if (url.startsWith("about:") || url.startsWith("data:"))
+		{
 			return originUrl;
 		}
 
 		const conf = this.findHostConf(url, originUrl);
 		var referrer = null;
-		switch (conf.action) {
+		switch (conf.action)
+		{
 			case "prune":
-				if (!originUrl) {
+				if (!originUrl)
+				{
 					referrer = "";
-				} else {
+				}
+				else
+				{
 					referrer = new URL(originUrl).origin + "/";
 				}
 				break;
@@ -120,7 +142,7 @@ class RefererModEngine {
 				referrer = "";
 				break;
 			default:
-				/* "keep" */
+			/* "keep" */
 				referrer = originUrl;
 		}
 		return referrer;
@@ -130,17 +152,20 @@ class RefererModEngine {
 	* Escape function from
 	* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 	*/
-	static escapeRegExp(string) {
+	static escapeRegExp(string)
+	{
 		// eslint-disable-next-line no-useless-escape
-        return string.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+		return string.replace(/[.*+?^${}()|\[\]\\]/g, "\\$&");
 		// $& means the whole matched string
 	}
 
 	/*
 	* Create regular expressions from domains to also match subdomains.
 	*/
-	static createDomainRegex(domains) {
-		for (let domain of domains) {
+	static createDomainRegex(domains)
+	{
+		for (let domain of domains)
+		{
 			let pattern = "(\\.|^)" + RefererModEngine.escapeRegExp(domain.domain) + "$";
 			//console.log("domain '" + domain.domain + "', pattern: " + pattern);
 			domain.regexp = new RegExp(pattern);
