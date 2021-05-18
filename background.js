@@ -70,7 +70,6 @@ function modifyReferer(e)
 					break;
 				/* nothing to do for "keep" */
 				default:
-					;
 			}
 			return {requestHeaders: e.requestHeaders};
 		}
@@ -198,7 +197,7 @@ browser.storage.sync.get(["domains", "same", "any"]).then(
 browser.storage.onChanged.addListener(refreshConfig);
 /* Listen for HTTP requests to modify */
 browser.webRequest.onBeforeSendHeaders.addListener(
-	(e) => new Promise((resolve, reject) => {
+	(e) => new Promise((resolve) => {
 		resolve(modifyReferer(e));
 	}),
 	{urls: ["<all_urls>"]},

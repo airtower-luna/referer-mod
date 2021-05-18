@@ -131,7 +131,8 @@ class RefererModEngine {
 	* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
 	*/
 	static escapeRegExp(string) {
-		return string.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
+		// eslint-disable-next-line no-useless-escape
+        return string.replace(/[.*+?^${}()|\[\]\\]/g, '\\$&');
 		// $& means the whole matched string
 	}
 
