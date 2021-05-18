@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 "use strict";
+/* from engine.js and the content script environment: */
+/* global RefererModEngine, exportFunction */
 
 // [NUANCE]
 //  It is undefined whether static content scripts will run before
@@ -25,9 +27,11 @@
 var engineConfig;
 var engineInstance = new RefererModEngine(engineConfig);
 
-(function() {
+(function()
+{
 
-	const originalGetter = Reflect.getOwnPropertyDescriptor(Document.wrappedJSObject.prototype, "referrer").get;
+	const originalGetter = Reflect.getOwnPropertyDescriptor(
+		Document.wrappedJSObject.prototype, "referrer").get;
 
 	const documentMap = new WeakMap();
 
@@ -35,19 +39,23 @@ var engineInstance = new RefererModEngine(engineConfig);
 	const _call = Function.prototype.call;
 
 	const dummy = {
-		get referrer() {
+		get referrer()
+		{
 			// `this` is an XPCNativeWrapper instance
 
 			// In case someone calls us on some random things
 			if (_toString.call(this) !== "[object HTMLDocument]" ||
-				_toString.call(Reflect.getPrototypeOf(this)) !== "[object HTMLDocument]"
-			) {
+				_toString.call(Reflect.getPrototypeOf(this))
+				!== "[object HTMLDocument]"
+			)
+			{
 				return _call.call(originalGetter, this);
 			}
 
 			// In case someone calls us on another Document instance
 			let computedReferrer = documentMap.get(this.wrappedJSObject);
-			if (typeof computedReferrer !== "undefined") {
+			if (typeof computedReferrer !== "undefined")
+			{
 				return computedReferrer;
 			}
 
@@ -61,7 +69,8 @@ var engineInstance = new RefererModEngine(engineConfig);
 	};
 
 	// [NUANCE]
-	//  The function name is exposed on .name and .toString() on the exported function object.
+	// The function name is exposed on .name and .toString() on the
+	// exported function object.
 	let hook = Reflect.getOwnPropertyDescriptor(dummy, "referrer").get;
 	let exported = exportFunction(hook, document);
 	Reflect.defineProperty(Document.wrappedJSObject.prototype, "referrer", {

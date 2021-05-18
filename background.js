@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 "use strict";
+/* from engine.js: */
+/* global RefererModEngine */
 
 /* An instance of Engine */
 var engine = new RefererModEngine();
@@ -68,7 +70,6 @@ function modifyReferer(e)
 					break;
 				/* nothing to do for "keep" */
 				default:
-					;
 			}
 			return {requestHeaders: e.requestHeaders};
 		}
@@ -96,22 +97,27 @@ function modifyReferer(e)
 async function refreshConfig(change, area)
 {
 	let changed = false;
-	if (area === "sync") {
-		if (change.hasOwnProperty("domains")) {
+	if (area === "sync")
+	{
+		if (Object.prototype.hasOwnProperty.call(change, "domains"))
+		{
 			config.domains = change.domains.newValue;
 			changed = true;
 		}
-		if (change.hasOwnProperty("any")) {
+		if (Object.prototype.hasOwnProperty.call(change, "any"))
+		{
 			config.anyConf = change.any.newValue;
 			changed = true;
 		}
-		if (change.hasOwnProperty("same")) {
+		if (Object.prototype.hasOwnProperty.call(change, "same"))
+		{
 			config.sameConf = change.same.newValue;
 			changed = true;
 		}
 	}
 
-	if (changed) {
+	if (changed)
+	{
 		engine.setConfig(config);
 		await registerContentScript(config);
 	}
@@ -121,7 +127,8 @@ async function refreshConfig(change, area)
 /*
  * Register (or re-register) our dynamic content script.
  */
-async function registerContentScript(config) {
+async function registerContentScript(config)
+{
 	let code = `
 		var engineConfig = JSON.parse('${JSON.stringify(config)}');
 		if (typeof engineInstance === 'object') {
@@ -145,11 +152,13 @@ async function registerContentScript(config) {
 		"runAt": "document_start"
 	});
 
-	if (oldRegisteredContentScript) {
+	if (oldRegisteredContentScript)
+	{
 		oldRegisteredContentScript.unregister();
 	}
 
-	if (registeredContentScript) {
+	if (registeredContentScript)
+	{
 		registeredContentScript.unregister();
 	}
 
@@ -158,7 +167,8 @@ async function registerContentScript(config) {
 
 
 browser.storage.sync.get(["domain"]).then(
-	(result) => {
+	(result) =>
+	{
 		if (result.domain !== undefined)
 		{
 			browser.storage.sync.remove(["domain"])
@@ -167,7 +177,8 @@ browser.storage.sync.get(["domain"]).then(
 	});
 /* Load configuration, or initialize with defaults */
 browser.storage.sync.get(["domains", "same", "any"]).then(
-	async (result) => {
+	async (result) =>
+	{
 		if (result.domains === undefined || result.domains === null
 			|| result.same === undefined || result.same === null
 			|| result.any === undefined || result.any === null)
@@ -196,7 +207,8 @@ browser.storage.sync.get(["domains", "same", "any"]).then(
 browser.storage.onChanged.addListener(refreshConfig);
 /* Listen for HTTP requests to modify */
 browser.webRequest.onBeforeSendHeaders.addListener(
-	(e) => new Promise((resolve, reject) => {
+	(e) => new Promise((resolve) =>
+	{
 		resolve(modifyReferer(e));
 	}),
 	{urls: ["<all_urls>"]},
