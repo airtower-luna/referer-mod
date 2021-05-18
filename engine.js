@@ -166,8 +166,9 @@ class RefererModEngine
 	{
 		for (let domain of domains)
 		{
-			let pattern = "(\\.|^)" + RefererModEngine.escapeRegExp(domain.domain) + "$";
-			//console.log("domain '" + domain.domain + "', pattern: " + pattern);
+			let pattern = "(\\.|^)"
+				+ RefererModEngine.escapeRegExp(domain.domain) + "$";
+			//console.log(`domain '${domain.domain}', pattern: ${pattern}`);
 			domain.regexp = new RegExp(pattern);
 		}
 		return domains;

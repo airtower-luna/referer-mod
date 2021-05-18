@@ -30,7 +30,8 @@ var engineInstance = new RefererModEngine(engineConfig);
 (function()
 {
 
-	const originalGetter = Reflect.getOwnPropertyDescriptor(Document.wrappedJSObject.prototype, "referrer").get;
+	const originalGetter = Reflect.getOwnPropertyDescriptor(
+		Document.wrappedJSObject.prototype, "referrer").get;
 
 	const documentMap = new WeakMap();
 
@@ -44,7 +45,8 @@ var engineInstance = new RefererModEngine(engineConfig);
 
 			// In case someone calls us on some random things
 			if (_toString.call(this) !== "[object HTMLDocument]" ||
-				_toString.call(Reflect.getPrototypeOf(this)) !== "[object HTMLDocument]"
+				_toString.call(Reflect.getPrototypeOf(this))
+				!== "[object HTMLDocument]"
 			)
 			{
 				return _call.call(originalGetter, this);
@@ -67,7 +69,8 @@ var engineInstance = new RefererModEngine(engineConfig);
 	};
 
 	// [NUANCE]
-	//  The function name is exposed on .name and .toString() on the exported function object.
+	// The function name is exposed on .name and .toString() on the
+	// exported function object.
 	let hook = Reflect.getOwnPropertyDescriptor(dummy, "referrer").get;
 	let exported = exportFunction(hook, document);
 	Reflect.defineProperty(Document.wrappedJSObject.prototype, "referrer", {

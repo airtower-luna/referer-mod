@@ -39,5 +39,6 @@ rules:
     - warn
     - code: 78
       tabWidth: 4
+      ignoreUrls: true
   no-trailing-spaces:
     - error

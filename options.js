@@ -108,7 +108,8 @@ function restoreOptions()
 			document.querySelector("#any_referer").value = result.any.referer;
 			selectOption(document.querySelector("#same_action"),
 						 result.same.action);
-			document.querySelector("#same_referer").value = result.same.referer;
+			document.querySelector("#same_referer")
+				.value = result.same.referer;
 		}, null);
 
 	browser.storage.sync.get({
@@ -153,7 +154,8 @@ function restoreOptions()
 		for (let act of hosts.getElementsByClassName("action"))
 		{
 			act.parentElement.parentElement
-				.querySelector(".referer").disabled = (act.value != "replace");
+				.querySelector(".referer")
+				.disabled = (act.value != "replace");
 			act.addEventListener("change", actionSelectListener);
 		}
 	});
@@ -262,6 +264,8 @@ document.getElementById("add_row").addEventListener("click", addDomainRow);
 /* Enable configuration export button */
 document.getElementById("export").addEventListener("click", exportConfig);
 /* Enable import button when the user selects a file */
-document.getElementById("import_file").addEventListener("change", enableImport);
+document.getElementById("import_file")
+	.addEventListener("change", enableImport);
 /* Listener for configuration import */
-document.getElementById("import_button").addEventListener("click", importConfig);
+document.getElementById("import_button")
+	.addEventListener("click", importConfig);
