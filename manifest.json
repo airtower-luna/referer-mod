@@ -23,13 +23,15 @@
 	},
 
 	"background": {
-		"scripts": ["background.js"]
+		"scripts": ["engine.js", "background.js"]
 	},
 
 	"content_scripts": [
 		{
 			"matches": ["https://*/*", "http://*/*"],
-			"js": ["inject-referer.js"],
+			"match_about_blank": true,
+			"all_frames": true,
+			"js": ["engine.js", "content.js"],
 			"run_at": "document_start"
 		}
 	],
@@ -37,7 +39,7 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "referer-mod@9a5ba22d-c08f-494f-86c2-e9fd04a6a42c",
-			"strict_min_version": "57.0"
+			"strict_min_version": "59.0"
 		}
 	}
 }
