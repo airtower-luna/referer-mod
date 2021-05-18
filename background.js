@@ -99,17 +99,17 @@ async function refreshConfig(change, area)
 	let changed = false;
 	if (area === "sync")
 	{
-		if (change.hasOwnProperty("domains"))
+		if (Object.prototype.hasOwnProperty.call(change, "domains"))
 		{
 			config.domains = change.domains.newValue;
 			changed = true;
 		}
-		if (change.hasOwnProperty("any"))
+		if (Object.prototype.hasOwnProperty.call(change, "any"))
 		{
 			config.anyConf = change.any.newValue;
 			changed = true;
 		}
-		if (change.hasOwnProperty("same"))
+		if (Object.prototype.hasOwnProperty.call(change, "same"))
 		{
 			config.sameConf = change.same.newValue;
 			changed = true;
