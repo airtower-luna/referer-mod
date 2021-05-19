@@ -13,6 +13,9 @@
 		  text-align: justify;
 		  hyphens: auto;
       }
+	  .rule_label {
+		  vertical-align: baseline;
+	  }
     </style>
   </head>
 
@@ -30,7 +33,7 @@
 		  </thead>
 		  <tbody id="hosts">
 			<tr>
-			  <td title="Applies to any request that does not match one of the other rules.">&lt;ANY&gt;</td>
+			  <td class="rule_label" title="Applies to any request that does not match one of the other rules.">&lt;ANY&gt;</td>
 			  <td>
 				<select class="action browser-style" id="any_action">
 				  <option value="keep" title="Do not modify the Referer">Keep</option>
@@ -40,14 +43,16 @@
 				  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
 				</select>
 			  </td>
-			  <td class="browser-style">
-				<input id="any_referer" class="referer" type="text"
-					   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
-					   value=""/>
+			  <td>
+				<div class="browser-style">
+				  <input id="any_referer" class="referer" type="text"
+						 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+						 value=""/>
+				</div>
 			  </td>
 			</tr>
 			<tr>
-			  <td title="Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.">&lt;SAME&gt;</td>
+			  <td class="rule_label" title="Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.">&lt;SAME&gt;</td>
 			  <td>
 				<select class="action browser-style" id="same_action">
 				  <option value="keep" title="Do not modify the Referer">Keep</option>
@@ -57,10 +62,12 @@
 				  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
 				</select>
 			  </td>
-			  <td class="browser-style">
-				<input id="same_referer" class="referer" type="text"
-					   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
-					   value=""/>
+			  <td>
+				<div class="browser-style">
+				  <input id="same_referer" class="referer" type="text"
+						 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+						 value=""/>
+				</div>
 			  </td>
 			</tr>
 		  </tbody>
@@ -108,10 +115,12 @@
 
     <template id="ref_row">
       <tr class="ref_entry">
-		<td class="browser-style">
-		  <input class="hostname" type="text" placeholder="cdn.example.com"
-				 title="Domain of the requested URL, also matches subdomains"
-				 value=""/>
+		<td>
+		  <div class="browser-style">
+			<input class="hostname" type="text" placeholder="cdn.example.com"
+				   title="Domain of the requested URL, also matches subdomains"
+				   value=""/>
+		  </div>
 		</td>
 		<td>
 		  <select class="action browser-style">
@@ -122,11 +131,13 @@
 			<option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
 		  </select>
 		</td>
-		<td class="browser-style">
-		  <input class="referer" type="text"
-				 placeholder="https://www.example.com/"
-				 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
-				 value=""/>
+		<td>
+		  <div class="browser-style">
+			<input class="referer" type="text"
+				   placeholder="https://www.example.com/"
+				   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+				   value=""/>
+		  </div>
 		</td>
 		<td>
 		  <button class="delete_row browser-style" type="button" title="Delete rule">
