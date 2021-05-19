@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# PYTHON_ARGCOMPLETE_OK
 
 # Referer Modifier: Automatic test
 # Copyright (C) 2020-2021 Fiona Klute
@@ -35,6 +36,8 @@ testlink = namedtuple('testlink', ['source', 'target', 'referer'])
 
 
 class RefModTest(unittest.TestCase):
+    quit_browser = True
+
     @classmethod
     def setUpClass(cls):
         cls.ext_dir = Path(sys.argv[0]).parent
@@ -66,7 +69,8 @@ class RefModTest(unittest.TestCase):
         self.browser.install_addon(str(self.addon_path), temporary=True)
 
     def tearDown(self):
-        self.browser.quit()
+        if self.quit_browser:
+            self.browser.quit()
 
     def click_link(self, target):
         links = self.browser.find_elements_by_tag_name('a')
@@ -125,4 +129,21 @@ class RefModTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Run referer-mod tests')
+    parser.add_argument('--no-quit', action='store_false',
+                        dest='quit_browser',
+                        help='run primary Apache instance with Valgrind')
+
+    # enable bash completion if argcomplete is available
+    try:
+        import argcomplete
+        argcomplete.autocomplete(parser)
+    except ImportError:
+        pass
+
+    args, argv = parser.parse_known_args()
+    RefModTest.quit_browser = args.quit_browser
+
+    unittest.main(verbosity=2, argv=sys.argv[:1] + argv)
