@@ -18,12 +18,31 @@ If you're working on the code you can load your work in progress as a temporary 
 
 ## Developer information
 
-The following three files implement the core functionality:
+The following files implement the core functionality:
 
-* [**background.js**](./background.js) does initialization and contains the handler function `modifyReferer(e)` to modify headers. The handler function is called from an asynchronous [`webRequest.onBeforeSendHeaders`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders) event listener. `background.js` also uses event listeners to update the internal configuration if it is changed via the settings page.
-* [**options.html**](./options.html) is the settings page. The `value` attributes of the `option` elements inside the `select` elements with `class="action"` must match the cases handled in the `modifyReferer(e)` function.
-* [**options.js**](./options.js) handles loading and saving the settings from the settings page.
-* [**inject-referer.js**](./inject-referer.js) is a content script that modifies the `document.referrer` property to match the HTTP Referer header. It uses [runtime.sendMessage()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage) to communicate with [background.js](./background.js) and retrieve the value to set.
+* [**engine.js**](./engine.js) defines the functions used to determine
+  if and how the referrer values should be modified. This code is
+  shared by background and content scripts.
+
+* [**background.js**](./background.js) does initialization and
+  contains the handler function `modifyReferer(e)` to modify
+  headers. The handler function is called from an asynchronous
+  [`webRequest.onBeforeSendHeaders`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders)
+  event listener. `background.js` also uses event listeners to update
+  the internal configuration if it is changed via the settings page.
+  A dynamic content script containing the configuration is added to
+  sites, for use by `content.js`.
+
+* [**options.html**](./options.html) is the settings page. The `value`
+  attributes of the `option` elements inside the `select` elements
+  with `class="action"` must match the cases handled in the
+  `modifyReferer(e)` function.
+
+* [**options.js**](./options.js) handles loading and saving the
+  settings from the settings page.
+
+* [**content.js**](./content.js) is a content script that modifies the
+  `document.referrer` property to match the HTTP Referer header.
 
 Settings are saved in the [`browser.storage.sync` storage area](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync), so if the user is using Firefox sync their settings will be synchronized automatically, otherwise the storage is local.
 
