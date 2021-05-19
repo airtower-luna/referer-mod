@@ -48,6 +48,11 @@ Settings are saved in the [`browser.storage.sync` storage area](https://develope
 
 There is limited localization data in the [`_locales/`](./_locales/) directory. The [`Makefile`](./Makefile) serves to build a ZIP archive for upload to AMO.
 
+The repository contains a [configuration file](./.eslintrc.yaml) for
+[ESLint](https://eslint.org/). ESLint runs in CI (see the ["Referer
+Mod / lint" job](.github/workflows/selenium.yaml)), please pay
+attention to its results when working on a pull request.
+
 ## Testing
 
 The [`testserver/`](./testserver/) directory of this repository
