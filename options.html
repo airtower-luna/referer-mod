@@ -8,6 +8,12 @@
 		  font-size: 1.25rem;
 		  text-rendering: optimizeLegibility;
       }
+	  button {
+		  font-size: 1.25rem;
+	  }
+	  div.control button {
+		  height: 2.5rem;
+	  }
       .documentation {
 		  max-width: 550px;
 		  text-align: justify;
@@ -72,8 +78,10 @@
 			</tr>
 		  </tbody>
 		</table>
-		<button class="browser-style" type="button" id="add_row">Add domain</button>
-		<button class="browser-style default" type="button" id="safe_conf">Save configuration</button>
+		<div class="control">
+		  <button class="browser-style" type="button" id="add_row">Add domain</button>
+		  <button class="browser-style default" type="button" id="safe_conf">Save configuration</button>
+		</div>
       </form>
       <p class="documentation">Please check the tool tips for details
       on the meaning of the configuration fields. Domains also match
@@ -91,7 +99,9 @@
     <section>
       <h3>Configuration Backup</h3>
       <p>
-		<button class="browser-style" type="button" id="export">Export configuration</button>
+		<div class="control">
+		  <button class="browser-style" type="button" id="export">Export configuration</button>
+		</div>
 		<div id="export_text" hidden>
 		  Please save this <a id="export_blob">JSON file</a>.
 		</div>
