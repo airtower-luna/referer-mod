@@ -3,10 +3,12 @@ on:
   pull_request:
   push:
 
+permissions:
+  contents: read
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-20.04
-    name: test
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
