@@ -177,7 +177,7 @@ class RefererModEngine
 				pattern = "(\\.|^)"
 					+ RefererModEngine.escapeRegExp(domain.domain) + "$";
 			}
-			console.log(`domain '${domain.domain}', pattern: ${pattern}`);
+			//console.log(`domain '${domain.domain}', pattern: ${pattern}`);
 			domain.regexp = new RegExp(pattern);
 		}
 		return domains;
