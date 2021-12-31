@@ -40,7 +40,7 @@ class RefModTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.ext_dir = Path(sys.argv[0]).parent
+        cls.ext_dir = Path(__file__).parent
         with open(cls.ext_dir / 'manifest.json') as fh:
             manifest = json.load(fh)
 
