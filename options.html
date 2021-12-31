@@ -4,24 +4,24 @@
     <meta charset="utf-8">
     <style type="text/css">
       body {
-		  font: message-box;
-		  font-size: 1.25rem;
-		  text-rendering: optimizeLegibility;
+          font: message-box;
+          font-size: 1.25rem;
+          text-rendering: optimizeLegibility;
       }
-	  button {
-		  font-size: 1rem;
-	  }
-	  div.control button {
-		  height: 2.5rem;
-	  }
+      button {
+          font-size: 1rem;
+      }
+      div.control button {
+          height: 2.5rem;
+      }
       .documentation {
-		  max-width: 550px;
-		  text-align: justify;
-		  hyphens: auto;
+          max-width: 550px;
+          text-align: justify;
+          hyphens: auto;
       }
-	  .rule_label {
-		  vertical-align: baseline;
-	  }
+      .rule_label {
+          vertical-align: baseline;
+      }
     </style>
   </head>
 
@@ -29,159 +29,159 @@
     <section>
       <h3>Configure Referers</h3>
       <form id="ref_conf">
-		<table>
-		  <thead>
-			<tr id="header">
-			  <th title="Domain of the requested URL, also matches subdomains">Target Domain</th>
-			  <th title="What to do with the Referer in a request matching the target domain">Action</th>
-			  <th title="If the action &quot;Replace&quot; is selected, the Referer is set to this value.">Replacement Referer</th>
-			</tr>
-		  </thead>
-		  <tbody id="hosts">
-			<tr>
-			  <td class="rule_label" title="Applies to any request that does not match one of the other rules.">&lt;ANY&gt;</td>
-			  <td>
-				<select class="action browser-style" id="any_action">
-				  <option value="keep" title="Do not modify the Referer">Keep</option>
-				  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
-				  <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
-				  <option value="remove" title="Do not send any Referer">Remove</option>
-				  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
-				</select>
-			  </td>
-			  <td>
-				<div class="browser-style">
-				  <input id="any_referer" class="referer" type="text"
-						 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
-						 value=""/>
-				</div>
-			  </td>
-			</tr>
-			<tr>
-			  <td class="rule_label" title="Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.">&lt;SAME&gt;</td>
-			  <td>
-				<select class="action browser-style" id="same_action">
-				  <option value="keep" title="Do not modify the Referer">Keep</option>
-				  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
-				  <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
-				  <option value="remove" title="Do not send any Referer">Remove</option>
-				  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
-				</select>
-			  </td>
-			  <td>
-				<div class="browser-style">
-				  <input id="same_referer" class="referer" type="text"
-						 title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
-						 value=""/>
-				</div>
-			  </td>
-			</tr>
-		  </tbody>
-		</table>
-		<div class="control">
-		  <button class="browser-style" type="button" id="add_row">Add domain</button>
-		  <button class="browser-style default" type="button" id="safe_conf">Save configuration</button>
-		</div>
+        <table>
+          <thead>
+            <tr id="header">
+              <th title="Domain of the requested URL, also matches subdomains">Target Domain</th>
+              <th title="What to do with the Referer in a request matching the target domain">Action</th>
+              <th title="If the action &quot;Replace&quot; is selected, the Referer is set to this value.">Replacement Referer</th>
+            </tr>
+          </thead>
+          <tbody id="hosts">
+            <tr>
+              <td class="rule_label" title="Applies to any request that does not match one of the other rules.">&lt;ANY&gt;</td>
+              <td>
+                <select class="action browser-style" id="any_action">
+                  <option value="keep" title="Do not modify the Referer">Keep</option>
+                  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
+                  <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
+                  <option value="remove" title="Do not send any Referer">Remove</option>
+                  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+                </select>
+              </td>
+              <td>
+                <div class="browser-style">
+                  <input id="any_referer" class="referer" type="text"
+                         title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+                         value=""/>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="rule_label" title="Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.">&lt;SAME&gt;</td>
+              <td>
+                <select class="action browser-style" id="same_action">
+                  <option value="keep" title="Do not modify the Referer">Keep</option>
+                  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
+                  <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
+                  <option value="remove" title="Do not send any Referer">Remove</option>
+                  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+                </select>
+              </td>
+              <td>
+                <div class="browser-style">
+                  <input id="same_referer" class="referer" type="text"
+                         title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+                         value=""/>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="control">
+          <button class="browser-style" type="button" id="add_row">Add domain</button>
+          <button class="browser-style default" type="button" id="safe_conf">Save configuration</button>
+        </div>
       </form>
       <p class="documentation">
-		Please check the tool tips for details on the meaning of the
-		configuration fields. Domains also match subdomains, if a
-		request matches multiple rules the longest match is used. For
-		example, if you have separate rules for both www.example.com and
-		example.com, a request to https://www.example.com/ will be
-		subject to the former rule.
-	  </p>
+        Please check the tool tips for details on the meaning of the
+        configuration fields. Domains also match subdomains, if a
+        request matches multiple rules the longest match is used. For
+        example, if you have separate rules for both www.example.com and
+        example.com, a request to https://www.example.com/ will be
+        subject to the former rule.
+      </p>
       <p class="documentation">The "replace" and "target" actions will
-		add a Referer header to the request if necessary, the other
-		actions only take effect if the browser would send one by
-		default.
-	  </p>
-	  <details>
-		<summary>Advanced: Regular expressions</summary>
-		<p class="documentation">
-		  If the value of the target domain field ends with
-		  a <code>$</code> it is treated as a regular
-		  expression. The <code>$</code> is part of the expression, so
-		  your expression must match at the end of the domain. If
-		  there are multiple matches with the same length, the first
-		  rule from top is used.
-		</p>
-		<p class="documentation">
-		  Note that regular expressions are used as-is, so consider
-		  the start of the URL and subdomain boundaries. For
-		  example, <code>example\.com$</code> would
-		  match <code>my-example.com</code>. If you want to match only
-		  <code>example.com</code> use <code>^example\.com$</code>,
-		  and to match all its subdomains, too
-		  use <code>(^|\.)example\.com$</code>.
-		</p>
-	  </details>
-	</section>
+        add a Referer header to the request if necessary, the other
+        actions only take effect if the browser would send one by
+        default.
+      </p>
+      <details>
+        <summary>Advanced: Regular expressions</summary>
+        <p class="documentation">
+          If the value of the target domain field ends with
+          a <code>$</code> it is treated as a regular
+          expression. The <code>$</code> is part of the expression, so
+          your expression must match at the end of the domain. If
+          there are multiple matches with the same length, the first
+          rule from top is used.
+        </p>
+        <p class="documentation">
+          Note that regular expressions are used as-is, so consider
+          the start of the URL and subdomain boundaries. For
+          example, <code>example\.com$</code> would
+          match <code>my-example.com</code>. If you want to match only
+          <code>example.com</code> use <code>^example\.com$</code>,
+          and to match all its subdomains, too
+          use <code>(^|\.)example\.com$</code>.
+        </p>
+      </details>
+    </section>
 
     <section>
       <h3>Configuration Backup</h3>
       <p>
-		<div class="control">
-		  <button class="browser-style" type="button" id="export">Export configuration</button>
-		</div>
-		<div id="export_text" hidden>
-		  Please save this <a id="export_blob">JSON file</a>.
-		</div>
+        <div class="control">
+          <button class="browser-style" type="button" id="export">Export configuration</button>
+        </div>
+        <div id="export_text" hidden>
+          Please save this <a id="export_blob">JSON file</a>.
+        </div>
       </p>
       <p>
-		<div class="browser-style">
-		  <label for="import_file">Choose backup file to import</label>
-		  <input type="file" id="import_file" name="import_file"
-				 accept="application/json"/>
-		</div>
-		<div id="import_warn" hidden><strong>Warning:</strong>
-		  Importing will overwrite your current configuration.
-		  <div>
-			<button class="browser-style" id="import_button" type="button" disabled>
-			  Import configuration
-			</button>
-		  </div>
-		</div>
+        <div class="browser-style">
+          <label for="import_file">Choose backup file to import</label>
+          <input type="file" id="import_file" name="import_file"
+                 accept="application/json"/>
+        </div>
+        <div id="import_warn" hidden><strong>Warning:</strong>
+          Importing will overwrite your current configuration.
+          <div>
+            <button class="browser-style" id="import_button" type="button" disabled>
+              Import configuration
+            </button>
+          </div>
+        </div>
       </p>
     </section>
 
     <template id="ref_row">
       <tr class="ref_entry">
-		<td>
-		  <div class="browser-style">
-			<input class="hostname" type="text" placeholder="cdn.example.com"
-				   title="Domain of the requested URL, also matches subdomains"
-				   value=""/>
-		  </div>
-		</td>
-		<td>
-		  <select class="action browser-style">
-			<option value="keep" title="Do not modify the Referer">Keep</option>
-			<option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
-			<option value="remove" title="Do not send any Referer">Remove</option>
-			<option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
-			<option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
-		  </select>
-		</td>
-		<td>
-		  <div class="browser-style">
-			<input class="referer" type="text"
-				   placeholder="https://www.example.com/"
-				   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
-				   value=""/>
-		  </div>
-		</td>
-		<td>
-		  <button class="delete_row browser-style" type="button" title="Delete rule">
-			<b>❌</b>
-		  </button>
-		  <button class="up_row browser-style" type="button" title="Move rule up">
-			<b>🔼</b>
-		  </button>
-		  <button class="down_row browser-style" type="button" title="Move rule down">
-			<b>🔽</b>
-		  </button>
-		</td>
+        <td>
+          <div class="browser-style">
+            <input class="hostname" type="text" placeholder="cdn.example.com"
+                   title="Domain of the requested URL, also matches subdomains"
+                   value=""/>
+          </div>
+        </td>
+        <td>
+          <select class="action browser-style">
+            <option value="keep" title="Do not modify the Referer">Keep</option>
+            <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
+            <option value="remove" title="Do not send any Referer">Remove</option>
+            <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
+            <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+          </select>
+        </td>
+        <td>
+          <div class="browser-style">
+            <input class="referer" type="text"
+                   placeholder="https://www.example.com/"
+                   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+                   value=""/>
+          </div>
+        </td>
+        <td>
+          <button class="delete_row browser-style" type="button" title="Delete rule">
+            <b>❌</b>
+          </button>
+          <button class="up_row browser-style" type="button" title="Move rule up">
+            <b>🔼</b>
+          </button>
+          <button class="down_row browser-style" type="button" title="Move rule down">
+            <b>🔽</b>
+          </button>
+        </td>
       </tr>
     </template>
     <script src="options.js"></script>
