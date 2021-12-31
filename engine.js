@@ -69,14 +69,15 @@ class RefererModEngine
 		* (most precise) match in case we have multiple filter
 		* matches. */
 		let match = this._domains
-			.filter(d => d.regexp.test(target.hostname))
+			.map(d => ({domain: d, match: target.hostname.match(d.regexp)}))
+			.filter(d => d.match != null)
 			.reduce((acc, current) =>
 			{
 				if (acc == null)
 				{
 					return current;
 				}
-				else if (acc.domain.length >= current.domain.length)
+				else if (acc.match[0].length >= current.match[0].length)
 				{
 					return acc;
 				}
@@ -87,7 +88,7 @@ class RefererModEngine
 			}, null);
 		if (match != null)
 		{
-			return match;
+			return match.domain;
 		}
 
 		if (originUrl === "" || originUrl === null || originUrl === undefined)
@@ -166,9 +167,17 @@ class RefererModEngine
 	{
 		for (let domain of domains)
 		{
-			let pattern = "(\\.|^)"
-				+ RefererModEngine.escapeRegExp(domain.domain) + "$";
-			//console.log(`domain '${domain.domain}', pattern: ${pattern}`);
+			let pattern;
+			if (domain.domain.endsWith("$"))
+			{
+				pattern = domain.domain;
+			}
+			else
+			{
+				pattern = "(\\.|^)"
+					+ RefererModEngine.escapeRegExp(domain.domain) + "$";
+			}
+			console.log(`domain '${domain.domain}', pattern: ${pattern}`);
 			domain.regexp = new RegExp(pattern);
 		}
 		return domains;
