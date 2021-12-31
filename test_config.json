@@ -9,7 +9,7 @@
     },
     "domains": [
         {
-            "domain": "y.test",
+            "domain": "(^|\\.)y\\.test$",
             "action": "remove",
             "referer": ""
         },

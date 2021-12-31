@@ -51,16 +51,14 @@ class RefModTest(unittest.TestCase):
         cls.config_url = f'moz-extension://{addon_dyn_id}/options.html'
         print(f'Dynamic ID: {addon_dyn_id}')
 
-        profile = webdriver.FirefoxProfile()
-        # Pre-seed the dynamic addon ID so we can find the options page
-        profile.set_preference('extensions.webextensions.uuids',
-                               json.dumps({addon_id: addon_dyn_id}))
-        # Use the local test environment, see testserver/
-        profile.set_preference('network.proxy.type', 1)
-        profile.set_preference('network.proxy.http', 'localhost')
-        profile.set_preference('network.proxy.http_port', 8080)
         cls.options = FirefoxOptions()
-        cls.options.profile = profile
+        # Pre-seed the dynamic addon ID so we can find the options page
+        cls.options.set_preference('extensions.webextensions.uuids',
+                                   json.dumps({addon_id: addon_dyn_id}))
+        # Use the local test environment, see testserver/
+        cls.options.set_preference('network.proxy.type', 1)
+        cls.options.set_preference('network.proxy.http', 'localhost')
+        cls.options.set_preference('network.proxy.http_port', 8080)
         if not os.environ.get('DISPLAY'):
             cls.options.headless = True
 
@@ -73,7 +71,7 @@ class RefModTest(unittest.TestCase):
             self.browser.quit()
 
     def click_link(self, target):
-        links = self.browser.find_elements_by_tag_name('a')
+        links = self.browser.find_elements(By.TAG_NAME, 'a')
         for link in links:
             if link.get_attribute('href') == target:
                 # Found target link, click
@@ -85,9 +83,9 @@ class RefModTest(unittest.TestCase):
         # load configuration
         test_config = (self.ext_dir / 'test_config.json').resolve()
         self.browser.get(self.config_url)
-        import_file = self.browser.find_element_by_id('import_file')
+        import_file = self.browser.find_element(By.ID, 'import_file')
         import_file.send_keys(str(test_config))
-        import_button = self.browser.find_element_by_id('import_button')
+        import_button = self.browser.find_element(By.ID, 'import_button')
         import_button.click()
 
         # mapping from next target to click to expected Referer, in order
@@ -116,15 +114,15 @@ class RefModTest(unittest.TestCase):
                     print('Page shows no Referer.')
                     if link.referer is not None:
                         raise
-                script_referrer = self.browser.find_element_by_id('referrer')
+                script_referrer = self.browser.find_element(By.ID, 'referrer')
                 self.assertEqual(link.referer or '', script_referrer.text)
                 reflect_referrer = \
-                    self.browser.find_element_by_id('referrer-reflect')
+                    self.browser.find_element(By.ID, 'referrer-reflect')
                 self.assertEqual(link.referer or '', reflect_referrer.text)
                 # The iframe manipulation might fail on repeated
                 # loads, maybe because the cache speeds up loading.
                 iframe_referrer = \
-                    self.browser.find_element_by_id('referrer-iframe')
+                    self.browser.find_element(By.ID, 'referrer-iframe')
                 self.assertEqual(link.referer or '', iframe_referrer.text)
 
 

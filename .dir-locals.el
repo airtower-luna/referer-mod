@@ -3,6 +3,6 @@
   (js-indent-level . 4)
   )
  (mhtml-mode
-  (tab-width . 4)
+  (indent-tabs-mode . nil)
   (js-indent-level . 4)
 ))

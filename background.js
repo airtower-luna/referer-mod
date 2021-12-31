@@ -130,7 +130,7 @@ async function refreshConfig(change, area)
 async function registerContentScript(config)
 {
 	let code = `
-		var engineConfig = JSON.parse('${JSON.stringify(config)}');
+		var engineConfig = JSON.parse(String.raw\`${JSON.stringify(config)}\`);
 		if (typeof engineInstance === 'object') {
 			engineInstance.setConfig(engineConfig);
 		}
