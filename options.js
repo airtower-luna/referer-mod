@@ -70,13 +70,41 @@ function createDomainRow(hostname, act, referer)
 	ref.value = referer;
 	selectOption(action, act);
 	let node = document.importNode(template.content, true);
+
 	let del = node.querySelector(".delete_row");
-	del.addEventListener("click",
-					   function()
-					   {
-						   del.parentElement.parentElement.remove();
-					   },
-					   { once: true });
+	del.addEventListener(
+		"click",
+		function()
+		{
+			del.parentElement.parentElement.remove();
+		},
+		{ once: true });
+
+	let up = node.querySelector(".up_row");
+	up.addEventListener(
+		"click",
+		function()
+		{
+			let row = up.parentElement.parentElement;
+			let prev = row.previousElementSibling;
+			if (prev != null && prev.classList.contains("ref_entry"))
+			{
+				prev.before(row);
+			}
+		});
+
+	let down = node.querySelector(".down_row");
+	down.addEventListener(
+		"click",
+		function()
+		{
+			let row = up.parentElement.parentElement;
+			let next = row.nextElementSibling;
+			if (next != null && next.classList.contains("ref_entry"))
+			{
+				next.after(row);
+			}
+		});
 	return node;
 }
 
