@@ -83,18 +83,40 @@
 		  <button class="browser-style default" type="button" id="safe_conf">Save configuration</button>
 		</div>
       </form>
-      <p class="documentation">Please check the tool tips for details
-      on the meaning of the configuration fields. Domains also match
-      subdomains, if a request matches multiple rules the longest
-      match is used. For example, if you have separate rules for both
-      www.example.com and example.com, a request to
-      https://www.example.com/ will be subject to the former
-      rule.</p>
+      <p class="documentation">
+		Please check the tool tips for details on the meaning of the
+		configuration fields. Domains also match subdomains, if a
+		request matches multiple rules the longest match is used. For
+		example, if you have separate rules for both www.example.com and
+		example.com, a request to https://www.example.com/ will be
+		subject to the former rule.
+	  </p>
       <p class="documentation">The "replace" and "target" actions will
-      add a Referer header to the request if necessary, the other
-      actions only take effect if the browser would send one by
-      default.</p>
-    </section>
+		add a Referer header to the request if necessary, the other
+		actions only take effect if the browser would send one by
+		default.
+	  </p>
+	  <details>
+		<summary>Advanced: Regular expressions</summary>
+		<p class="documentation">
+		  If the value of the target domain field ends with
+		  a <code>$</code> it is treated as a regular
+		  expression. The <code>$</code> is part of the expression, so
+		  your expression must match at the end of the domain. If
+		  there are multiple matches with the same length, the first
+		  rule from top is used.
+		</p>
+		<p class="documentation">
+		  Note that regular expressions are used as-is, so consider
+		  the start of the URL and subdomain boundaries. For
+		  example, <code>example\.com$</code> would
+		  match <code>my-example.com</code>. If you want to match only
+		  <code>example.com</code> use <code>^example\.com$</code>,
+		  and to match all its subdomains, too
+		  use <code>(^|\.)example\.com$</code>.
+		</p>
+	  </details>
+	</section>
 
     <section>
       <h3>Configuration Backup</h3>
@@ -153,10 +175,10 @@
 		  <button class="delete_row browser-style" type="button" title="Delete rule">
 			<b>❌</b>
 		  </button>
-		  <button class="up_row browser-style" type="button" title="Move up">
+		  <button class="up_row browser-style" type="button" title="Move rule up">
 			<b>🔼</b>
 		  </button>
-		  <button class="down_row browser-style" type="button" title="Move down">
+		  <button class="down_row browser-style" type="button" title="Move rule down">
 			<b>🔽</b>
 		  </button>
 		</td>
