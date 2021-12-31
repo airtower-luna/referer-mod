@@ -51,16 +51,14 @@ class RefModTest(unittest.TestCase):
         cls.config_url = f'moz-extension://{addon_dyn_id}/options.html'
         print(f'Dynamic ID: {addon_dyn_id}')
 
-        profile = webdriver.FirefoxProfile()
-        # Pre-seed the dynamic addon ID so we can find the options page
-        profile.set_preference('extensions.webextensions.uuids',
-                               json.dumps({addon_id: addon_dyn_id}))
-        # Use the local test environment, see testserver/
-        profile.set_preference('network.proxy.type', 1)
-        profile.set_preference('network.proxy.http', 'localhost')
-        profile.set_preference('network.proxy.http_port', 8080)
         cls.options = FirefoxOptions()
-        cls.options.profile = profile
+        # Pre-seed the dynamic addon ID so we can find the options page
+        cls.options.set_preference('extensions.webextensions.uuids',
+                                   json.dumps({addon_id: addon_dyn_id}))
+        # Use the local test environment, see testserver/
+        cls.options.set_preference('network.proxy.type', 1)
+        cls.options.set_preference('network.proxy.http', 'localhost')
+        cls.options.set_preference('network.proxy.http_port', 8080)
         if not os.environ.get('DISPLAY'):
             cls.options.headless = True
 
