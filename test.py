@@ -71,7 +71,7 @@ class RefModTest(unittest.TestCase):
             self.browser.quit()
 
     def click_link(self, target):
-        links = self.browser.find_elements_by_tag_name('a')
+        links = self.browser.find_elements(By.TAG_NAME, 'a')
         for link in links:
             if link.get_attribute('href') == target:
                 # Found target link, click
@@ -83,9 +83,9 @@ class RefModTest(unittest.TestCase):
         # load configuration
         test_config = (self.ext_dir / 'test_config.json').resolve()
         self.browser.get(self.config_url)
-        import_file = self.browser.find_element_by_id('import_file')
+        import_file = self.browser.find_element(By.ID, 'import_file')
         import_file.send_keys(str(test_config))
-        import_button = self.browser.find_element_by_id('import_button')
+        import_button = self.browser.find_element(By.ID, 'import_button')
         import_button.click()
 
         # mapping from next target to click to expected Referer, in order
@@ -114,15 +114,15 @@ class RefModTest(unittest.TestCase):
                     print('Page shows no Referer.')
                     if link.referer is not None:
                         raise
-                script_referrer = self.browser.find_element_by_id('referrer')
+                script_referrer = self.browser.find_element(By.ID, 'referrer')
                 self.assertEqual(link.referer or '', script_referrer.text)
                 reflect_referrer = \
-                    self.browser.find_element_by_id('referrer-reflect')
+                    self.browser.find_element(By.ID, 'referrer-reflect')
                 self.assertEqual(link.referer or '', reflect_referrer.text)
                 # The iframe manipulation might fail on repeated
                 # loads, maybe because the cache speeds up loading.
                 iframe_referrer = \
-                    self.browser.find_element_by_id('referrer-iframe')
+                    self.browser.find_element(By.ID, 'referrer-iframe')
                 self.assertEqual(link.referer or '', iframe_referrer.text)
 
 
