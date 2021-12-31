@@ -69,24 +69,53 @@ function createDomainRow(hostname, act, referer)
 	host.value = hostname;
 	ref.value = referer;
 	selectOption(action, act);
-	return document.importNode(template.content, true);
+	let node = document.importNode(template.content, true);
+
+	let del = node.querySelector(".delete_row");
+	del.addEventListener(
+		"click",
+		function()
+		{
+			del.parentElement.parentElement.remove();
+		},
+		{ once: true });
+
+	let up = node.querySelector(".up_row");
+	up.addEventListener(
+		"click",
+		function()
+		{
+			let row = up.parentElement.parentElement;
+			let prev = row.previousElementSibling;
+			if (prev != null && prev.classList.contains("ref_entry"))
+			{
+				prev.before(row);
+			}
+		});
+
+	let down = node.querySelector(".down_row");
+	down.addEventListener(
+		"click",
+		function()
+		{
+			let row = up.parentElement.parentElement;
+			let next = row.nextElementSibling;
+			if (next != null && next.classList.contains("ref_entry"))
+			{
+				next.after(row);
+			}
+		});
+	return node;
 }
 
 
 
 /*
- * Add an empty domain row and configure the delete button.
+ * Add an empty domain row.
  */
 function addDomainRow()
 {
 	let row = createDomainRow("", "replace", "");
-	let b = row.querySelector(".delete_row");
-	b.addEventListener("click",
-					   function()
-					   {
-						   b.parentElement.parentElement.remove();
-					   },
-					   { once: true });
 	let act = row.querySelector(".action");
 	act.addEventListener("change", actionSelectListener);
 	document.getElementById("hosts").appendChild(row);
@@ -140,16 +169,6 @@ function restoreOptions()
 			}
 		}
 
-		/* Enable delete buttons for domain rows */
-		for (let b of hosts.getElementsByClassName("delete_row"))
-		{
-			b.addEventListener("click",
-							   function()
-							   {
-								   b.parentElement.parentElement.remove();
-							   },
-							   { once: true });
-		}
 		/* Disable "Referer" field if the selected action does not use it. */
 		for (let act of hosts.getElementsByClassName("action"))
 		{

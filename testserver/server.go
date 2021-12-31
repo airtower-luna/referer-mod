@@ -29,7 +29,8 @@ import (
 
 func makeHandler(links []string) func (http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("%v %v %v%v\n", r.RemoteAddr, r.Method, r.Host, r.URL)
+		fmt.Printf("%v %v %v%v\n",
+			r.RemoteAddr, r.Method, r.Host, r.URL.EscapedPath())
 		tmpl_data := struct{
 			H *http.Header
 			Links []string
