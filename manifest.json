@@ -22,6 +22,11 @@
 		"browser_style": true
 	},
 
+	"icons": {
+		"48": "icon.svg",
+		"96": "icon.svg"
+	},
+
 	"background": {
 		"scripts": ["engine.js", "background.js"]
 	},
