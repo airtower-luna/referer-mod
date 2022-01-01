@@ -6,8 +6,8 @@ PYTHON=$(shell command -v python3 || command -v python)
 
 dist: referer-mod-$(VERSION).zip
 
-referer-mod-$(VERSION).zip: $(MANIFEST) $(CODE) $(LOCALES) LICENSE
-	zip -r -FS referer-mod-$(VERSION).zip $(MANIFEST) $(CODE) $(LOCALES) LICENSE
+referer-mod-$(VERSION).zip: $(MANIFEST) $(CODE) $(LOCALES) LICENSE icon.svg
+	zip -r -FS referer-mod-$(VERSION).zip $(MANIFEST) $(CODE) $(LOCALES) LICENSE icon.svg
 
 check: dist
 	$(PYTHON) test.py

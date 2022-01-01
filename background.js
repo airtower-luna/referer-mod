@@ -167,6 +167,17 @@ async function registerContentScript(config)
 }
 
 
+/*
+ * Event handler for clicks on the toolbar button.
+ */
+async function openConfigTab()
+{
+	await browser.tabs.create({
+		url: "options.html"
+	});
+}
+
+
 browser.storage.sync.get(["domain"]).then(
 	(result) =>
 	{
@@ -214,3 +225,6 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 	}),
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
+
+/* Open config when the user clicks the toolbar button */
+browser.browserAction.onClicked.addListener(openConfigTab);

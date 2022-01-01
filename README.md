@@ -1,5 +1,7 @@
 # referer-mod
 
+![referer-mod logo: cat ears peeking over an edge](icon.svg)
+
 Referer Modifier is a Web Extension for Firefox to modify the Referer header in HTTP requests, and the Javascript `document.referrer` property to match. For each target domain, one of five actions can be configured:
 
 * Keep: Do not modify the Referer
