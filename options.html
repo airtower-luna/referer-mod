@@ -7,16 +7,25 @@
     <style type="text/css">
       body {
           font: message-box;
-          text-rendering: optimizeLegibility;
           display: flex;
           flex-direction: column;
           max-width: 650px;
           margin: 0 auto;
       }
+      table {
+          margin-bottom: 3px;
+          width: 100%;
+      }
+      td:nth-child(1) {
+          width: 16em;
+      }
+      td:nth-child(2) {
+          width: 0;
+          padding-right: 2px;
+      }
       .button_container {
-          display: flex;
-          flex-direction: row;
           display: table-cell;
+          width: 58px;
       }
       .button_container > button {
           border: 0;
@@ -25,6 +34,9 @@
       }
       .button_container > button:hover {
           background-color: revert;
+      }
+      input {
+          width: calc(100% - 7px);
       }
       .documentation > p {
           text-align: justify;
