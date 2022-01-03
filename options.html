@@ -7,15 +7,19 @@
     <style type="text/css">
       body {
           font: message-box;
-          text-rendering: optimizeLegibility;
           display: flex;
           flex-direction: column;
           max-width: 650px;
           margin: 0 auto;
       }
+      table {
+          margin-bottom: 3px;
+          width: 100%;
+      }
+      td:nth-child(2) {
+          width: 0;
+      }
       .button_container {
-          display: flex;
-          flex-direction: row;
           display: table-cell;
       }
       .button_container > button {
@@ -25,6 +29,9 @@
       }
       .button_container > button:hover {
           background-color: revert;
+      }
+      input {
+          width: calc(100% - 7px);
       }
       .documentation > p {
           text-align: justify;
