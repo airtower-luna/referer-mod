@@ -64,3 +64,11 @@ locally. You can use it manually (see the
 automated tests. The automated tests require the [Selenium Python
 client](https://www.selenium.dev/selenium/docs/api/py/) and
 [Geckodriver](https://github.com/mozilla/geckodriver).
+
+## Known issues
+
+The `document.referrer` modification is a workaround for [Firefox bug
+#1601496](https://bugzilla.mozilla.org/show_bug.cgi?id=1601496), and
+unfortunately not 100% reliable because there's no way to guarantee
+that the content script that does the modification always runs before
+page scripts.
