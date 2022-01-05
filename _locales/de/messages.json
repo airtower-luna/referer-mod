@@ -6,5 +6,9 @@
 	"extensionDescription": {
 		"message": "Verändert die Kopfzeile „Referer“ in HTTP Requests",
 		"description": "Description of this extension"
+	},
+	"openSettings": {
+		"message": "Einstellungen",
+		"description": "Text for popup button that opens settings"
 	}
 }

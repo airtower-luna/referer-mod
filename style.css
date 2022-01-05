@@ -41,3 +41,11 @@ thead {
 img#logo, h1 {
     align-self: center;
 }
+
+button#deactivate {
+    border: 2px solid red;
+    border-radius: 5px;
+}
+button#deactivate.off {
+    border: 2px solid green;
+}
