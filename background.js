@@ -50,6 +50,11 @@ function genRefererHeader(value)
 
 function modifyReferer(e)
 {
+	if (!mod_enabled)
+	{
+		return {requestHeaders: e.requestHeaders};
+	}
+
 	const conf = engine.findHostConf(e.url, e.originUrl);
 
 	for (let i = 0; i < e.requestHeaders.length; i++)
@@ -184,6 +189,15 @@ function popup_connected(port)
 			{
 				mod_enabled = m.mod_enabled;
 				console.log(`referer-mod enabled: ${mod_enabled}`);
+				if (mod_enabled)
+				{
+					await registerContentScript(config);
+				}
+				else
+				{
+					registeredContentScript.unregister();
+					registeredContentScript = null;
+				}
 			}
 		});
 }
