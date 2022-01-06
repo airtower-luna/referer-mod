@@ -24,6 +24,9 @@ var engine = new RefererModEngine();
 /* Reference to our registered dynamic content script */
 var registeredContentScript = null;
 
+/* Modifications enabled, lets user toggle the effects */
+var mod_enabled = true;
+
 var config = {
 	/* Default empty domain configuration */
 	domains: [],
@@ -167,6 +170,25 @@ async function registerContentScript(config)
 }
 
 
+/* Handles messaging from the popup */
+function popup_connected(port)
+{
+	port.onMessage.addListener(
+		async function(m)
+		{
+			if (m.mod_enabled === null)
+			{
+				port.postMessage({mod_enabled: mod_enabled});
+			}
+			else
+			{
+				mod_enabled = m.mod_enabled;
+				console.log(`referer-mod enabled: ${mod_enabled}`);
+			}
+		});
+}
+
+
 browser.storage.sync.get(["domain"]).then(
 	(result) =>
 	{
@@ -214,3 +236,6 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 	}),
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
+
+/* Internal messaging for toggle */
+browser.runtime.onConnect.addListener(popup_connected);

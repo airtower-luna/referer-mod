@@ -17,14 +17,16 @@
  */
 "use strict";
 
-var mod_enabled = true;
 var settings_button = document.getElementById("settings");
 var deactivate_button = document.getElementById("deactivate");
+
+var mod_enabled = true;
+var port = browser.runtime.connect({name: "popup"});
 
 
 function setupPowerButton(enabled)
 {
-	if (mod_enabled)
+	if (enabled)
 	{
 		deactivate_button.innerText = browser.i18n.getMessage("deactivate");
 		deactivate_button.classList.remove("off");
@@ -41,13 +43,24 @@ async function toggleModification()
 {
 	mod_enabled = !mod_enabled;
 	setupPowerButton(mod_enabled);
+	port.postMessage({mod_enabled: mod_enabled});
 }
 
 
 settings_button.innerText = browser.i18n.getMessage("openSettings") + " 🔧";
-settings_button.addEventListener("click", function() {
-	browser.runtime.openOptionsPage();
-});
+settings_button.addEventListener(
+	"click",
+	function()
+	{
+		browser.runtime.openOptionsPage();
+	});
 
 deactivate_button.addEventListener("click", toggleModification);
-setupPowerButton(mod_enabled);
+
+port.onMessage.addListener(
+	async function(m)
+	{
+		mod_enabled = m.mod_enabled;
+		setupPowerButton(mod_enabled);
+	});
+port.postMessage({mod_enabled: null});
