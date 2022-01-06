@@ -12,11 +12,11 @@
 		"description": "Text for popup button that opens settings"
 	},
 	"deactivate": {
-		"message": "Deactivate Referer modification",
+		"message": "Pause Referer modification",
 		"description": "Button: disable Referer manipulation"
 	},
 	"reactivate": {
-		"message": "Reactivate Referer modification",
+		"message": "Activate Referer modification",
 		"description": "Button: enable Referer manipulation again"
 	}
 }

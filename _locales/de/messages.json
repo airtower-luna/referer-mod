@@ -10,5 +10,13 @@
 	"openSettings": {
 		"message": "Einstellungen",
 		"description": "Text for popup button that opens settings"
+	},
+	"deactivate": {
+		"message": "Referer-Veränderung aussetzen",
+		"description": "Button: disable Referer manipulation"
+	},
+	"reactivate": {
+		"message": "Referer-Veränderung aktivieren",
+		"description": "Button: enable Referer manipulation again"
 	}
 }

@@ -26,14 +26,12 @@ function setupPowerButton(enabled)
 {
 	if (mod_enabled)
 	{
-		deactivate_button.innerText =
-			browser.i18n.getMessage("deactivate") + " ⏻";
+		deactivate_button.innerText = browser.i18n.getMessage("deactivate");
 		deactivate_button.classList.remove("off");
 	}
 	else
 	{
-		deactivate_button.innerText =
-			browser.i18n.getMessage("reactivate") + " ⏻";
+		deactivate_button.innerText = browser.i18n.getMessage("reactivate");
 		deactivate_button.classList.add("off");
 	}
 }
