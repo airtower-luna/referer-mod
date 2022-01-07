@@ -198,7 +198,7 @@ function popup_connected(port)
 				{
 					registeredContentScript.unregister();
 					registeredContentScript = null;
-					browser.browserAction.setBadgeText({text: 'X'});
+					browser.browserAction.setBadgeText({text: "X"});
 				}
 			}
 		});
