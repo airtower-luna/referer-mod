@@ -132,7 +132,7 @@ if __name__ == '__main__':
         description='Run referer-mod tests')
     parser.add_argument('--no-quit', action='store_false',
                         dest='quit_browser',
-                        help='run primary Apache instance with Valgrind')
+                        help='don\'t stop browser instances after tests')
 
     # enable bash completion if argcomplete is available
     try:
