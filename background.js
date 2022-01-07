@@ -192,11 +192,13 @@ function popup_connected(port)
 				if (mod_enabled)
 				{
 					await registerContentScript(config);
+					browser.browserAction.setBadgeText({text: null});
 				}
 				else
 				{
 					registeredContentScript.unregister();
 					registeredContentScript = null;
+					browser.browserAction.setBadgeText({text: 'X'});
 				}
 			}
 		});
