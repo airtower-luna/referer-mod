@@ -24,6 +24,9 @@ var engine = new RefererModEngine();
 /* Reference to our registered dynamic content script */
 var registeredContentScript = null;
 
+/* Modifications enabled, lets user toggle the effects */
+var mod_enabled = true;
+
 var config = {
 	/* Default empty domain configuration */
 	domains: [],
@@ -47,6 +50,11 @@ function genRefererHeader(value)
 
 function modifyReferer(e)
 {
+	if (!mod_enabled)
+	{
+		return {requestHeaders: e.requestHeaders};
+	}
+
 	const conf = engine.findHostConf(e.url, e.originUrl);
 
 	for (let i = 0; i < e.requestHeaders.length; i++)
@@ -167,14 +175,33 @@ async function registerContentScript(config)
 }
 
 
-/*
- * Event handler for clicks on the toolbar button.
- */
-async function openConfigTab()
+/* Handles messaging from the popup */
+function popup_connected(port)
 {
-	await browser.tabs.create({
-		url: "options.html"
-	});
+	port.onMessage.addListener(
+		async function(m)
+		{
+			if (m.mod_enabled === null)
+			{
+				port.postMessage({mod_enabled: mod_enabled});
+			}
+			else
+			{
+				mod_enabled = m.mod_enabled;
+				console.log(`referer-mod enabled: ${mod_enabled}`);
+				if (mod_enabled)
+				{
+					await registerContentScript(config);
+					browser.browserAction.setBadgeText({text: null});
+				}
+				else
+				{
+					registeredContentScript.unregister();
+					registeredContentScript = null;
+					browser.browserAction.setBadgeText({text: "X"});
+				}
+			}
+		});
 }
 
 
@@ -226,5 +253,5 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
 
-/* Open config when the user clicks the toolbar button */
-browser.browserAction.onClicked.addListener(openConfigTab);
+/* Internal messaging for toggle */
+browser.runtime.onConnect.addListener(popup_connected);

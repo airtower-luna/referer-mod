@@ -41,3 +41,19 @@ thead {
 img#logo, h1 {
     align-self: center;
 }
+
+body.popup {
+    width: 260px;
+}
+body.popup > button {
+    margin: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+button#deactivate {
+    border: 2px groove red;
+    border-radius: 5px;
+}
+button#deactivate.off {
+    border: 2px groove green;
+}

@@ -6,5 +6,17 @@
 	"extensionDescription": {
 		"message": "Modify the Referer header in HTTP requests",
 		"description": "Description of this extension"
+	},
+	"openSettings": {
+		"message": "Open Settings",
+		"description": "Text for popup button that opens settings"
+	},
+	"deactivate": {
+		"message": "Pause Referer modification",
+		"description": "Button: disable Referer manipulation"
+	},
+	"reactivate": {
+		"message": "Activate Referer modification",
+		"description": "Button: enable Referer manipulation again"
 	}
 }
