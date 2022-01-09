@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 "use strict";
+/* from i18n.js: */
+/* global apply_i18n */
 
 /* Globals: The domain row template and its children */
 var template = document.querySelector("#ref_row");
@@ -70,6 +72,7 @@ function createDomainRow(hostname, act, referer)
 	ref.value = referer;
 	selectOption(action, act);
 	let node = document.importNode(template.content, true);
+	apply_i18n(node.firstElementChild);
 
 	let del = node.querySelector(".delete_row");
 	del.addEventListener(

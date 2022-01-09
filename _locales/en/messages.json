@@ -29,6 +29,134 @@
 	},
 	"target domain description": {
 		"message": "Domain of the requested URL, also matches subdomains",
-		"description": "Header for the target domain column"
+		"description": "Header for the target domain column (tooltip)"
+	},
+	"action column": {
+		"message": "Action",
+		"description": "Header for the action column"
+	},
+	"action column description": {
+		"message": "What to do with the Referer in a request matching the target domain",
+		"description": "Header for the action column (tooltip)"
+	},
+	"replacement referer": {
+		"message": "Replacement Referer",
+		"description": "Header for the replacement referer column"
+	},
+	"replacement referer description": {
+		"message": "If the action \"Replace\" is selected, the Referer is set to this value.",
+		"description": "Header for the replacement referer column (tooltip)"
+	},
+	"any rule": {
+		"message": "<ANY>",
+		"description": "Rule for any domain"
+	},
+	"any rule description": {
+		"message": "Applies to any request that does not match one of the other rules.",
+		"description": "Rule for any domain (tooltip)"
+	},
+	"same rule": {
+		"message": "<SAME>",
+		"description": "Rule for same domain"
+	},
+	"same rule description": {
+		"message": "Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.",
+		"description": "Rule for same domain (tooltip)"
+	},
+	"keep action": {
+		"message": "Keep",
+		"description": "Keep action option"
+	},
+	"keep action description": {
+		"message": "Do not modify the Referer",
+		"description": "Keep action option (tooltip)"
+	},
+	"prune action": {
+		"message": "Prune",
+		"description": "Prune action option"
+	},
+	"prune action description": {
+		"message": "Send only the origin part of the Referer (scheme, host, and port)",
+		"description": "Prune action option (tooltip)"
+	},
+	"target action": {
+		"message": "Target",
+		"description": "Target action option"
+	},
+	"target action description": {
+		"message": "Send the origin of the target URL (scheme, host, and port) as Referer",
+		"description": "Target action option (tooltip)"
+	},
+	"remove action": {
+		"message": "Remove",
+		"description": "Remove action option"
+	},
+	"remove action description": {
+		"message": "Do not send any Referer",
+		"description": "Remove action option (tooltip)"
+	},
+	"replace action": {
+		"message": "Replace",
+		"description": "Replace action option"
+	},
+	"replace action description": {
+		"message": "Replace the Referer with the string in the \"Referer\" field",
+		"description": "Replace action option (tooltip)"
+	},
+	"add rule": {
+		"message": "Add domain",
+		"description": "Add domain button"
+	},
+	"delete rule": {
+		"message": "\u274c",
+		"description": "Delete current rule button"
+	},
+	"delete rule description": {
+		"message": "Delete rule",
+		"description": "Delete current rule button (tooltip)"
+	},
+	"rule up": {
+		"message": "\ud83d\udd3c",
+		"description": "Button to move the current rule up"
+	},
+	"rule up description": {
+		"message": "Move rule up",
+		"description": "Button to move the current rule up (tooltip)"
+	},
+	"rule down": {
+		"message": "\ud83d\udd3d",
+		"description": "Button to move the current rule down"
+	},
+	"rule down description": {
+		"message": "Move rule down",
+		"description": "Button to move the current rule down (tooltip)"
+	},
+	"save config": {
+		"message": "Save configuration",
+		"description": "Save configuration"
+	},
+	"config backup title": {
+		"message": "Configuration Backup/Restore",
+		"description": "Title for the configuration backup/restore section"
+	},
+	"config export button": {
+		"message": "Export configuration",
+		"description": "Export configuration button"
+	},
+	"config export link": {
+		"message": "Please save this <a id=\"export_blob\">JSON file</a>.",
+		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
+	},
+	"select import file": {
+		"message": "Choose backup file to import",
+		"description": "File selector for configration import"
+	},
+	"config import warning": {
+		"message": "<strong>Warning:</strong> Importing will overwrite your current configuration.",
+		"description": "Warning that config import overwrites current config"
+	},
+	"config import button": {
+		"message": "Import configuration",
+		"description": "Import configuration button"
 	}
 }

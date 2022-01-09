@@ -17,13 +17,8 @@
  */
 "use strict";
 
-function replace_text(element)
+function replace_title(element)
 {
-	if (element.innerText !== "" && element.innerText !== null)
-	{
-		element.innerText = browser.i18n.getMessage(element.innerText);
-	}
-
 	if (element.hasAttribute("title") && element.title !== "")
 	{
 		element.title = browser.i18n.getMessage(element.title);
@@ -31,8 +26,40 @@ function replace_text(element)
 }
 
 
-let nodes = document.getElementsByClassName("i18n-text");
-for (let i = 0; i < nodes.length; i++)
+function replace_text(element)
 {
-	replace_text(nodes[i]);
+	if (element.innerText !== "" && element.innerText !== null)
+	{
+		element.innerText = browser.i18n.getMessage(element.innerText);
+	}
+	replace_title(element);
 }
+
+
+function replace_html(element)
+{
+	if (element.innerText !== "" && element.innerText !== null)
+	{
+		element.innerHTML = browser.i18n.getMessage(element.innerText);
+	}
+	replace_title(element);
+}
+
+
+function apply_i18n(element)
+{
+	let nodes = element.getElementsByClassName("i18n-text");
+	for (let i = 0; i < nodes.length; i++)
+	{
+		replace_text(nodes[i]);
+	}
+
+	nodes = element.getElementsByClassName("i18n-html");
+	for (let i = 0; i < nodes.length; i++)
+	{
+		replace_html(nodes[i]);
+	}
+}
+
+
+apply_i18n(document);

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Referer Modifier Configuration</title>
+    <title class="i18n-text">config title</title>
     <link rel="icon" href="icon.svg"/>
     <link rel="stylesheet" href="style.css"/>
   </head>
@@ -18,45 +18,45 @@
           <thead>
             <tr id="header">
               <th title="target domain description" scope="col" class="i18n-text">target domain</th>
-              <th title="What to do with the Referer in a request matching the target domain" scope="col">Action</th>
-              <th title="If the action &quot;Replace&quot; is selected, the Referer is set to this value." scope="col">Replacement Referer</th>
+              <th title="action column description" scope="col" class="i18n-text">action column</th>
+              <th title="replacement referer description" scope="col" class="i18n-text">replacement referer</th>
             </tr>
           </thead>
           <tbody id="hosts">
             <tr>
-              <td class="rule_label" title="Applies to any request that does not match one of the other rules.">&lt;ANY&gt;</td>
+              <td class="rule_label i18n-text" title="any rule description">any rule</td>
               <td>
                 <select class="action browser-style" id="any_action">
-                  <option value="keep" title="Do not modify the Referer">Keep</option>
-                  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
-                  <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
-                  <option value="remove" title="Do not send any Referer">Remove</option>
-                  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+                  <option class="i18n-text" value="keep" title="keep action description">keep action</option>
+                  <option class="i18n-text" value="prune" title="prune action description">prune action</option>
+                  <option class="i18n-text" value="target" title="target action description">target action</option>
+                  <option class="i18n-text" value="remove" title="remove action description">remove action</option>
+                  <option class="i18n-text" value="replace" title="replace action description">replace action</option>
                 </select>
               </td>
               <td>
                 <div class="browser-style">
-                  <input id="any_referer" class="referer" type="text"
-                         title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+                  <input id="any_referer" class="referer i18n-text" type="text"
+                         title="replacement referer description"
                          value=""/>
                 </div>
               </td>
             </tr>
             <tr>
-              <td class="rule_label" title="Applies to requests where target and origin domain are the same, unless there is a specific rule for the domain.">&lt;SAME&gt;</td>
+              <td class="rule_label i18n-text" title="same rule description">same rule</td>
               <td>
                 <select class="action browser-style" id="same_action">
-                  <option value="keep" title="Do not modify the Referer">Keep</option>
-                  <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
-                  <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
-                  <option value="remove" title="Do not send any Referer">Remove</option>
-                  <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+                  <option class="i18n-text" value="keep" title="keep action description">keep action</option>
+                  <option class="i18n-text" value="prune" title="prune action description">prune action</option>
+                  <option class="i18n-text" value="target" title="target action description">target action</option>
+                  <option class="i18n-text" value="remove" title="remove action description">remove action</option>
+                  <option class="i18n-text" value="replace" title="replace action description">replace action</option>
                 </select>
               </td>
               <td>
                 <div class="browser-style">
-                  <input id="same_referer" class="referer" type="text"
-                         title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+                  <input id="same_referer" class="referer i18n-text" type="text"
+                         title="replacement referer description"
                          value=""/>
                 </div>
               </td>
@@ -64,8 +64,8 @@
           </tbody>
         </table>
         <div class="control">
-          <button class="browser-style" type="button" id="add_row">Add domain</button>
-          <button class="browser-style default" type="button" id="safe_conf">Save configuration</button>
+          <button class="browser-style i18n-text" type="button" id="add_row">add rule</button>
+          <button class="browser-style default i18n-text" type="button" id="safe_conf">save config</button>
         </div>
       </form>
     </section>
@@ -106,27 +106,23 @@
     </section>
 
     <section>
-      <h3>Configuration Backup</h3>
+      <h3 class="i18n-text">config backup title</h3>
       <p>
         <div class="control">
-          <button class="browser-style" type="button" id="export">Export configuration</button>
+          <button class="browser-style i18n-text" type="button" id="export">config export button</button>
         </div>
-        <div id="export_text" hidden>
-          Please save this <a id="export_blob">JSON file</a>.
-        </div>
+        <div id="export_text" class="i18n-html" hidden>config export link</div>
       </p>
       <p>
         <div class="browser-style">
-          <label for="import_file">Choose backup file to import</label>
+          <label for="import_file" class="i18n-text">select import file</label>
           <input type="file" id="import_file" name="import_file"
                  accept="application/json"/>
         </div>
-        <div id="import_warn" hidden><strong>Warning:</strong>
-          Importing will overwrite your current configuration.
+        <div id="import_warn" hidden>
+          <div class="i18n-html">config import warning</div>
           <div>
-            <button class="browser-style" id="import_button" type="button" disabled>
-              Import configuration
-            </button>
+            <button class="browser-style i18n-text" id="import_button" type="button" disabled>config import button</button>
           </div>
         </div>
       </p>
@@ -136,38 +132,33 @@
       <tr class="ref_entry">
         <td>
           <div class="browser-style">
-            <input class="hostname" type="text" placeholder="cdn.example.com"
-                   title="Domain of the requested URL, also matches subdomains"
+            <input class="hostname i18n-text" type="text"
+                   placeholder="cdn.example.com"
+                   title="target domain description"
                    value=""/>
           </div>
         </td>
         <td>
           <select class="action browser-style">
-            <option value="keep" title="Do not modify the Referer">Keep</option>
-            <option value="prune" title="Send only the origin part of the Referer (scheme, host, and port)">Prune</option>
-            <option value="remove" title="Do not send any Referer">Remove</option>
-            <option value="target" title="Send the origin of the target URL (scheme, host, and port) as Referer">Target</option>
-            <option value="replace" title="Replace the Referer with the string in the &quot;Referer&quot; field">Replace</option>
+            <option class="i18n-text" value="keep" title="keep action description">keep action</option>
+            <option class="i18n-text" value="prune" title="prune action description">prune action</option>
+            <option class="i18n-text" value="target" title="target action description">target action</option>
+            <option class="i18n-text" value="remove" title="remove action description">remove action</option>
+            <option class="i18n-text" value="replace" title="replace action description">replace action</option>
           </select>
         </td>
         <td>
           <div class="browser-style">
-            <input class="referer" type="text"
+            <input class="referer i18n-text" type="text"
                    placeholder="https://www.example.com/"
-                   title="If the action &quot;Replace&quot; is selected, the Referer is set to this value."
+                   title="replacement referer description"
                    value=""/>
           </div>
         </td>
         <td class="button_container">
-          <button class="delete_row browser-style" type="button" title="Delete rule">
-            <b>❌</b>
-          </button>
-          <button class="up_row browser-style" type="button" title="Move rule up">
-            <b>🔼</b>
-          </button>
-          <button class="down_row browser-style" type="button" title="Move rule down">
-            <b>🔽</b>
-          </button>
+          <button class="delete_row browser-style i18n-text" type="button" title="delete rule description">delete rule</button>
+          <button class="up_row browser-style i18n-text" type="button" title="rule up description">rule up</button>
+          <button class="down_row browser-style i18n-text" type="button" title="rule down description">rule down</button>
         </td>
       </tr>
     </template>
