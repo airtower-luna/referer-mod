@@ -9,16 +9,17 @@
 
   <body>
     <img id="logo" width="96" src="icon.svg"
-         alt="Referer Modifier logo: cat ears peeking over an edge"/>
-    <h1>Referer Modifier Configuration</h1>
+         alt="Referer Modifier logo: cat ears peeking over an edge"
+         role="presentation"/>
+    <h1 class="i18n-text">config title</h1>
     <section>
       <form id="ref_conf">
         <table>
           <thead>
             <tr id="header">
-              <th title="Domain of the requested URL, also matches subdomains">Target Domain</th>
-              <th title="What to do with the Referer in a request matching the target domain">Action</th>
-              <th title="If the action &quot;Replace&quot; is selected, the Referer is set to this value.">Replacement Referer</th>
+              <th title="target domain description" scope="col" class="i18n-text">target domain</th>
+              <th title="What to do with the Referer in a request matching the target domain" scope="col">Action</th>
+              <th title="If the action &quot;Replace&quot; is selected, the Referer is set to this value." scope="col">Replacement Referer</th>
             </tr>
           </thead>
           <tbody id="hosts">
@@ -68,7 +69,7 @@
         </div>
       </form>
     </section>
-    <section class="documentation">
+    <section class="documentation" lang="en">
       <p>
         Please check the tool tips for details on the meaning of the
         configuration fields. Domains also match subdomains, if a
@@ -170,6 +171,7 @@
         </td>
       </tr>
     </template>
+    <script src="i18n.js"></script>
     <script src="options.js"></script>
   </body>
 </html>

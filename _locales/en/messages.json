@@ -18,5 +18,17 @@
 	"reactivate": {
 		"message": "Activate Referer modification",
 		"description": "Button: enable Referer manipulation again"
+	},
+	"config title": {
+		"message": "Referer Modifier Configuration",
+		"description": "Title for the settings page"
+	},
+	"target domain": {
+		"message": "Target Domain",
+		"description": "Header for the target domain column"
+	},
+	"target domain description": {
+		"message": "Domain of the requested URL, also matches subdomains",
+		"description": "Header for the target domain column"
 	}
 }

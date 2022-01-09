@@ -18,5 +18,9 @@
 	"reactivate": {
 		"message": "Referer-Veränderung aktivieren",
 		"description": "Button: enable Referer manipulation again"
+	},
+	"target domain description": {
+		"message": "Zieldomain des Requests, umfaßt auch Subdomains",
+		"description": "Header for the target domain column"
 	}
 }
