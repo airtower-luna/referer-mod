@@ -122,5 +122,29 @@
 	"save config": {
 		"message": "Konfiguration speichern",
 		"description": "Save configuration"
+	},
+	"config backup title": {
+		"message": "Einstellungen sichern/wiederherstellen",
+		"description": "Title for the configuration backup/restore section"
+	},
+	"config export button": {
+		"message": "Konfiguration exportieren",
+		"description": "Export configuration button"
+	},
+	"config export link": {
+		"message": "Bitte speichern Sie diese <a id=\"export_blob\">JSON-Datei</a>.",
+		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
+	},
+	"select import file": {
+		"message": "Sicherungsdatei zum Import auswählen",
+		"description": "File selector for configration import"
+	},
+	"config import warning": {
+		"message": "<strong>Achtung:</strong> Beim Importieren wird die aktuelle Konfiguration überschrieben.",
+		"description": "Warning that config import overwrites current config"
+	},
+	"config import button": {
+		"message": "Konfiguration importieren",
+		"description": "Import configuration button"
 	}
 }
