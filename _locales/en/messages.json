@@ -104,8 +104,8 @@
 		"description": "Replace action option (tooltip)"
 	},
 	"add rule": {
-		"message": "Add domain",
-		"description": "Add domain button"
+		"message": "Add rule",
+		"description": "Add rule button"
 	},
 	"delete rule": {
 		"message": "\u274c",
