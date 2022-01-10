@@ -48,7 +48,7 @@
 		"description": "Header for the replacement referer column (tooltip)"
 	},
 	"any rule": {
-		"message": "<ANY>",
+		"message": "Any domain",
 		"description": "Rule for any domain"
 	},
 	"any rule description": {
@@ -56,7 +56,7 @@
 		"description": "Rule for any domain (tooltip)"
 	},
 	"same rule": {
-		"message": "<SAME>",
+		"message": "Same domain",
 		"description": "Rule for same domain"
 	},
 	"same rule description": {

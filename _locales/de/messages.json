@@ -48,7 +48,7 @@
 		"description": "Header for the replacement referer column (tooltip)"
 	},
 	"any rule": {
-		"message": "<BELIEBIG>",
+		"message": "Beliebige Domain",
 		"description": "Rule for any domain"
 	},
 	"any rule description": {
@@ -56,7 +56,7 @@
 		"description": "Rule for any domain (tooltip)"
 	},
 	"same rule": {
-		"message": "<GLEICH>",
+		"message": "Gleiche Domain",
 		"description": "Rule for same domain"
 	},
 	"same rule description": {
@@ -148,7 +148,7 @@
 		"description": "Import configuration button"
 	},
 	"config doc": {
-		"message": "<p>Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für www.example.com und example.com gibt, wird Erstere auf einen Request für https://www.example.com/ angewendet.</p><p>Die Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.</p>",
+		"message": "<p>Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für www.example.com und example.com gibt, wird bei einem Request für https://www.example.com/ Erstere angewendet.</p><p>Die Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.</p>",
 		"description": "General user documentation on the options page"
 	},
 	"regexp doc summary": {
