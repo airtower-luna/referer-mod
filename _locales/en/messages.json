@@ -152,7 +152,7 @@
 		"description": "File selector for configration import"
 	},
 	"config import warning": {
-		"message": "<strong>Warning:</strong> Importing will overwrite your current configuration.",
+		"message": "\u26a0\ufe0f Warning: Importing will overwrite your current configuration.",
 		"description": "Warning that config import overwrites current config"
 	},
 	"config import button": {

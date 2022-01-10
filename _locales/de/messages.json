@@ -140,7 +140,7 @@
 		"description": "File selector for configration import"
 	},
 	"config import warning": {
-		"message": "<strong>Achtung:</strong> Beim Importieren wird die aktuelle Konfiguration überschrieben.",
+		"message": "\u26a0\ufe0f Achtung: Beim Importieren wird die aktuelle Konfiguration überschrieben.",
 		"description": "Warning that config import overwrites current config"
 	},
 	"config import button": {
