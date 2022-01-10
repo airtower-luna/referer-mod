@@ -47,7 +47,6 @@ async function toggleModification()
 }
 
 
-settings_button.innerText = browser.i18n.getMessage("openSettings") + " 🔧";
 settings_button.addEventListener(
 	"click",
 	function()

@@ -18,5 +18,145 @@
 	"reactivate": {
 		"message": "Referer-Veränderung aktivieren",
 		"description": "Button: enable Referer manipulation again"
+	},
+	"config title": {
+		"message": "Referer Modifier Konfiguration",
+		"description": "Title for the settings page"
+	},
+	"target domain": {
+		"message": "Zieldomain",
+		"description": "Header for the target domain column"
+	},
+	"target domain description": {
+		"message": "Zieldomain des Requests, umfaßt auch Subdomains",
+		"description": "Header for the target domain column"
+	},
+	"action column": {
+		"message": "Aktion",
+		"description": "Header for the action column"
+	},
+	"action column description": {
+		"message": "Was passiert mit dem Referer, wenn ein Request zur Regel paßt",
+		"description": "Header for the action column (tooltip)"
+	},
+	"replacement referer": {
+		"message": "Ersatz-Referer",
+		"description": "Header for the replacement referer column"
+	},
+	"replacement referer description": {
+		"message": "Falls die \"Ersetzen\" Aktion ausgewählt ist, wird der Referer auf diesen Wert gesetzt.",
+		"description": "Header for the replacement referer column (tooltip)"
+	},
+	"any rule": {
+		"message": "<BELIEBIG>",
+		"description": "Rule for any domain"
+	},
+	"any rule description": {
+		"message": "Regel für Requests, auf die keine andere Regel paßt.",
+		"description": "Rule for any domain (tooltip)"
+	},
+	"same rule": {
+		"message": "<GLEICH>",
+		"description": "Rule for same domain"
+	},
+	"same rule description": {
+		"message": "Regel für Requests, bei denen Quell- und Zieldomain gleich sind und keine eigene Regel für die Domain exisitiert.",
+		"description": "Rule for same domain (tooltip)"
+	},
+	"keep action": {
+		"message": "Beibehalten",
+		"description": "Keep action option"
+	},
+	"keep action description": {
+		"message": "Referer nicht verändern",
+		"description": "Keep action option (tooltip)"
+	},
+	"prune action": {
+		"message": "Kürzen",
+		"description": "Prune action option"
+	},
+	"prune action description": {
+		"message": "Sende nur den „origin“ Teil des Referers (Schema, Host und Port)",
+		"description": "Prune action option (tooltip)"
+	},
+	"target action": {
+		"message": "Ziel",
+		"description": "Target action option"
+	},
+	"target action description": {
+		"message": "Sende den „origin“ der Ziel-URL (Schema, Host und Port) als Referer",
+		"description": "Target action option (tooltip)"
+	},
+	"remove action": {
+		"message": "Entfernen",
+		"description": "Remove action option"
+	},
+	"remove action description": {
+		"message": "Keinen Referer senden",
+		"description": "Remove action option (tooltip)"
+	},
+	"replace action": {
+		"message": "Ersetzen",
+		"description": "Replace action option"
+	},
+	"replace action description": {
+		"message": "Ersetzen den Referer mit einem konfigurierten Wert",
+		"description": "Replace action option (tooltip)"
+	},
+	"add rule": {
+		"message": "Neue Regel",
+		"description": "Add rule button"
+	},
+	"delete rule description": {
+		"message": "Regel löschen",
+		"description": "Delete current rule button (tooltip)"
+	},
+	"rule up description": {
+		"message": "Regel nach oben verschieben",
+		"description": "Button to move the current rule up (tooltip)"
+	},
+	"rule down description": {
+		"message": "Regel nach unten verschieben",
+		"description": "Button to move the current rule down (tooltip)"
+	},
+	"save config": {
+		"message": "Konfiguration speichern",
+		"description": "Save configuration"
+	},
+	"config backup title": {
+		"message": "Einstellungen sichern/wiederherstellen",
+		"description": "Title for the configuration backup/restore section"
+	},
+	"config export button": {
+		"message": "Konfiguration exportieren",
+		"description": "Export configuration button"
+	},
+	"config export link": {
+		"message": "Bitte speichern Sie diese <a id=\"export_blob\">JSON-Datei</a>.",
+		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
+	},
+	"select import file": {
+		"message": "Sicherungsdatei zum Import auswählen",
+		"description": "File selector for configration import"
+	},
+	"config import warning": {
+		"message": "<strong>Achtung:</strong> Beim Importieren wird die aktuelle Konfiguration überschrieben.",
+		"description": "Warning that config import overwrites current config"
+	},
+	"config import button": {
+		"message": "Konfiguration importieren",
+		"description": "Import configuration button"
+	},
+	"config doc": {
+		"message": "<p>Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für www.example.com und example.com gibt, wird Erstere auf einen Request für https://www.example.com/ angewendet.</p><p>Die Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.</p>",
+		"description": "General user documentation on the options page"
+	},
+	"regexp doc summary": {
+		"message": "Erweitert: Reguläre Ausdrücke",
+		"description": "Title for the regexp matching documentation"
+	},
+	"regexp doc": {
+		"message": "<p>Wenn ein Domain-Feld auf <code>$</code> endet wird es als regulärer Ausdruck interpretiert. Das <code>$</code> ist dabei Teil des Ausdrucks, er muß also am Ende der Domain ausgerichtet sein. Bei mehreren Regeln mit Treffern gleicher Länge gilt die oberste Regel.</p><p>Reguläre Ausdrücke werden ohne weitere Verarbeitung verwendet, sollten also den Beginn und Subdomain-Grenzen berücksichtigen. Beispielsweise würde <code>example\\.com$</code> auch <code>my-example.com</code> erfassen. Wenn eine Regel nur für <code>example.com</code> gelten soll funktioniert <code>^example\\.com$</code>, um zusätzlich auch Subdomains zu erfassen <code>(^|\\.)example\\.com$</code>.</p>",
+		"description": "Regexp matching documentation"
 	}
 }
