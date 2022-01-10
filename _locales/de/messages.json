@@ -146,5 +146,17 @@
 	"config import button": {
 		"message": "Konfiguration importieren",
 		"description": "Import configuration button"
+	},
+	"config doc": {
+		"message": "<p>Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für www.example.com und example.com gibt, wird Erstere auf einen Request für https://www.example.com/ angewendet.</p><p>Die Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.</p>",
+		"description": "General user documentation on the options page"
+	},
+	"regexp doc summary": {
+		"message": "Erweitert: Reguläre Ausdrücke",
+		"description": "Title for the regexp matching documentation"
+	},
+	"regexp doc": {
+		"message": "<p>Wenn ein Domain-Feld auf <code>$</code> endet wird es als regulärer Ausdruck interpretiert. Das <code>$</code> ist dabei Teil des Ausdrucks, er muß also am Ende der Domain ausgerichtet sein. Bei mehreren Regeln mit Treffern gleicher Länge gilt die oberste Regel.</p><p>Reguläre Ausdrücke werden ohne weitere Verarbeitung verwendet, sollten also den Beginn und Subdomain-Grenzen berücksichtigen. Beispielsweise würde <code>example\\.com$</code> auch <code>my-example.com</code> erfassen. Wenn eine Regel nur für <code>example.com</code> gelten soll funktioniert <code>^example\\.com$</code>, um zusätzlich auch Subdomains zu erfassen <code>(^|\\.)example\\.com$</code>.</p>",
+		"description": "Regexp matching documentation"
 	}
 }
