@@ -144,7 +144,7 @@
 		"description": "Export configuration button"
 	},
 	"config export link": {
-		"message": "Please save this <a id=\"export_blob\">JSON file</a>.",
+		"message": "Please save this JSON file:",
 		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
 	},
 	"select import file": {
@@ -152,7 +152,7 @@
 		"description": "File selector for configration import"
 	},
 	"config import warning": {
-		"message": "<strong>Warning:</strong> Importing will overwrite your current configuration.",
+		"message": "\u26a0\ufe0f Warning: Importing will overwrite your current configuration.",
 		"description": "Warning that config import overwrites current config"
 	},
 	"config import button": {
@@ -160,7 +160,7 @@
 		"description": "Import configuration button"
 	},
 	"config doc": {
-		"message": "<p>Please check the tooltips for details on the meaning of the configuration fields. Domains also match subdomains, if a request matches multiple rules the longest match is used. For example, if you have separate rules for both www.example.com and example.com, a request to https://www.example.com/ will be subject to the former rule.</p><p>The \"replace\" and \"target\" actions will add a Referer header to the request if necessary, the other actions only take effect if the browser would send one by default.</p>",
+		"message": "Please check the tooltips for details on the meaning of the configuration fields. Domains also match subdomains, if a request matches multiple rules the longest match is used. For example, if you have separate rules for both `www.example.com` and `example.com`, a request to `https://www.example.com/` will be subject to the former rule.\nThe \"replace\" and \"target\" actions will add a Referer header to the request if necessary, the other actions only take effect if the browser would send one by default.",
 		"description": "General user documentation on the options page"
 	},
 	"regexp doc summary": {
@@ -168,7 +168,7 @@
 		"description": "Title for the regexp matching documentation"
 	},
 	"regexp doc": {
-		"message": "<p>If the value of the target domain field ends with a <code>$</code> it is treated as a regular expression. The <code>$</code> is part of the expression, so your expression must match at the end of the domain. If there are multiple matches with the same length, the first rule from top is used.</p><p>Note that regular expressions are used as-is, so consider the start of the URL and subdomain boundaries. For example, <code>example\\.com$</code> would match <code>my-example.com</code>. If you want to match only <code>example.com</code> use <code>^example\\.com$</code>, and to match all its subdomains, too use <code>(^|\\.)example\\.com$</code>.</p>",
+		"message": "If the value of the target domain field ends with a `$` it is treated as a regular expression. The `$` is part of the expression, so your expression must match at the end of the domain. If there are multiple matches with the same length, the first rule from top is used.\nNote that regular expressions are used as-is, so consider the start of the URL and subdomain boundaries. For example, `example\\.com$` would match `my-example.com`. If you want to match only `example.com` use `^example\\.com$`, and to match all its subdomains, too use `(^|\\.)example\\.com$`.",
 		"description": "Regexp matching documentation"
 	}
 }

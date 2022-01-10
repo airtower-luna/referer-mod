@@ -72,10 +72,10 @@
       </form>
     </section>
     <section class="documentation">
-      <div class="i18n-html">config doc</div>
+      <div class="i18n-text">config doc</div>
       <details>
-        <summary class="i18n-html">regexp doc summary</summary>
-        <div class="i18n-html">regexp doc</div>
+        <summary class="i18n-text">regexp doc summary</summary>
+        <div class="i18n-text">regexp doc</div>
       </details>
     </section>
 
@@ -85,7 +85,10 @@
         <div class="control">
           <button class="browser-style i18n-text" type="button" id="export">config export button</button>
         </div>
-        <div id="export_text" class="i18n-html" hidden>config export link</div>
+        <div id="export_text" hidden>
+          <span class="i18n-text">config export link</span>
+          <a id="export_blob"></a>
+        </div>
       </p>
       <p>
         <div class="browser-style">
@@ -94,7 +97,7 @@
                  accept="application/json"/>
         </div>
         <div id="import_warn" hidden>
-          <div class="i18n-html">config import warning</div>
+          <strong class="i18n-text">config import warning</strong>
           <div>
             <button class="browser-style i18n-text" id="import_button" type="button" disabled>config import button</button>
           </div>

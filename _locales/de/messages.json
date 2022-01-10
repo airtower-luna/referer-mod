@@ -132,7 +132,7 @@
 		"description": "Export configuration button"
 	},
 	"config export link": {
-		"message": "Bitte speichern Sie diese <a id=\"export_blob\">JSON-Datei</a>.",
+		"message": "Bitte speichern Sie diese JSON-Datei:",
 		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
 	},
 	"select import file": {
@@ -140,7 +140,7 @@
 		"description": "File selector for configration import"
 	},
 	"config import warning": {
-		"message": "<strong>Achtung:</strong> Beim Importieren wird die aktuelle Konfiguration überschrieben.",
+		"message": "\u26a0\ufe0f Achtung: Beim Importieren wird die aktuelle Konfiguration überschrieben.",
 		"description": "Warning that config import overwrites current config"
 	},
 	"config import button": {
@@ -148,7 +148,7 @@
 		"description": "Import configuration button"
 	},
 	"config doc": {
-		"message": "<p>Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für www.example.com und example.com gibt, wird bei einem Request für https://www.example.com/ Erstere angewendet.</p><p>Die Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.</p>",
+		"message": "Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für `www.example.com` und `example.com` gibt, wird bei einem Request für `https://www.example.com/` die Erstere angewendet.\nDie Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.",
 		"description": "General user documentation on the options page"
 	},
 	"regexp doc summary": {
@@ -156,7 +156,7 @@
 		"description": "Title for the regexp matching documentation"
 	},
 	"regexp doc": {
-		"message": "<p>Wenn ein Domain-Feld auf <code>$</code> endet wird es als regulärer Ausdruck interpretiert. Das <code>$</code> ist dabei Teil des Ausdrucks, er muß also am Ende der Domain ausgerichtet sein. Bei mehreren Regeln mit Treffern gleicher Länge gilt die oberste Regel.</p><p>Reguläre Ausdrücke werden ohne weitere Verarbeitung verwendet, sollten also den Beginn und Subdomain-Grenzen berücksichtigen. Beispielsweise würde <code>example\\.com$</code> auch <code>my-example.com</code> erfassen. Wenn eine Regel nur für <code>example.com</code> gelten soll funktioniert <code>^example\\.com$</code>, um zusätzlich auch Subdomains zu erfassen <code>(^|\\.)example\\.com$</code>.</p>",
+		"message": "Wenn ein Domain-Feld auf `$` endet wird es als regulärer Ausdruck interpretiert. Das `$` ist dabei Teil des Ausdrucks, er muß also am Ende der Domain ausgerichtet sein. Bei mehreren Regeln mit Treffern gleicher Länge gilt die oberste Regel.\nReguläre Ausdrücke werden ohne weitere Verarbeitung verwendet, sollten also den Beginn und Subdomain-Grenzen berücksichtigen. Beispielsweise würde `example\\.com$` auch `my-example.com` erfassen. Wenn eine Regel nur für `example.com` gelten soll funktioniert `^example\\.com$`, um zusätzlich auch Subdomains zu erfassen `(^|\\.)example\\.com$`.",
 		"description": "Regexp matching documentation"
 	}
 }

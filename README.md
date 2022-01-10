@@ -73,11 +73,12 @@ Additional translations are welcome! All you need to do is create a
 subdirectory for the locale in `_locales/`, and put whatever messages
 you'd like to translate into a `messages.json` file there.
 
-When editing any of the HTML files note that elements with one of the
-`i18n-text` or `i18n-html` classes are internationalized. Their text
-content (and title, if any) are used to look up the actual messages
-and replaced. Elements with `i18n-text` allow only plain text,
-`i18n-html` additionally allows HTML and should be the exception.
+When editing any of the HTML files note that elements with the
+`i18n-text` class are internationalized. Their text content (and
+title, if any) is used to look up the actual messages and replaced. If
+the replacement text contains linebreaks, each line becomes a
+paragraph and text enclosed in backticks is turned into `<code>`
+elements.
 
 ## Testing
 
