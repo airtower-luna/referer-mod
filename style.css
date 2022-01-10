@@ -26,10 +26,6 @@ td:nth-child(2) {
 input {
     width: calc(100% - 7px);
 }
-.documentation p {
-    text-align: justify;
-    hyphens: auto;
-}
 .rule_label {
     vertical-align: baseline;
 }
