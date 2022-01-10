@@ -1,6 +1,6 @@
 /*
  * Referer Modifier: Modify the Referer header in HTTP requests
- * Copyright (C) 2017-2019 Fiona Klute
+ * Copyright (C) 2017-2022 Fiona Klute
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
