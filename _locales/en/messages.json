@@ -144,7 +144,7 @@
 		"description": "Export configuration button"
 	},
 	"config export link": {
-		"message": "Please save this <a id=\"export_blob\">JSON file</a>.",
+		"message": "Please save this JSON file:",
 		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
 	},
 	"select import file": {
