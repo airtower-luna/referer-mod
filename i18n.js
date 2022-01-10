@@ -26,21 +26,52 @@ function replace_title(element)
 }
 
 
+/*
+ * Turn each line of the input text into a paragraph. Within the
+ * paragraph text enclosed in backticks becomes a <code> element.
+ * Return an array of paragraphs.
+ */
+var code_re = /([^`]*)(?:`(.*?)`)?/g;
+function lines_to_paragraphs(text)
+{
+	let lines = text.split("\n");
+	let paragraphs = [];
+	for (const l of lines)
+	{
+		let p = document.createElement("p");
+		for (const m of l.matchAll(code_re))
+		{
+			console.log(m);
+			if (m[1])
+			{
+				p.appendChild(document.createTextNode(m[1]));
+			}
+			if (m[2])
+			{
+				let code = document.createElement("code");
+				code.innerText = m[2];
+				p.appendChild(code);
+			}
+		}
+		paragraphs.push(p);
+	}
+	return paragraphs;
+}
+
+
 function replace_text(element)
 {
 	if (element.innerText !== "" && element.innerText !== null)
 	{
-		element.innerText = browser.i18n.getMessage(element.innerText);
-	}
-	replace_title(element);
-}
-
-
-function replace_html(element)
-{
-	if (element.innerText !== "" && element.innerText !== null)
-	{
-		element.innerHTML = browser.i18n.getMessage(element.innerText);
+		let text = browser.i18n.getMessage(element.innerText);
+		if (text.includes("\n"))
+		{
+			element.replaceChildren(...(lines_to_paragraphs(text)));
+		}
+		else
+		{
+			element.innerText = text;
+		}
 	}
 	replace_title(element);
 }
@@ -49,15 +80,9 @@ function replace_html(element)
 function apply_i18n(element)
 {
 	let nodes = element.getElementsByClassName("i18n-text");
-	for (let i = 0; i < nodes.length; i++)
+	for (const n of nodes)
 	{
-		replace_text(nodes[i]);
-	}
-
-	nodes = element.getElementsByClassName("i18n-html");
-	for (let i = 0; i < nodes.length; i++)
-	{
-		replace_html(nodes[i]);
+		replace_text(n);
 	}
 }
 
