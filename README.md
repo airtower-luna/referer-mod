@@ -43,8 +43,17 @@ The following files implement the core functionality:
 * [**options.js**](./options.js) handles loading and saving the
   settings from the settings page.
 
+* [**popup.html**](./popup.html) is the popup menu that opens when you
+  click the toolbar button.
+
+* [**popup.js**](./popup.js) handles setup of the popup menu and
+  communication with the background script.
+
 * [**content.js**](./content.js) is a content script that modifies the
   `document.referrer` property to match the HTTP Referer header.
+
+* [**i18n.js**](./i18n.js) handles internationalization of the UI (see
+  below).
 
 Settings are saved in the [`browser.storage.sync` storage area](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/sync), so if the user is using Firefox sync their settings will be synchronized automatically, otherwise the storage is local.
 
@@ -54,6 +63,21 @@ The repository contains a [configuration file](./.eslintrc.yaml) for
 [ESLint](https://eslint.org/). ESLint runs in CI (see the ["Referer
 Mod / lint" job](.github/workflows/selenium.yaml)), please pay
 attention to its results when working on a pull request.
+
+### Internationalization
+
+All user interface elements are internationalized using the
+[WebExtensions i18n
+API](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization).
+Additional translations are welcome! All you need to do is create a
+subdirectory for the locale in `_locales/`, and put whatever messages
+you'd like to translate into a `messages.json` file there.
+
+When editing any of the HTML files note that elements with one of the
+`i18n-text` or `i18n-html` classes are internationalized. Their text
+content (and title, if any) are used to look up the actual messages
+and replaced. Elements with `i18n-text` allow only plain text,
+`i18n-html` additionally allows HTML and should be the exception.
 
 ## Testing
 
