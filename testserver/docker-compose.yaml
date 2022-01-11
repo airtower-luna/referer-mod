@@ -3,7 +3,7 @@ x-command: &testcmd
   - '--port'
   - '80'
   - '--links'
-  - 'http://www.x.test,http://web.x.test,http://www.y.test,http://site.y.test'
+  - 'http://www.x.test,http://web.x.test,http://www.y.test,http://site.y.test,http://a.b.y.test'
 services:
   test1:
     build:
@@ -23,6 +23,7 @@ services:
         aliases:
           - www.y.test
           - site.y.test
+          - a.b.y.test
   proxy:
     build:
       context: proxy/
