@@ -237,12 +237,11 @@ function exportConfig()
 			let blob = new Blob([JSON.stringify(exportConf, null, 2)],
 				{ type: "application/json" });
 			let url = URL.createObjectURL(blob);
-			let link = document.querySelector("#export_blob");
+			let link = document.createElement("a");
 			link.href = url;
 			let date = new Date().toISOString().replaceAll(":", "_");
 			link.download = `referer_mod_config-${date}.json`;
-			link.innerText = `referer_mod_config-${date}.json`;
-			document.querySelector("#export_text").hidden = false;
+			link.dispatchEvent(new MouseEvent("click"));
 		}, null);
 }
 
