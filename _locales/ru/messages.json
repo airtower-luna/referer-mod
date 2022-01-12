@@ -1,0 +1,174 @@
+{
+	"extensionName": {
+		"message": "Referer Modifier",
+		"description": "Name of this extension"
+	},
+	"extensionDescription": {
+		"message": "Изменение заголовков рефереров в HTTP запросах",
+		"description": "Description of this extension"
+	},
+	"openSettings": {
+		"message": "Открыть настройки",
+		"description": "Text for popup button that opens settings"
+	},
+	"deactivate": {
+		"message": "Приостановить изменение рефереров",
+		"description": "Button: disable Referer manipulation"
+	},
+	"reactivate": {
+		"message": "Возобновить изменение рефереров",
+		"description": "Button: enable Referer manipulation again"
+	},
+	"config title": {
+		"message": "Настройки Referer Modifier",
+		"description": "Title for the settings page"
+	},
+	"target domain": {
+		"message": "Целевой домен",
+		"description": "Header for the target domain column"
+	},
+	"target domain description": {
+		"message": "Домен запрашиваемого URL, охватывает и поддомены",
+		"description": "Header for the target domain column (tooltip)"
+	},
+	"action column": {
+		"message": "Действие",
+		"description": "Header for the action column"
+	},
+	"action column description": {
+		"message": "Что делать с реферером в запросе",
+		"description": "Header for the action column (tooltip)"
+	},
+	"replacement referer": {
+		"message": "Заменить",
+		"description": "Header for the replacement referer column"
+	},
+	"replacement referer description": {
+		"message": "Если выбрано \"Заменить\", то рефереру устанавливается это значение.",
+		"description": "Header for the replacement referer column (tooltip)"
+	},
+	"any rule": {
+		"message": "Любой домен",
+		"description": "Rule for any domain"
+	},
+	"any rule description": {
+		"message": "Применяется к любому запросу, который не соответствует ни одному из других правил.",
+		"description": "Rule for any domain (tooltip)"
+	},
+	"same rule": {
+		"message": "Тот же домен",
+		"description": "Rule for same domain"
+	},
+	"same rule description": {
+		"message": "Применяется к запросам, в которых целевой и исходный домены совпадают, если для домена нет другого правила.",
+		"description": "Rule for same domain (tooltip)"
+	},
+	"keep action": {
+		"message": "Оставить",
+		"description": "Keep action option"
+	},
+	"keep action description": {
+		"message": "Не изменять реферер",
+		"description": "Keep action option (tooltip)"
+	},
+	"prune action": {
+		"message": "Обрезать",
+		"description": "Prune action option"
+	},
+	"prune action description": {
+		"message": "Отправлять только исходную часть реферера (схема, хост и порт).",
+		"description": "Prune action option (tooltip)"
+	},
+	"target action": {
+		"message": "Целевой",
+		"description": "Target action option"
+	},
+	"target action description": {
+		"message": "Отправка (схема, хост и порт) целевого URL в качестве реферера",
+		"description": "Target action option (tooltip)"
+	},
+	"remove action": {
+		"message": "Убрать",
+		"description": "Remove action option"
+	},
+	"remove action description": {
+		"message": "Не отправлять реферер",
+		"description": "Remove action option (tooltip)"
+	},
+	"replace action": {
+		"message": "Заменить",
+		"description": "Replace action option"
+	},
+	"replace action description": {
+		"message": "Заменить реферер на строку в поле \"Реферер\"",
+		"description": "Replace action option (tooltip)"
+	},
+	"add rule": {
+		"message": "Добавить",
+		"description": "Add rule button"
+	},
+	"delete rule": {
+		"message": "\u274c",
+		"description": "Delete current rule button"
+	},
+	"delete rule description": {
+		"message": "Удалить",
+		"description": "Delete current rule button (tooltip)"
+	},
+	"rule up": {
+		"message": "\ud83d\udd3c",
+		"description": "Button to move the current rule up"
+	},
+	"rule up description": {
+		"message": "Выше",
+		"description": "Button to move the current rule up (tooltip)"
+	},
+	"rule down": {
+		"message": "\ud83d\udd3d",
+		"description": "Button to move the current rule down"
+	},
+	"rule down description": {
+		"message": "Ниже",
+		"description": "Button to move the current rule down (tooltip)"
+	},
+	"save config": {
+		"message": "Сохранить",
+		"description": "Save configuration"
+	},
+	"config backup title": {
+		"message": "Резервирование или восстановление конфигурации",
+		"description": "Title for the configuration backup/restore section"
+	},
+	"config export button": {
+		"message": "Экспорт конфигурации",
+		"description": "Export configuration button"
+	},
+	"config export link": {
+		"message": "Сохраните этот JSON-файл:",
+		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
+	},
+	"select import file": {
+		"message": "Выберите файл резервной копии для импорта",
+		"description": "File selector for configration import"
+	},
+	"config import warning": {
+		"message": "\u26a0\ufe0f Предупреждение: При импорте текущая конфигурация будет перезаписана.",
+		"description": "Warning that config import overwrites current config"
+	},
+	"config import button": {
+		"message": "Импорт конфигурации",
+		"description": "Import configuration button"
+	},
+	"config doc": {
+		"message": "Подробнее о значении полей конфигурации можно узнать из подсказок. Домены также соответствуют поддоменам, если запрос соответствует нескольким правилам, используется самое длинное соответствие. Например, если у вас есть отдельные правила для `www.example.com` и `example.com`, запрос к `https://www.example.com/` будет подчиняться первому правилу.\nДля действий \"заменить\" и \"целевой\" рефереру будет добавлен заголовок, если это необходимо, другие действия вступают в силу, только если браузер отправляет необработанный запрос.",
+		"description": "General user documentation on the options page"
+	},
+	"regexp doc summary": {
+		"message": "Дополнительно: регулярные выражения",
+		"description": "Title for the regexp matching documentation"
+	},
+	"regexp doc": {
+		"message": "Если значение поля целевого домена заканчивается символом `$`, оно рассматривается как регулярное выражение. `$` является частью выражения, поэтому ваше выражение должно соответствовать концу домена. Если есть несколько совпадений с одинаковой длиной, используется первое правило сверху.\nЗаметьте, что регулярные выражения используются как есть, поэтому учитывайте начало URL и границы поддоменов. Например, `example\\.com$` будет соответствовать `my-example.com`. Если вы хотите найти только `example.com`, используйте `^example\\.com$`, а чтобы найти все его поддомены, используйте `(^|\\.)example\\.com$`.",
+		"description": "Regexp matching documentation"
+	}
+}
