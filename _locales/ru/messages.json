@@ -143,10 +143,6 @@
 		"message": "Экспорт конфигурации",
 		"description": "Export configuration button"
 	},
-	"config export link": {
-		"message": "Сохраните этот JSON-файл:",
-		"description": "Message with link to JSON configuration blob. Make sure to include the id when translating!"
-	},
 	"select import file": {
 		"message": "Выберите файл резервной копии для импорта",
 		"description": "File selector for configration import"
