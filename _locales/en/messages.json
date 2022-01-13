@@ -31,6 +31,14 @@
 		"message": "Domain of the requested URL, also matches subdomains",
 		"description": "Header for the target domain column (tooltip)"
 	},
+	"origin domain": {
+		"message": "Origin Domain",
+		"description": "Header for the origin domain column"
+	},
+	"origin domain description": {
+		"message": "Domain of the origin of the request, also matches subdomains. Leave empty to match all.",
+		"description": "Header for the origin domain column (tooltip)"
+	},
 	"action column": {
 		"message": "Action",
 		"description": "Header for the action column"
