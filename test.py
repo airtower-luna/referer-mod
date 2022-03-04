@@ -54,6 +54,8 @@ class RefModTest(unittest.TestCase):
         print(f'Dynamic ID: {addon_dyn_id}')
 
         cls.options = FirefoxOptions()
+        if 'FIREFOX_BIN' in os.environ:
+            cls.options.binary = os.environ['FIREFOX_BIN']
         # Pre-seed the dynamic addon ID so we can find the options page
         cls.options.set_preference('extensions.webextensions.uuids',
                                    json.dumps({addon_id: addon_dyn_id}))
