@@ -29,11 +29,18 @@ class RuleMatch
 		this.#match_len = match_len;
 	}
 
+	/*
+	 * The rule that matched.
+	 */
 	get rule()
 	{
 		return this.#rule;
 	}
 
+	/*
+	 * Determine if this match is better than another one. Currently
+	 * "better" means the longer match for the target domain.
+	 */
 	better(another)
 	{
 		return another == null || this.#match_len > another.#match_len;
@@ -41,6 +48,10 @@ class RuleMatch
 }
 
 
+/*
+ * One rule as defined in the configuration, with expressions compiled
+ * for matching requests.
+ */
 class Rule
 {
 	// regular expression for the target domain
@@ -160,9 +171,9 @@ class RefererModEngine
 	{
 		let target = new URL(url);
 		/* Check if we have a specific configuration for the target
-		* domain, if yes return it. The reduce step chooses the longest
-		* (most precise) match in case we have multiple filter
-		* matches. */
+		 * domain, if yes return it. The reduce step chooses the best
+		 * match in case we have multiple filter matches, as
+		 * determined by RuleMatch.better(). */
 		let match = this.#domains
 			.map(d => d.match(target))
 			.filter(d => d != null)
