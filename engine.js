@@ -18,6 +18,29 @@
 "use strict";
 /* exported RefererModEngine */
 
+class RuleMatch
+{
+	#match_len;
+	#rule;
+
+	constructor(rule, match_len)
+	{
+		this.#rule = rule;
+		this.#match_len = match_len;
+	}
+
+	get rule()
+	{
+		return this.#rule;
+	}
+
+	better(another)
+	{
+		return another == null || this.#match_len > another.#match_len;
+	}
+}
+
+
 class Rule
 {
 	// regular expression for the target domain
@@ -46,7 +69,12 @@ class Rule
 	 */
 	match(target)
 	{
-		return target.hostname.match(this.#target);
+		let m = target.hostname.match(this.#target);
+		if (m == null)
+		{
+			return null;
+		}
+		return new RuleMatch(this, m[0].length);
 	}
 
 	get action()
@@ -136,26 +164,22 @@ class RefererModEngine
 		* (most precise) match in case we have multiple filter
 		* matches. */
 		let match = this.#domains
-			.map(d => ({domain: d, match: d.match(target)}))
-			.filter(d => d.match != null)
+			.map(d => d.match(target))
+			.filter(d => d != null)
 			.reduce((acc, current) =>
 			{
-				if (acc == null)
+				if (current.better(acc))
 				{
 					return current;
-				}
-				else if (acc.match[0].length >= current.match[0].length)
-				{
-					return acc;
 				}
 				else
 				{
-					return current;
+					return acc;
 				}
 			}, null);
 		if (match != null)
 		{
-			return match.domain;
+			return match.rule;
 		}
 
 		if (originUrl === "" || originUrl === null || originUrl === undefined)
