@@ -20,6 +20,10 @@
 
 class RefererModEngine
 {
+	#domains;
+	#sameConf;
+	#anyConf;
+
 	constructor(config)
 	{
 		if (!config)
@@ -50,11 +54,11 @@ class RefererModEngine
 		* contains the regular expression compiled form the "domain" field to
 		* include subdomains.
 		*/
-		this._domains = RefererModEngine.createDomainRegex(config.domains);
+		this.#domains = RefererModEngine.createDomainRegex(config.domains);
 		/* Configuration for same domain requests */
-		this._sameConf = config.sameConf;
+		this.#sameConf = config.sameConf;
 		/* Configuration for any other requests */
-		this._anyConf = config.anyConf;
+		this.#anyConf = config.anyConf;
 	}
 
 	/*
@@ -68,7 +72,7 @@ class RefererModEngine
 		* domain, if yes return it. The reduce step chooses the longest
 		* (most precise) match in case we have multiple filter
 		* matches. */
-		let match = this._domains
+		let match = this.#domains
 			.map(d => ({domain: d, match: target.hostname.match(d.regexp)}))
 			.filter(d => d.match != null)
 			.reduce((acc, current) =>
@@ -93,19 +97,19 @@ class RefererModEngine
 
 		if (originUrl === "" || originUrl === null || originUrl === undefined)
 		{
-			return this._anyConf;
+			return this.#anyConf;
 		}
 
 		let source = new URL(originUrl);
 		if (target.hostname === source.hostname)
 		{
 			/* same domain */
-			return this._sameConf;
+			return this.#sameConf;
 		}
 		else
 		{
 			/* default */
-			return this._anyConf;
+			return this.#anyConf;
 		}
 	}
 
