@@ -178,16 +178,7 @@ class RefererModEngine
 			.map(d => d.match(target))
 			.filter(d => d != null)
 			.reduce((acc, current) =>
-			{
-				if (current.better(acc))
-				{
-					return current;
-				}
-				else
-				{
-					return acc;
-				}
-			}, null);
+				current.better(acc) ? current : acc, null);
 		if (match != null)
 		{
 			return match.rule;
@@ -226,14 +217,7 @@ class RefererModEngine
 		switch (conf.action)
 		{
 			case "prune":
-				if (!originUrl)
-				{
-					referrer = "";
-				}
-				else
-				{
-					referrer = new URL(originUrl).origin + "/";
-				}
+				referrer = originUrl ? new URL(originUrl).origin + "/" : "";
 				break;
 			case "target":
 				referrer = new URL(url).origin + "/";
