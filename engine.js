@@ -20,13 +20,15 @@
 
 class RuleMatch
 {
-	#match_len;
+	#target_len;
+	#origin_len;
 	#rule;
 
-	constructor(rule, match_len)
+	constructor(rule, target_len, origin_len)
 	{
 		this.#rule = rule;
-		this.#match_len = match_len;
+		this.#target_len = target_len;
+		this.#origin_len = origin_len;
 	}
 
 	/*
@@ -38,12 +40,20 @@ class RuleMatch
 	}
 
 	/*
-	 * Determine if this match is better than another one. Currently
-	 * "better" means the longer match for the target domain.
+	 * Determine if this match is better than another one. This match
+	 * is "better" if any of the following is true:
+	 *
+	 * - another is null
+	 * - the target_len of this match is larger than that of the other
+	 * - target_len of both matches is equal and the origin_len of
+     *   this match is larger than origin_len of the other
 	 */
 	better(another)
 	{
-		return another == null || this.#match_len > another.#match_len;
+		return (another == null
+				|| this.#target_len > another.#target_len
+				|| (this.#target_len == another.#target_len
+					&& this.#origin_len > another.#origin_len));
 	}
 }
 
@@ -76,20 +86,37 @@ class Rule
 			Rule.#createDomainRegex(rule.origin) : null;
 		this.#action = rule.action;
 		this.#referer = rule.referer;
+		console.debug(
+			'rule loaded: {target: %s, origin: %s, action: %s, referer: %s}',
+			this.#target, this.#origin, this.#action, this.#referer);
 	}
 
 	/*
-	 * Match "target" against this rule, return match object. Target
-	 * must be a URL object.
+	 * Match source and target URL against this rule, return match
+	 * object. Target must be a URL object, source must be a URL
+	 * object or null.
 	 */
-	match(target)
+	match(source, target)
 	{
-		let m = target.hostname.match(this.#target);
-		if (m == null)
+		let target_match = target.hostname.match(this.#target);
+		if (target_match == null)
 		{
 			return null;
 		}
-		return new RuleMatch(this, m[0].length);
+
+		let origin_len = 0;
+		if (this.#origin != null)
+		{
+			let origin = source != null ? source.hostname : '';
+			let origin_match = origin.match(this.#origin);
+			if (origin_match == null)
+			{
+				return null;
+			}
+			origin_len = origin_match[0].length;
+		}
+
+		return new RuleMatch(this, target_match[0].length, origin_len);
 	}
 
 	get action()
@@ -128,7 +155,6 @@ class Rule
 			pattern = "(\\.|^)"
 				+ Rule.#escapeRegExp(domain) + "$";
 		}
-		//console.log(`domain '${domain.domain}', pattern: ${pattern}`);
 		return new RegExp(pattern);
 	}
 }
@@ -174,12 +200,16 @@ class RefererModEngine
 	findHostConf(url, originUrl)
 	{
 		let target = new URL(url);
-		/* Check if we have a specific configuration for the target
-		 * domain, if yes return it. The reduce step chooses the best
-		 * match in case we have multiple filter matches, as
-		 * determined by RuleMatch.better(). */
+		let source = (
+			originUrl === "" || originUrl === null || originUrl === undefined)
+			? null : new URL(originUrl);
+
+		/* Check if we have a specific rule that matches the
+		 * source/target domain combination, if yes return it. The
+		 * reduce step chooses the best match in case we have multiple
+		 * filter matches, as determined by RuleMatch.better(). */
 		let match = this.#domains
-			.map(d => d.match(target))
+			.map(d => d.match(source, target))
 			.filter(d => d != null)
 			.reduce((acc, current) =>
 				current.better(acc) ? current : acc, null);
@@ -188,13 +218,7 @@ class RefererModEngine
 			return match.rule;
 		}
 
-		if (originUrl === "" || originUrl === null || originUrl === undefined)
-		{
-			return this.#anyConf;
-		}
-
-		let source = new URL(originUrl);
-		if (target.hostname === source.hostname)
+		if (source != null && target.hostname === source.hostname)
 		{
 			/* same domain */
 			return this.#sameConf;
