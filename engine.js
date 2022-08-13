@@ -56,6 +56,8 @@ class Rule
 {
 	// regular expression for the target domain
 	#target;
+	// regular expression for the origin domain, if any
+	#origin;
 	// action to take for matching requests
 	#action;
 	// Referer to set for "replace" rule
@@ -70,6 +72,8 @@ class Rule
 		 * { domain: "www.example.com", action: "keep", referer: "" }
 		 */
 		this.#target = Rule.#createDomainRegex(rule.domain);
+		this.#origin = 'origin' in rule ?
+			Rule.#createDomainRegex(rule.origin) : null;
 		this.#action = rule.action;
 		this.#referer = rule.referer;
 	}
