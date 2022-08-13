@@ -122,7 +122,7 @@ function createDomainRow(hostname, origin, act, referer)
  */
 function addDomainRow()
 {
-	let row = createDomainRow("", "replace", "");
+	let row = createDomainRow("", "", "replace", "");
 	let act = row.querySelector(".action");
 	act.addEventListener("change", actionSelectListener);
 	document.getElementById("hosts").appendChild(row);
