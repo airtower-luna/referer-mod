@@ -1,0 +1,46 @@
+{
+  "any": {
+    "action": "prune",
+    "referer": ""
+  },
+  "same": {
+    "action": "keep",
+    "referer": ""
+  },
+  "domains": [
+    {
+      "domain": "x.test",
+      "action": "remove",
+      "referer": ""
+    },
+    {
+      "domain": "x.test",
+      "action": "keep",
+      "referer": "https://www.example.com/",
+      "origin": "x.test"
+    },
+    {
+      "domain": "web.x.test",
+      "action": "replace",
+      "referer": "https://www.example.com/"
+    },
+    {
+      "domain": "y.test",
+      "action": "replace",
+      "referer": "https://www.example.com/",
+      "origin": "y.test"
+    },
+    {
+      "domain": "y.test",
+      "action": "replace",
+      "referer": "Meow",
+      "origin": "site.y.test"
+    },
+    {
+      "domain": "y.test",
+      "action": "replace",
+      "referer": "Hello World!",
+      "origin": "(?<!\\.?y\\.test)$"
+    }
+  ]
+}
