@@ -66,13 +66,13 @@ class RefModTest(unittest.TestCase):
         if not os.environ.get('DISPLAY'):
             cls.options.headless = True
 
-    def setUp(self):
-        self.browser = webdriver.Firefox(options=self.options)
-        self.browser.install_addon(str(self.addon_path), temporary=True)
+        cls.browser = webdriver.Firefox(options=cls.options)
+        cls.browser.install_addon(str(cls.addon_path), temporary=True)
 
-    def tearDown(self):
-        if self.quit_browser:
-            self.browser.quit()
+    @classmethod
+    def tearDownClass(cls):
+        if cls.quit_browser:
+            cls.browser.quit()
 
     def click_link(self, target):
         links = self.browser.find_elements(By.TAG_NAME, 'a')
