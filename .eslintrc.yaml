@@ -39,6 +39,7 @@ rules:
     - warn
     - code: 78
       tabWidth: 4
+      ignoreTemplateLiterals: true
       ignoreUrls: true
   no-trailing-spaces:
     - error

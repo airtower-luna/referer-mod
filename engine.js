@@ -86,9 +86,11 @@ class Rule
 			Rule.#createDomainRegex(rule.origin) : null;
 		this.#action = rule.action;
 		this.#referer = rule.referer;
-		console.debug(
-			"rule loaded: {target: %s, origin: %s, action: %s, referer: %s}",
-			this.#target, this.#origin, this.#action, this.#referer);
+	}
+
+	toString()
+	{
+		return `{target: ${this.#target}, origin: ${this.#origin}, action: ${this.#action}, referer: ${JSON.stringify(this.#referer)}}`;
 	}
 
 	/*
