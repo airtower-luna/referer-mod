@@ -82,12 +82,12 @@ class Rule
 		 * { domain: "www.example.com", action: "keep", referer: "" }
 		 */
 		this.#target = Rule.#createDomainRegex(rule.domain);
-		this.#origin = 'origin' in rule ?
+		this.#origin = "origin" in rule ?
 			Rule.#createDomainRegex(rule.origin) : null;
 		this.#action = rule.action;
 		this.#referer = rule.referer;
 		console.debug(
-			'rule loaded: {target: %s, origin: %s, action: %s, referer: %s}',
+			"rule loaded: {target: %s, origin: %s, action: %s, referer: %s}",
 			this.#target, this.#origin, this.#action, this.#referer);
 	}
 
@@ -107,7 +107,7 @@ class Rule
 		let origin_len = 0;
 		if (this.#origin != null)
 		{
-			let origin = source != null ? source.hostname : '';
+			let origin = source != null ? source.hostname : "";
 			let origin_match = origin.match(this.#origin);
 			if (origin_match == null)
 			{
