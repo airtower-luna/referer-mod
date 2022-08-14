@@ -104,7 +104,7 @@ class Rule
 			return null;
 		}
 
-		let origin_len = 0;
+		let origin_len = -1;
 		if (this.#origin != null)
 		{
 			let origin = source != null ? source.hostname : "";

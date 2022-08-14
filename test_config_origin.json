@@ -26,6 +26,11 @@
     },
     {
       "domain": "y.test",
+      "action": "keep",
+      "referer": ""
+    },
+    {
+      "domain": "y.test",
       "action": "replace",
       "referer": "https://www.example.com/",
       "origin": "y.test"
