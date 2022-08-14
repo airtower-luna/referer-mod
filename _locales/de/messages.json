@@ -131,6 +131,16 @@
 		"message": "Konfiguration speichern",
 		"description": "Save configuration"
 	},
+	"rule missing target": {
+		"message": "Fehler: Jede Regel muss eine Zieldomain enthalten. Regel mit leerer Zieldomain und Ursprungsdomain $ORIGIN$ wird ignoriert!",
+		"description": "Error message shown when the user tries to save a rule with origin domain set and empty target domain",
+		"placeholders": {
+			"origin": {
+				"content": "$1",
+				"example": "\"www.example.com\""
+			}
+		}
+	},
 	"config backup title": {
 		"message": "Einstellungen sichern/wiederherstellen",
 		"description": "Title for the configuration backup/restore section"

@@ -200,22 +200,31 @@ function saveOptions()
 	for (let entry of entries)
 	{
 		let host = entry.querySelector(".hostname").value.trim();
-		if (host.length > 0)
+		let origin = entry.querySelector(".origin-domain").value.trim();
+
+		if (host.length == 0)
 		{
-			let act = entry.querySelector(".action");
-			let rule = {
-				domain: host,
-				action: act.options[act.selectedIndex].value,
-				referer: entry.querySelector(".referer").value.trim()
-			};
-			let origin = entry.querySelector(".origin-domain").value.trim();
-			if (origin !== "")
+			if (origin.length > 0)
 			{
-				rule.origin = origin;
+				window.alert(browser.i18n.getMessage(
+					"rule missing target", JSON.stringify(origin)));
 			}
-			domains.push(rule);
+			continue;
 		}
+
+		let act = entry.querySelector(".action");
+		let rule = {
+			domain: host,
+			action: act.options[act.selectedIndex].value,
+			referer: entry.querySelector(".referer").value.trim()
+		};
+		if (origin !== "")
+		{
+			rule.origin = origin;
+		}
+		domains.push(rule);
 	}
+
 	let any_action = document.querySelector("#any_action");
 	let any_referer = document.querySelector("#any_referer");
 	let same_action = document.querySelector("#same_action");

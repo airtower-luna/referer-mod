@@ -143,6 +143,16 @@
 		"message": "Save configuration",
 		"description": "Save configuration"
 	},
+	"rule missing target": {
+		"message": "Error: Every rule must have a target domain. Ignoring rule with empty target and origin $ORIGIN$!",
+		"description": "Error message shown when the user tries to save a rule with origin domain set and empty target domain",
+		"placeholders": {
+			"origin": {
+				"content": "$1",
+				"example": "\"www.example.com\""
+			}
+		}
+	},
 	"config backup title": {
 		"message": "Configuration Backup/Restore",
 		"description": "Title for the configuration backup/restore section"
