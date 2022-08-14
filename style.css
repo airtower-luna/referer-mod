@@ -2,7 +2,7 @@ body {
     font: message-box;
     display: flex;
     flex-direction: column;
-    max-width: 650px;
+    max-width: 800px;
     margin: 0 auto;
 }
 header {
@@ -12,8 +12,11 @@ table {
     margin-bottom: 3px;
     width: 100%;
 }
-td:nth-child(2) {
+td:nth-child(3) {
     width: 0;
+}
+th:nth-child(4) {
+    min-width: 25%;
 }
 .button_container {
     display: table-cell;

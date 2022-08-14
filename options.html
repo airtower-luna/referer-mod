@@ -20,13 +20,14 @@
           <thead>
             <tr id="header">
               <th title="target domain description" scope="col" class="i18n-text">target domain</th>
+              <th title="origin domain description" scope="col" class="i18n-text">origin domain</th>
               <th title="action column description" scope="col" class="i18n-text">action column</th>
               <th title="replacement referer description" scope="col" class="i18n-text">replacement referer</th>
             </tr>
           </thead>
           <tbody id="hosts">
             <tr>
-              <td class="rule_label i18n-text" title="any rule description">any rule</td>
+              <td class="rule_label i18n-text" title="any rule description" colspan="2">any rule</td>
               <td>
                 <select class="action browser-style" id="any_action">
                   <option class="i18n-text" value="keep" title="keep action description">keep action</option>
@@ -45,7 +46,7 @@
               </td>
             </tr>
             <tr>
-              <td class="rule_label i18n-text" title="same rule description">same rule</td>
+              <td class="rule_label i18n-text" title="same rule description" colspan="2">same rule</td>
               <td>
                 <select class="action browser-style" id="same_action">
                   <option class="i18n-text" value="keep" title="keep action description">keep action</option>
@@ -108,6 +109,14 @@
             <input class="hostname i18n-text" type="text"
                    placeholder="cdn.example.com"
                    title="target domain description"
+                   value=""/>
+          </div>
+        </td>
+        <td>
+          <div class="browser-style">
+            <input class="origin-domain i18n-text" type="text"
+                   placeholder="cdn.example.com"
+                   title="origin domain description"
                    value=""/>
           </div>
         </td>

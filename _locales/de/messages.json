@@ -31,6 +31,14 @@
 		"message": "Zieldomain des Requests, umfaßt auch Subdomains",
 		"description": "Header for the target domain column"
 	},
+	"origin domain": {
+		"message": "Ursprungsdomain",
+		"description": "Header for the origin domain column"
+	},
+	"origin domain description": {
+		"message": "Domain von der der Request ausgelöst wurde, einschließlich Subdomains. Wenn dieses Feld leer ist gilt die Regel unabhängig von der Ursprungsdomain.",
+		"description": "Header for the origin domain column (tooltip)"
+	},
 	"action column": {
 		"message": "Aktion",
 		"description": "Header for the action column"
@@ -144,7 +152,7 @@
 		"description": "Import configuration button"
 	},
 	"config doc": {
-		"message": "Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für `www.example.com` und `example.com` gibt, wird bei einem Request für `https://www.example.com/` die Erstere angewendet.\nDie Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.",
+		"message": "Die genaue Bedeutung der Parameter ist in Tooltips beschrieben. Domain-Regeln gelten auch für Subdomains, wenn mehrere Regeln auf einen Request passen gilt der längere Treffer. Wenn es beispielsweise Regeln für `www.example.com` und `example.com` gibt, wird bei einem Request für `https://www.example.com/` die Erstere angewendet. Die Zieldomain hat bei der Auswahl unter mehreren passenden Regeln Priorität gegenüber der Ursprungsdomain, bei gleich langen Treffern bei der Zieldomain wird die Regel mit dem längsten Treffer bei der Zieldomain ausgewählt.\nDie Aktionen „Ersetzen“ und „Ziel“ fügen dem Request wenn nötig einen Referer hinzu, die übrigen Aktionen werden nur angewendet wenn der Browser von sich aus einen Referer senden würde.",
 		"description": "General user documentation on the options page"
 	},
 	"regexp doc summary": {

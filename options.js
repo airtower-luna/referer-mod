@@ -19,11 +19,8 @@
 /* from i18n.js: */
 /* global apply_i18n */
 
-/* Globals: The domain row template and its children */
+/* The domain row template */
 var template = document.querySelector("#ref_row");
-var host = template.content.querySelector(".hostname");
-var action = template.content.querySelector(".action");
-var ref = template.content.querySelector(".referer");
 
 
 
@@ -66,12 +63,19 @@ function actionSelectListener(event)
 /*
  * Create a new domain row with the given content.
  */
-function createDomainRow(hostname, act, referer)
+function createDomainRow(hostname, origin, act, referer)
 {
+	let node = document.importNode(template.content, true);
+	let host = node.querySelector(".hostname");
+	let origin_domain = node.querySelector(".origin-domain");
+	let action = node.querySelector(".action");
+	let ref = node.querySelector(".referer");
+
 	host.value = hostname;
+	origin_domain.value = origin ? origin : "";
 	ref.value = referer;
 	selectOption(action, act);
-	let node = document.importNode(template.content, true);
+
 	apply_i18n(node.firstElementChild);
 
 	let del = node.querySelector(".delete_row");
@@ -118,7 +122,7 @@ function createDomainRow(hostname, act, referer)
  */
 function addDomainRow()
 {
-	let row = createDomainRow("", "replace", "");
+	let row = createDomainRow("", "", "replace", "");
 	let act = row.querySelector(".action");
 	act.addEventListener("change", actionSelectListener);
 	document.getElementById("hosts").appendChild(row);
@@ -167,6 +171,7 @@ function restoreOptions()
 			for (let line of result.domains)
 			{
 				hosts.appendChild(createDomainRow(line.domain,
+												  line.origin,
 												  line.action,
 												  line.referer));
 			}
@@ -198,11 +203,17 @@ function saveOptions()
 		if (host.length > 0)
 		{
 			let act = entry.querySelector(".action");
-			domains.push({
+			let rule = {
 				domain: host,
 				action: act.options[act.selectedIndex].value,
 				referer: entry.querySelector(".referer").value.trim()
-			});
+			};
+			let origin = entry.querySelector(".origin-domain").value.trim();
+			if (origin !== "")
+			{
+				rule.origin = origin;
+			}
+			domains.push(rule);
 		}
 	}
 	let any_action = document.querySelector("#any_action");

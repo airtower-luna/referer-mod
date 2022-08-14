@@ -153,6 +153,32 @@ class RefModTest(unittest.TestCase):
             with self.subTest(link=link):
                 self.check_referer(link)
 
+    def testReferersOrigin(self):
+        """test rules with origin"""
+        self.load_config(self.ext_dir / 'test_config_origin.json')
+
+        tests = [
+            # rule with equal target and origin overrides rule for
+            # same target with empty origin
+            testlink('http://www.x.test/page/', 'http://www.x.test/page/',
+                     'http://www.x.test/page/'),
+            # longer target match is used regardless of length of
+            # origin match
+            testlink('http://www.x.test/page/', 'http://web.x.test/page/',
+                     'https://www.example.com/'),
+            # Between rules with the same target and different origin
+            # longer origin wins.
+            testlink('http://site.y.test/page/', 'http://www.y.test/page/',
+                     'Meow'),
+            # Negative regexp match for origin
+            testlink('http://web.x.test/page/', 'http://www.y.test/page/',
+                     'Hello World!'),
+        ]
+
+        for link in tests:
+            with self.subTest(link=link):
+                self.check_referer(link)
+
     def testDeactivate(self):
         self.load_config(self.ext_dir / 'test_config.json')
 
