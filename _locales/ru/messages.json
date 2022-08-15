@@ -31,6 +31,14 @@
 		"message": "Домен запрашиваемого URL, охватывает и поддомены",
 		"description": "Header for the target domain column (tooltip)"
 	},
+	"origin domain": {
+		"message": "Исходный домен",
+		"description": "Header for the origin domain column"
+	},
+	"origin domain description": {
+		"message": "Домен источника запроса, также соответствует поддоменам. Оставьте пустым, если для всех.",
+		"description": "Header for the origin domain column (tooltip)"
+	},
 	"action column": {
 		"message": "Действие",
 		"description": "Header for the action column"
@@ -134,6 +142,16 @@
 	"save config": {
 		"message": "Сохранить",
 		"description": "Save configuration"
+	},
+	"rule missing target": {
+		"message": "Ошибка: Каждое правило должно иметь целевой домен. Игнорирование правила с пустой целью и источником $ORIGIN$!",
+		"description": "Error message shown when the user tries to save a rule with origin domain set and empty target domain",
+		"placeholders": {
+			"origin": {
+				"content": "$1",
+				"example": "\"www.example.com\""
+			}
+		}
 	},
 	"config backup title": {
 		"message": "Резервирование или восстановление конфигурации",
