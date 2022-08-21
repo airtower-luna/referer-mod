@@ -19,17 +19,33 @@
         <table>
           <thead>
             <tr id="header">
-              <th title="target domain description" scope="col" class="i18n-text">target domain</th>
-              <th title="origin domain description" scope="col" class="i18n-text">origin domain</th>
-              <th title="action column description" scope="col" class="i18n-text">action column</th>
-              <th title="replacement referer description" scope="col" class="i18n-text">replacement referer</th>
+              <th title="target domain description"
+                  id="target-domain-header"
+                  scope="col" class="i18n-text">
+                target domain
+              </th>
+              <th title="origin domain description"
+                  id="origin-domain-header"
+                  scope="col" class="i18n-text">
+                origin domain
+              </th>
+              <th title="action column description"
+                  id="action-column-header"
+                  scope="col" class="i18n-text">
+                action column
+              </th>
+              <th title="replacement referer description"
+                  id="replacement-referer-header"
+                  scope="col" class="i18n-text">
+                replacement referer
+              </th>
             </tr>
           </thead>
           <tbody id="hosts">
             <tr>
               <td class="rule_label i18n-text" title="any rule description" colspan="2">any rule</td>
               <td>
-                <select class="action browser-style" id="any_action">
+                <select class="action browser-style" aria-labelledby="action-column-header" id="any_action">
                   <option class="i18n-text" value="keep" title="keep action description">keep action</option>
                   <option class="i18n-text" value="prune" title="prune action description">prune action</option>
                   <option class="i18n-text" value="target" title="target action description">target action</option>
@@ -41,6 +57,7 @@
                 <div class="browser-style">
                   <input id="any_referer" class="referer i18n-text" type="text"
                          title="replacement referer description"
+                         aria-labelledby="replacement-referer-header"
                          value=""/>
                 </div>
               </td>
@@ -48,7 +65,7 @@
             <tr>
               <td class="rule_label i18n-text" title="same rule description" colspan="2">same rule</td>
               <td>
-                <select class="action browser-style" id="same_action">
+                <select class="action browser-style" aria-labelledby="action-column-header" id="same_action">
                   <option class="i18n-text" value="keep" title="keep action description">keep action</option>
                   <option class="i18n-text" value="prune" title="prune action description">prune action</option>
                   <option class="i18n-text" value="target" title="target action description">target action</option>
@@ -60,6 +77,7 @@
                 <div class="browser-style">
                   <input id="same_referer" class="referer i18n-text" type="text"
                          title="replacement referer description"
+                         aria-labelledby="replacement-referer-header"
                          value=""/>
                 </div>
               </td>
@@ -109,6 +127,7 @@
             <input class="hostname i18n-text" type="text"
                    placeholder="cdn.example.com"
                    title="target domain description"
+                   aria-labelledby="target-domain-header"
                    value=""/>
           </div>
         </td>
@@ -117,11 +136,13 @@
             <input class="origin-domain i18n-text" type="text"
                    placeholder="cdn.example.com"
                    title="origin domain description"
+                   aria-labelledby="origin-domain-header"
                    value=""/>
           </div>
         </td>
         <td>
-          <select class="action browser-style">
+          <select class="action browser-style"
+                  aria-labelledby="action-column-header">
             <option class="i18n-text" value="keep" title="keep action description">keep action</option>
             <option class="i18n-text" value="prune" title="prune action description">prune action</option>
             <option class="i18n-text" value="target" title="target action description">target action</option>
@@ -134,6 +155,7 @@
             <input class="referer i18n-text" type="text"
                    placeholder="https://www.example.com/"
                    title="replacement referer description"
+                   aria-labelledby="replacement-referer-header"
                    value=""/>
           </div>
         </td>
