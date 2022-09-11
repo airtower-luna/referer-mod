@@ -42,10 +42,7 @@ var config = {
  */
 function genRefererHeader(value)
 {
-	let header = {};
-	header.name = "Referer";
-	header.value = value;
-	return header;
+	return {name: "Referer", value: value};
 }
 
 function modifyReferer(e)
@@ -89,7 +86,7 @@ function modifyReferer(e)
 	{
 		e.requestHeaders.push(genRefererHeader(new URL(e.url).origin + "/"));
 	}
-	if (conf.action === "replace")
+	else if (conf.action === "replace")
 	{
 		e.requestHeaders.push(genRefererHeader(conf.referer));
 	}
