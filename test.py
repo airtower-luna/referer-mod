@@ -113,26 +113,31 @@ class RefModTest(unittest.TestCase):
         self.browser.get(link.source)
         self.click_link(link.target)
         print(f'Navigating: {link.source} -> {link.target}')
+        self.assert_referer(link.referer, skip_iframe)
+
+    def assert_referer(self, expected, skip_iframe=False):
+        """Assert that the currently opened test page lists the
+        expected referer value."""
         try:
             http_referer = self.browser.find_element(
                 By.XPATH, '//td[text()="Referer"]//following::td')
             print(f'Page shows referer: {http_referer.text}')
-            self.assertEqual(link.referer, http_referer.text)
+            self.assertEqual(expected, http_referer.text)
         except NoSuchElementException:
             print('Page shows no Referer.')
-            if link.referer is not None:
+            if expected is not None:
                 raise
         script_referrer = self.browser.find_element(By.ID, 'referrer')
-        self.assertEqual(link.referer or '', script_referrer.text)
+        self.assertEqual(expected or '', script_referrer.text)
         reflect_referrer = \
             self.browser.find_element(By.ID, 'referrer-reflect')
-        self.assertEqual(link.referer or '', reflect_referrer.text)
+        self.assertEqual(expected or '', reflect_referrer.text)
         # The iframe manipulation might fail on repeated
         # loads, maybe because the cache speeds up loading.
         if not skip_iframe:
             iframe_referrer = \
                 self.browser.find_element(By.ID, 'referrer-iframe')
-            self.assertEqual(link.referer or '', iframe_referrer.text)
+            self.assertEqual(expected or '', iframe_referrer.text)
 
     def testReferers(self):
         self.load_config(self.ext_dir / 'test_config.json')
@@ -178,6 +183,12 @@ class RefModTest(unittest.TestCase):
         for link in tests:
             with self.subTest(link=link):
                 self.check_referer(link)
+
+    def test_direct(self):
+        """test Referer of page opened without link"""
+        self.load_config(self.ext_dir / 'test_config.json')
+        self.browser.get('http://site.y.test/page/')
+        self.assert_referer('https://www.example.com/')
 
     def testDeactivate(self):
         self.load_config(self.ext_dir / 'test_config.json')
