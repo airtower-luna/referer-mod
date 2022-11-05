@@ -21,7 +21,6 @@ var settings_button = document.getElementById("settings");
 var deactivate_button = document.getElementById("deactivate");
 
 var mod_enabled = true;
-var port = browser.runtime.connect({name: "popup"});
 
 
 function setupPowerButton(enabled)
@@ -43,9 +42,33 @@ async function toggleModification()
 {
 	mod_enabled = !mod_enabled;
 	setupPowerButton(mod_enabled);
-	port.postMessage({mod_enabled: mod_enabled});
+	await browser.storage.local.set({mod_enabled: mod_enabled});
 }
 
+
+async function refreshConfig(change, area)
+{
+	if (area === "local")
+	{
+		if (Object.prototype.hasOwnProperty.call(change, "mod_enabled"))
+		{
+			mod_enabled = change.mod_enabled.newValue;
+			setupPowerButton(mod_enabled);
+		}
+	}
+}
+
+
+browser.storage.local.get(["mod_enabled"]).then(
+	async (result) =>
+	{
+		if (result.mod_enabled !== undefined)
+		{
+			mod_enabled = result.mod_enabled;
+			setupPowerButton(mod_enabled);
+		}
+	});
+browser.storage.onChanged.addListener(refreshConfig);
 
 settings_button.addEventListener(
 	"click",
@@ -55,11 +78,3 @@ settings_button.addEventListener(
 	});
 
 deactivate_button.addEventListener("click", toggleModification);
-
-port.onMessage.addListener(
-	async function(m)
-	{
-		mod_enabled = m.mod_enabled;
-		setupPowerButton(mod_enabled);
-	});
-port.postMessage({mod_enabled: null});
