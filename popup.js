@@ -65,8 +65,12 @@ browser.storage.local.get(["mod_enabled"]).then(
 		if (result.mod_enabled !== undefined)
 		{
 			mod_enabled = result.mod_enabled;
-			setupPowerButton(mod_enabled);
 		}
+		else
+		{
+			mod_enabled = true;
+		}
+		setupPowerButton(mod_enabled);
 	});
 browser.storage.onChanged.addListener(refreshConfig);
 
