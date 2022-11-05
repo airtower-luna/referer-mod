@@ -255,18 +255,6 @@ async function load_config()
 /* Initialization */
 load_config();
 
-browser.runtime.onStartup.addListener(() => {
-	browser.storage.sync.get(["domain"]).then(
-	(result) =>
-	{
-		if (result.domain !== undefined)
-		{
-			browser.storage.sync.remove(["domain"])
-				.then(console.log("deleted broken legacy domain config"));
-		}
-	});
-});
-
 /* Listen for configuration changes */
 browser.storage.onChanged.addListener(refreshConfig);
 /* Listen for HTTP requests to modify */
