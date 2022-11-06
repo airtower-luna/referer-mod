@@ -152,7 +152,7 @@ function restoreOptions()
 		domains: []
 	}).then((result) =>
 	{
-		console.log("Refreshing domains: " + JSON.stringify(result));
+		console.debug("Refreshing domain config: " + JSON.stringify(result));
 		let hosts = document.getElementById("hosts");
 		/* Remove currently shown domain rows, if any */
 		let entries = hosts.getElementsByClassName("ref_entry");
@@ -285,7 +285,8 @@ function importConfigJSON(string)
 {
 	/* TODO: catch errors during parse/store, check format */
 	let conf = JSON.parse(string);
-	console.log(conf);
+	console.debug(browser.i18n.getMessage("extensionName")
+				  + " imported configuration:" + JSON.stringify(conf));
 	browser.storage.sync.set({
 		domains: conf.domains,
 		any:     conf.any,
