@@ -163,9 +163,11 @@ async function registerContentScript(config)
 		"matches": ["https://*/*", "http://*/*"],
 		"matchAboutBlank": true,
 		"allFrames": true,
-		"js": [{
-			"code": code
-		}],
+		"js": [
+			{file: "engine.js"},
+			{file: "content.js"},
+			{code: code}
+		],
 		"runAt": "document_start"
 	});
 
