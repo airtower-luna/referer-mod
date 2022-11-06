@@ -25,7 +25,7 @@ var engine = new RefererModEngine();
 var registeredContentScript = null;
 
 /* Modifications enabled, lets user toggle the effects */
-var mod_enabled = true;
+var mod_enabled = undefined;
 
 var config = {
 	/* Default empty domain configuration */
@@ -36,6 +36,7 @@ var config = {
 	anyConf: { action: "prune", referer: "" }
 };
 
+
 /*
  * Return a header entry as required for webRequest.HttpHeaders. The
  * name is always "Referer", the value the given string.
@@ -44,6 +45,7 @@ function genRefererHeader(value)
 {
 	return {name: "Referer", value: value};
 }
+
 
 function modifyReferer(e)
 {
@@ -94,7 +96,6 @@ function modifyReferer(e)
 }
 
 
-
 /*
  * Listener function for storage changes: Forward any changes to the
  * global variables.
@@ -102,6 +103,7 @@ function modifyReferer(e)
 async function refreshConfig(change, area)
 {
 	let changed = false;
+
 	if (area === "sync")
 	{
 		if (Object.prototype.hasOwnProperty.call(change, "domains"))
@@ -121,10 +123,19 @@ async function refreshConfig(change, area)
 		}
 	}
 
+	if (area === "local")
+	{
+		if (Object.prototype.hasOwnProperty.call(change, "mod_enabled"))
+		{
+			mod_enabled = change.mod_enabled.newValue;
+			changed = true;
+		}
+	}
+
 	if (changed)
 	{
 		engine.setConfig(config);
-		await registerContentScript(config);
+		await update_enabled(mod_enabled);
 	}
 }
 
@@ -172,83 +183,92 @@ async function registerContentScript(config)
 }
 
 
-/* Handles messaging from the popup */
-function popup_connected(port)
+/*
+ * Set action button and content script to the requested
+ * enabled/disabled state.
+ */
+async function update_enabled(enabled)
 {
-	port.onMessage.addListener(
-		async function(m)
-		{
-			if (m.mod_enabled === null)
-			{
-				port.postMessage({mod_enabled: mod_enabled});
-			}
-			else
-			{
-				mod_enabled = m.mod_enabled;
-				console.log(`referer-mod enabled: ${mod_enabled}`);
-				if (mod_enabled)
-				{
-					await registerContentScript(config);
-					browser.browserAction.setBadgeText({text: null});
-				}
-				else
-				{
-					registeredContentScript.unregister();
-					registeredContentScript = null;
-					browser.browserAction.setBadgeText({text: "X"});
-				}
-			}
-		});
+	console.log(
+		browser.i18n.getMessage("extensionName") + " enabled: " + enabled);
+	if (enabled)
+	{
+		await registerContentScript(config);
+		browser.browserAction.setBadgeText({text: null});
+	}
+	else
+	{
+		registeredContentScript.unregister();
+		registeredContentScript = null;
+		browser.browserAction.setBadgeText({text: "X"});
+	}
 }
 
 
-browser.storage.sync.get(["domain"]).then(
-	(result) =>
+/*
+ * Load enabled/disabled state from storage, default to "true"
+ * (enabled) if unset.
+ */
+async function load_enabled()
+{
+	let result = await browser.storage.local.get(["mod_enabled"]);
+	if (result.mod_enabled !== undefined)
 	{
-		if (result.domain !== undefined)
-		{
-			browser.storage.sync.remove(["domain"])
-				.then(console.log("deleted broken legacy domain config"));
-		}
-	});
-/* Load configuration, or initialize with defaults */
-browser.storage.sync.get(["domains", "same", "any"]).then(
-	async (result) =>
+		mod_enabled = result.mod_enabled;
+	}
+	else
 	{
-		if (result.domains === undefined || result.domains === null
-			|| result.same === undefined || result.same === null
-			|| result.any === undefined || result.any === null)
-		{
-			console.log(browser.i18n.getMessage("extensionName") +
-						": initialized default configuration");
-			browser.storage.sync.set({
-				domains: config.domains,
-				any: config.anyConf,
-				same: config.sameConf
-			});
-		}
-		else
-		{
-			config.domains = result.domains;
-			config.anyConf = result.any;
-			config.sameConf = result.same;
+		mod_enabled = true;
+	}
+	await update_enabled(mod_enabled);
+}
 
-			engine.setConfig(config);
-			await registerContentScript(config);
-		}
-	},
-	(err) => console.log(browser.i18n.getMessage("extensionName") +
-						 " could not load configuration: " + err));
+
+async function load_config()
+{
+	/* Load rules, or initialize with defaults */
+	let result = await browser.storage.sync.get(["domains", "same", "any"]);
+	if (result.domains === undefined || result.domains === null
+		|| result.same === undefined || result.same === null
+		|| result.any === undefined || result.any === null)
+	{
+		console.log(browser.i18n.getMessage("extensionName") +
+					": initialized default configuration");
+		browser.storage.sync.set({
+			domains: config.domains,
+			any: config.anyConf,
+			same: config.sameConf
+		});
+	}
+	else
+	{
+		config.domains = result.domains;
+		config.anyConf = result.any;
+		config.sameConf = result.same;
+	}
+	engine.setConfig(config);
+
+	/* Load "enabled" status */
+	await load_enabled();
+}
+
+
+/* Initialization */
+load_config();
+
 /* Listen for configuration changes */
 browser.storage.onChanged.addListener(refreshConfig);
 /* Listen for HTTP requests to modify */
 browser.webRequest.onBeforeSendHeaders.addListener(
-	(e) => new Promise((resolve) =>
+	async (e) =>
 	{
-		resolve(modifyReferer(e));
-	}),
+		/* Sometimes after resume reloading the config might not
+		 * finish before the listener runs otherwise. */
+		if (mod_enabled === undefined)
+		{
+			await load_config();
+		}
+		return modifyReferer(e);
+	},
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
-
-/* Internal messaging for toggle */
-browser.runtime.onConnect.addListener(popup_connected);
