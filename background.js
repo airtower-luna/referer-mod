@@ -36,6 +36,7 @@ var config = {
 	anyConf: { action: "prune", referer: "" }
 };
 
+
 /*
  * Return a header entry as required for webRequest.HttpHeaders. The
  * name is always "Referer", the value the given string.
@@ -45,7 +46,8 @@ function genRefererHeader(value)
 	return {name: "Referer", value: value};
 }
 
-async function modifyReferer(e)
+
+function modifyReferer(e)
 {
 	if (!mod_enabled)
 	{
@@ -92,7 +94,6 @@ async function modifyReferer(e)
 	}
 	return {requestHeaders: e.requestHeaders};
 }
-
 
 
 /*
@@ -264,7 +265,7 @@ browser.webRequest.onBeforeSendHeaders.addListener(
 		 * finish before the listener runs otherwise. */
 		if (mod_enabled === undefined)
 			await load_config();
-		return await modifyReferer(e);
+		return modifyReferer(e);
 	},
 	{urls: ["<all_urls>"]},
 	["blocking", "requestHeaders"]);
