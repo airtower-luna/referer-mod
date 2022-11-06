@@ -200,8 +200,11 @@ async function update_enabled(enabled)
 	}
 	else
 	{
-		registeredContentScript.unregister();
-		registeredContentScript = null;
+		if (registeredContentScript)
+		{
+			registeredContentScript.unregister();
+			registeredContentScript = null;
+		}
 		browser.browserAction.setBadgeText({text: "X"});
 	}
 }
