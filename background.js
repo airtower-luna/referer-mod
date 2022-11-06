@@ -260,11 +260,14 @@ load_config();
 browser.storage.onChanged.addListener(refreshConfig);
 /* Listen for HTTP requests to modify */
 browser.webRequest.onBeforeSendHeaders.addListener(
-	async (e) => {
+	async (e) =>
+	{
 		/* Sometimes after resume reloading the config might not
 		 * finish before the listener runs otherwise. */
 		if (mod_enabled === undefined)
+		{
 			await load_config();
+		}
 		return modifyReferer(e);
 	},
 	{urls: ["<all_urls>"]},
