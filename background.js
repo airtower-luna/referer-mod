@@ -191,7 +191,7 @@ async function registerContentScript(config)
  */
 async function update_enabled(enabled)
 {
-	console.log(
+	console.debug(
 		browser.i18n.getMessage("extensionName") + " enabled: " + enabled);
 	if (enabled)
 	{
@@ -200,8 +200,11 @@ async function update_enabled(enabled)
 	}
 	else
 	{
-		registeredContentScript.unregister();
-		registeredContentScript = null;
+		if (registeredContentScript)
+		{
+			registeredContentScript.unregister();
+			registeredContentScript = null;
+		}
 		browser.browserAction.setBadgeText({text: "X"});
 	}
 }
@@ -234,8 +237,8 @@ async function load_config()
 		|| result.same === undefined || result.same === null
 		|| result.any === undefined || result.any === null)
 	{
-		console.log(browser.i18n.getMessage("extensionName") +
-					": initialized default configuration");
+		console.debug(browser.i18n.getMessage("extensionName")
+					  + ": initialized default configuration");
 		browser.storage.sync.set({
 			domains: config.domains,
 			any: config.anyConf,

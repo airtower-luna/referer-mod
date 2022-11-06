@@ -41,7 +41,6 @@ function lines_to_paragraphs(text)
 		let p = document.createElement("p");
 		for (const m of l.matchAll(code_re))
 		{
-			console.log(m);
 			if (m[1])
 			{
 				p.appendChild(document.createTextNode(m[1]));
