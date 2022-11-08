@@ -213,9 +213,13 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(
         description='Run referer-mod tests')
-    parser.add_argument('--no-quit', action='store_false',
-                        dest='quit_browser',
-                        help='don\'t stop browser instances after tests')
+    parser.add_argument(
+        '--no-quit', action='store_false', dest='quit_browser',
+        help='don\'t stop browser instances after tests')
+    parser.add_argument(
+        '--manual', action='store_true',
+        help='instead of running automated tests, start a browser instance '
+        'with identical setup for manual tests')
 
     # enable bash completion if argcomplete is available
     try:
@@ -227,4 +231,7 @@ if __name__ == '__main__':
     args, argv = parser.parse_known_args()
     RefModTest.quit_browser = args.quit_browser
 
-    unittest.main(verbosity=2, argv=sys.argv[:1] + argv)
+    if args.manual:
+        RefModTest().setUpClass()
+    else:
+        unittest.main(verbosity=2, argv=sys.argv[:1] + argv)
