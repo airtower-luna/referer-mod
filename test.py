@@ -64,7 +64,7 @@ class RefModTest(unittest.TestCase):
         cls.options.set_preference('network.proxy.http', 'localhost')
         cls.options.set_preference('network.proxy.http_port', 8080)
         if not os.environ.get('DISPLAY'):
-            cls.options.headless = True
+            cls.options.add_argument('-headless')
 
         cls.browser = webdriver.Firefox(options=cls.options)
         cls.browser.install_addon(str(cls.addon_path), temporary=True)
