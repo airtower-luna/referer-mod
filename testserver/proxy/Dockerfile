@@ -1,4 +1,4 @@
-FROM docker.io/library/httpd:2.4.55-alpine
+FROM docker.io/library/httpd:2.4.56-alpine
 RUN sed -i \
         -e 's/^#\(LoadModule .*mod_proxy.so\)/\1/' \
         -e 's/^#\(LoadModule .*mod_proxy_connect.so\)/\1/' \
