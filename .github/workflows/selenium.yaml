@@ -28,11 +28,11 @@ jobs:
           make dist
       - name: Build testenv container images
         run: |
-          docker-compose build
+          docker compose build
         working-directory: testserver/
       - name: Start test environment
         run: |
-          docker-compose up -d
+          docker compose up -d
         working-directory: testserver/
       - name: Check if proxy and servers work
         run: |
@@ -42,7 +42,7 @@ jobs:
           python -u test.py
       - name: Stop test environment
         run: |
-          docker-compose down
+          docker compose down
         working-directory: testserver/
 
   eslint:

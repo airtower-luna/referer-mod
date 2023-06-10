@@ -5,6 +5,10 @@ server. It serves an overview of HTTP headers (including `Referer`) as
 well as a script that adds the Javascript `document.referrer` to the
 page.
 
+Manually building the test server is only needed if you want to play
+with it directly, if you just want to run the automated tests bringing
+up the container based test environment is all you need.
+
 ## Building and running the server
 
 Simply build the Go module and run the binary:
@@ -26,12 +30,12 @@ option, e.g.:
 Note that the testserver expects to find the `page.gohtml` template
 and `static/` directory in its working directory.
 
-## Docker based test environment
+## Container based test environment
 
 To test handling of `Referer` headers with different rules one needs a
 bunch of servers with links between them. The dockerfiles and
-[`docker-compose.yaml`](./docker-compose.yaml) in this directory serve
-to set up such an environment.
+[`compose.yaml`](./compose.yaml) in this directory serve to set up
+such an environment.
 
 There are two dockerfiles involved:
 
@@ -48,12 +52,15 @@ access them without messing with your local DNS: Just tell your test
 browser to use the proxy, optionally use an add-on that can configure
 the proxy only for the `.test` domain
 (e.g. [FoxyProxy](https://addons.mozilla.org/firefox/addon/foxyproxy-standard/)).
+While the commands listed below use `docker compose`, they will work
+with [`podman-compose`](https://github.com/containers/podman-compose)
+as well.
 
-Start the test environment (after building the Go module):
+Build and start the test environment:
 
 ```sh
-docker-compose build
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
 The proxy port is exposed at `127.0.0.1:8080`. If you need a different
@@ -65,5 +72,5 @@ behaves.
 When done, you can stop the test environment with:
 
 ```sh
-docker-compose down
+docker compose down
 ```
