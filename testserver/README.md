@@ -54,7 +54,7 @@ the proxy only for the `.test` domain
 (e.g. [FoxyProxy](https://addons.mozilla.org/firefox/addon/foxyproxy-standard/)).
 While the commands listed below use `docker compose`, they will work
 with [`podman-compose`](https://github.com/containers/podman-compose)
-as well.
+1.0.6 (or newer) as well.
 
 Build and start the test environment:
 
