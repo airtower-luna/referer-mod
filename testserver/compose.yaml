@@ -1,4 +1,3 @@
-version: '3.7'
 x-command: &testcmd
   - '--port'
   - '80'
