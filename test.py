@@ -214,7 +214,7 @@ class RefModTest(unittest.TestCase):
         self.assertFalse(self.toggle_deactivate())
         self.check_referer(link_deactivated)
         self.assertTrue(self.toggle_deactivate())
-        self.check_referer(link_active, skip_iframe=True)
+        self.check_referer(link_active, skip_iframe=False)
 
 
 if __name__ == '__main__':
