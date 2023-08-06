@@ -19,6 +19,7 @@
 
 import json
 import os
+import shutil
 import sys
 import unittest
 import uuid
@@ -28,6 +29,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support.ui import WebDriverWait
 
 # Contains data for testing a link: The page to load initially
@@ -66,7 +68,13 @@ class RefModTest(unittest.TestCase):
         if not os.environ.get('DISPLAY'):
             cls.options.add_argument('-headless')
 
-        cls.browser = webdriver.Firefox(options=cls.options)
+        driver_args = {'log_output': 'geckodriver.log'}
+        # try to find geckodriver without selenium-manager (which is
+        # not in the Debian package)
+        if (g := shutil.which('geckodriver')) is not None:
+            driver_args['executable_path'] = g
+        service = FirefoxService(**driver_args)
+        cls.browser = webdriver.Firefox(options=cls.options, service=service)
         cls.browser.install_addon(str(cls.addon_path), temporary=True)
 
     @classmethod
@@ -206,7 +214,7 @@ class RefModTest(unittest.TestCase):
         self.assertFalse(self.toggle_deactivate())
         self.check_referer(link_deactivated)
         self.assertTrue(self.toggle_deactivate())
-        self.check_referer(link_active, skip_iframe=True)
+        self.check_referer(link_active, skip_iframe=False)
 
 
 if __name__ == '__main__':
