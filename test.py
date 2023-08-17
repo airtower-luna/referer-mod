@@ -231,7 +231,7 @@ if __name__ == '__main__':
 
     # enable bash completion if argcomplete is available
     try:
-        import argcomplete
+        import argcomplete  # type: ignore
         argcomplete.autocomplete(parser)
     except ImportError:
         pass
