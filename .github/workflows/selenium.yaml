@@ -39,7 +39,7 @@ jobs:
           curl -v --fail --output - --proxy http://localhost:8080 http://www.x.test/ http://site.y.test/ >/dev/null
       - name: Run add-on test
         run: |
-          python -u test.py
+          python -u test.py -v
       - name: Stop test environment
         run: |
           docker compose down
