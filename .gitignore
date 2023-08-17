@@ -2,3 +2,4 @@
 *.xpi
 /geckodriver.log
 /referer-mod-*.zip
+/__pycache__/

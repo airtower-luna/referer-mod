@@ -45,10 +45,6 @@ testlink = namedtuple('testlink', ['source', 'target', 'referer'])
 BrowserInstance = namedtuple(
     'BrowserInstance', ['browser', 'config_url', 'popup_url'])
 
-# Whether to stop the browser instance after tests, disabling this can
-# be useful for debugging.
-quit_browser = True
-
 
 def _tl_id(link: testlink):
     """Helper function to format a testlink as a parametrized test ID."""
@@ -98,7 +94,9 @@ def set_up_instance():
 def browser_instance():
     i = set_up_instance()
     yield i
-    if quit_browser:
+    # The environment variable is set in __main__ code if requested, a
+    # module variable doesn't stick through pytest.main().
+    if os.environ.get('_REFMOD_QUIT_BROWSER') != 'False':
         i.browser.quit()
 
 
@@ -260,7 +258,8 @@ if __name__ == '__main__':
         pass
 
     args, argv = parser.parse_known_args()
-    quit_browser = args.quit_browser
+    if not args.quit_browser:
+        os.environ['_REFMOD_QUIT_BROWSER'] = 'False'
 
     if args.manual:
         set_up_instance()
