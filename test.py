@@ -2,7 +2,7 @@
 # PYTHON_ARGCOMPLETE_OK
 
 # Referer Modifier: Automatic test
-# Copyright (C) 2020-2022 Fiona Klute
+# Copyright (C) 2020-2023 Fiona Klute
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -55,18 +55,18 @@ class RefModTest(unittest.TestCase):
         cls.popup_url = f'moz-extension://{addon_dyn_id}/popup.html'
         print(f'Dynamic ID: {addon_dyn_id}')
 
-        cls.options = FirefoxOptions()
+        options = FirefoxOptions()
         if 'FIREFOX_BIN' in os.environ:
-            cls.options.binary = os.environ['FIREFOX_BIN']
+            options.binary = os.environ['FIREFOX_BIN']
         # Pre-seed the dynamic addon ID so we can find the options page
-        cls.options.set_preference('extensions.webextensions.uuids',
-                                   json.dumps({addon_id: addon_dyn_id}))
+        options.set_preference('extensions.webextensions.uuids',
+                               json.dumps({addon_id: addon_dyn_id}))
         # Use the local test environment, see testserver/
-        cls.options.set_preference('network.proxy.type', 1)
-        cls.options.set_preference('network.proxy.http', 'localhost')
-        cls.options.set_preference('network.proxy.http_port', 8080)
+        options.set_preference('network.proxy.type', 1)
+        options.set_preference('network.proxy.http', 'localhost')
+        options.set_preference('network.proxy.http_port', 8080)
         if not os.environ.get('DISPLAY'):
-            cls.options.add_argument('-headless')
+            options.add_argument('-headless')
 
         driver_args = {'log_output': 'geckodriver.log'}
         # try to find geckodriver without selenium-manager (which is
@@ -74,7 +74,7 @@ class RefModTest(unittest.TestCase):
         if (g := shutil.which('geckodriver')) is not None:
             driver_args['executable_path'] = g
         service = FirefoxService(**driver_args)
-        cls.browser = webdriver.Firefox(options=cls.options, service=service)
+        cls.browser = webdriver.Firefox(options=options, service=service)
         cls.browser.install_addon(str(cls.addon_path), temporary=True)
 
     @classmethod
