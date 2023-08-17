@@ -22,6 +22,7 @@ import os
 import pytest
 import shutil
 import sys
+import typing
 import uuid
 from collections import namedtuple
 from pathlib import Path
@@ -46,12 +47,19 @@ BrowserInstance = namedtuple(
     'BrowserInstance', ['browser', 'config_url', 'popup_url'])
 
 
+class ServiceArgs(typing.TypedDict):
+    log_output: str
+    executable_path: typing.NotRequired[str]
+
+
 def _tl_id(link: testlink):
     """Helper function to format a testlink as a parametrized test ID."""
     return f'{link.source} -> {link.target}'
 
 
-def set_up_instance():
+def set_up_instance() -> BrowserInstance:
+    """Start the browser instance to be used in tests and install the
+    add-on."""
     with open(EXT_DIR / 'manifest.json') as fh:
         manifest = json.load(fh)
 
@@ -63,7 +71,9 @@ def set_up_instance():
 
     options = FirefoxOptions()
     if 'FIREFOX_BIN' in os.environ:
-        options.binary = os.environ['FIREFOX_BIN']
+        # Selenium has a setter that accepts str | FirefoxBinary, but
+        # MyPy doesn't understand that yet.
+        options.binary = os.environ['FIREFOX_BIN']  # type: ignore
     # Pre-seed the dynamic addon ID so we can find the options page
     options.set_preference('extensions.webextensions.uuids',
                            json.dumps({addon_id: addon_dyn_id}))
@@ -74,12 +84,12 @@ def set_up_instance():
     if not os.environ.get('DISPLAY'):
         options.add_argument('-headless')
 
-    driver_args = {'log_output': 'geckodriver.log'}
+    service_args: ServiceArgs = {'log_output': 'geckodriver.log'}
     # try to find geckodriver without selenium-manager (which is
     # not in the Debian package)
     if (g := shutil.which('geckodriver')) is not None:
-        driver_args['executable_path'] = g
-    service = FirefoxService(**driver_args)
+        service_args['executable_path'] = g
+    service = FirefoxService(**service_args)
 
     browser = webdriver.Firefox(options=options, service=service)
     browser.install_addon(str(addon_path), temporary=True)
@@ -91,7 +101,7 @@ def set_up_instance():
 
 
 @pytest.fixture(scope='session')
-def browser_instance():
+def browser_instance() -> BrowserInstance:
     i = set_up_instance()
     yield i
     # The environment variable is set in __main__ code if requested, a
@@ -100,8 +110,8 @@ def browser_instance():
         i.browser.quit()
 
 
-def load_browser_config(instance, conffile):
-    """Import referer-mod configuration from conffile (Path)"""
+def load_browser_config(instance: BrowserInstance, conffile: Path):
+    """Import referer-mod configuration from conffile"""
     instance.browser.get(instance.config_url)
     import_file = instance.browser.find_element(By.ID, 'import_file')
     import_file.send_keys(str(conffile.resolve()))
@@ -110,18 +120,18 @@ def load_browser_config(instance, conffile):
 
 
 @pytest.fixture
-def default_instance(browser_instance):
+def default_instance(browser_instance) -> BrowserInstance:
     load_browser_config(browser_instance, EXT_DIR / 'test_config.json')
     return browser_instance
 
 
 @pytest.fixture
-def origin_instance(browser_instance):
+def origin_instance(browser_instance) -> BrowserInstance:
     load_browser_config(browser_instance, EXT_DIR / 'test_config_origin.json')
     return browser_instance
 
 
-def assert_referer(browser, expected):
+def assert_referer(browser: webdriver.Firefox, expected: str) -> None:
     """Assert that the currently opened test page lists the
     expected referer value."""
     try:
@@ -143,7 +153,7 @@ def assert_referer(browser, expected):
     assert (expected or '') == iframe_referrer.text
 
 
-def click_link(browser, target):
+def click_link(browser: webdriver.Firefox, target: str) -> None:
     links = browser.find_elements(By.TAG_NAME, 'a')
     for link in links:
         if link.get_attribute('href') == target:
@@ -160,7 +170,7 @@ def check_referer(browser, link):
     assert_referer(browser, link.referer)
 
 
-def toggle_deactivate(instance):
+def toggle_deactivate(instance: BrowserInstance) -> bool:
     """Open the popup and press the (de)activate button. Returns the state
     after, True for modification enabled.
 
