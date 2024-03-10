@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'go', 'javascript', 'python' ]
+        language: [ 'javascript', 'python' ]
 
     steps:
     - name: Checkout repository
@@ -40,3 +40,28 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+
+  go:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: go
+
+      - name: Build test server
+        working-directory: testserver
+        run: go build
+        env:
+          CGO_ENABLED: '0'
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
