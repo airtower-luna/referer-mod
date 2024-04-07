@@ -6,7 +6,7 @@ module.exports = [
 	{
 		languageOptions: {
 			ecmaVersion: 2022,
-			sourceType: "commonjs",
+			sourceType: "script",
 			globals: {
 				...globals.browser,
 				...globals.webextensions
