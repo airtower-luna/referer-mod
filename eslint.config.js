@@ -22,13 +22,6 @@ module.exports = [
 			"indent": ["warn", "tab", {SwitchCase: 1}],
 			"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 			"no-console": ["off"],
-			// git diff output should fit in an 80 wide terminal
-			"max-len": ["warn", {
-				code: 78
-			    tabWidth: 4
-			    ignoreTemplateLiterals: true
-			    ignoreUrls: true
-			}],
 			"no-trailing-spaces": ["error"]
 		}
 	}
