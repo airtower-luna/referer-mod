@@ -1,4 +1,4 @@
-const js = require("eslint/js");
+const js = require("@eslint/js");
 const globals = require("globals");
 
 module.exports = [
