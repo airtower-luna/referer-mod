@@ -24,5 +24,12 @@ module.exports = [
 			"no-console": ["off"],
 			"no-trailing-spaces": ["error"]
 		}
+	},
+	{
+		files: ["eslint.config.js"],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: "commonjs"
+		},
 	}
 ];
