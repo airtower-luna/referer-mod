@@ -1,3 +1,18 @@
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #1e1e1e;
+        color: #cfcfcf;
+    } 
+    input, thead {
+        background: #e9e9edde !important;          
+        color: #222 !important;
+    }
+    input[disabled] {
+        background: #222 !important;
+    }
+}
+
+
 body {
     font: message-box;
     display: flex;
