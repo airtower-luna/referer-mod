@@ -40,7 +40,13 @@ jobs:
       - name: Run add-on test
         run: |
           python -u test.py -v
+      - name: Show test environment logs
+        if: '${{ !cancelled() }}'
+        run: |
+          docker compose logs
+        working-directory: testserver/
       - name: Stop test environment
+        if: '${{ always() }}'
         run: |
           docker compose down
         working-directory: testserver/
