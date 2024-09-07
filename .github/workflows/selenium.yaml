@@ -36,7 +36,7 @@ jobs:
         working-directory: testserver/
       - name: Check if proxy and servers work
         run: |
-          curl -v --fail --output - --proxy http://localhost:8080 http://www.x.test/ http://site.y.test/ >/dev/null
+          curl -v --fail --retry 3 --retry-connrefused --output - --proxy http://localhost:8080 http://www.x.test/ http://site.y.test/ >/dev/null
       - name: Run add-on test
         run: |
           python -u test.py -v
