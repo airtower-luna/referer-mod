@@ -11,12 +11,12 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache: 'pip'
           cache-dependency-path: |
             test-requirements.txt
@@ -36,23 +36,29 @@ jobs:
         working-directory: testserver/
       - name: Check if proxy and servers work
         run: |
-          curl -v --fail --output - --proxy http://localhost:8080 http://www.x.test/ http://site.y.test/ >/dev/null
+          curl -v --fail --retry 3 --retry-connrefused --output - --proxy http://localhost:8080 http://www.x.test/ http://site.y.test/ >/dev/null
       - name: Run add-on test
         run: |
           python -u test.py -v
+      - name: Show test environment logs
+        if: '${{ !cancelled() }}'
+        run: |
+          docker compose logs
+        working-directory: testserver/
       - name: Stop test environment
+        if: '${{ always() }}'
         run: |
           docker compose down
         working-directory: testserver/
 
   eslint:
     name: ESLint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Install ESLint
         run: npm install eslint
       - name: Run ESLint
@@ -60,12 +66,12 @@ jobs:
 
   web-ext-lint:
     name: web-ext lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Install web-ext
         run: npm install web-ext
       - name: Run web-ext
