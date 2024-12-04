@@ -89,7 +89,7 @@ button#deactivate.off {
     }
     .control button, input::file-selector-button{
         font-weight: bold;
-        outline: solid  #433027 medium;
+        outline: solid #433027 medium;
         margin: 5px 10px 0 0;
         padding: 10px;
     }
