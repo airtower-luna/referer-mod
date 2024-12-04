@@ -57,3 +57,47 @@ button#deactivate {
 button#deactivate.off {
     border: 2px groove green;
 }
+
+/* dark theme by https://github.com/anewuser */
+@media (prefers-color-scheme: dark) {
+    body, option {
+        background: #3B3B3D;
+        color: #CACBCE;
+    }
+    /* necessary for highlighting entire rows */
+    table {
+        border-collapse: collapse;
+    }
+    td {
+        padding: 3px 5px;
+    }
+    tr:nth-child(n+3):hover {
+        background: #2C2C30;
+    }
+    .control button, .popup button, input, input::file-selector-button, select, thead th{
+        background: #27272A;
+        border: #424244;
+        color: #CACBB5;
+        margin: 2px 0;
+        padding: 5px;
+    }
+    input:focus {
+        outline: solid #AA4400 thin;
+    }
+    input[disabled] {
+        opacity: 0.4;
+    }
+    .control button, input::file-selector-button{
+        font-weight: bold;
+        outline: solid #433027 medium;
+        margin: 5px 10px 0 0;
+        padding: 10px;
+    }
+    .control button:hover, .popup button:hover, input::file-selector-button:hover {
+        background: #2C2C30;
+        outline: solid #AA4400 medium;
+    }
+    .control button:active, .popup button:active, input::file-selector-button:active {
+        background: #433027;
+    }
+}
