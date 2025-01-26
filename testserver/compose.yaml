@@ -30,5 +30,10 @@ services:
       - '127.0.0.1:8080:80'
     networks:
       testnet:
+    healthcheck:
+      test: >-
+        http_proxy=http://localhost:80 wget -O -
+        http://www.x.test http://www.y.test
+        || exit 1
 networks:
   testnet:
