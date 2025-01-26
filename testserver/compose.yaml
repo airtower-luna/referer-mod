@@ -35,5 +35,7 @@ services:
         http_proxy=http://localhost:80 wget -O -
         http://www.x.test http://www.y.test
         || exit 1
+      start_period: 30s
+      start_interval: 2s
 networks:
   testnet:
