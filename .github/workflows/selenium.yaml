@@ -32,7 +32,7 @@ jobs:
         working-directory: testserver/
       - name: Start test environment
         run: |
-          docker compose up -d
+          docker compose up --wait
         working-directory: testserver/
       - name: Check if proxy and servers work
         run: |
