@@ -31,5 +31,12 @@ module.exports = [
 			ecmaVersion: 2022,
 			sourceType: "commonjs"
 		},
+	},
+	{
+		files: ["web-ext-config.mjs"],
+		languageOptions: {
+			ecmaVersion: 2022,
+			sourceType: "module"
+		},
 	}
 ];
