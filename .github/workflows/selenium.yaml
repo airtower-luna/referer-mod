@@ -74,5 +74,5 @@ jobs:
           node-version: 24
       - name: Install web-ext
         run: npm install web-ext
-      - name: Run web-ext
+      - name: Run web-ext lint
         run: npx web-ext lint --warnings-as-errors
