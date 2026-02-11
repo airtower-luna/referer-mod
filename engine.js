@@ -243,7 +243,7 @@ class RefererModEngine
 		}
 
 		const conf = this.findHostConf(url, originUrl);
-		var referrer = null;
+		var referrer;
 		switch (conf.action)
 		{
 			case "prune":

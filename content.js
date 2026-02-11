@@ -24,6 +24,7 @@
 //  or after dynamic content scripts. If the dynamic script ran first,
 //  engineConfig is prefilled here, otherwise engineInstance.setConfig()
 //  will be called later.
+// eslint-disable-next-line no-unassigned-vars
 var engineConfig;
 var engineInstance = new RefererModEngine(engineConfig);
 

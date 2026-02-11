@@ -59,8 +59,9 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: Install ESLint
-        run: npm install eslint
+      - run: npm install eslint
+      - run: npm install @eslint/js
+      - run: npm install globals
       - name: Run ESLint
         run: npx eslint .
 
