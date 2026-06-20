@@ -106,6 +106,7 @@ def set_up_instance() -> BrowserInstance:
     service = FirefoxService(**service_args)
 
     browser = webdriver.Firefox(options=options, service=service)
+    browser.timeouts.implicit_wait = 1.0
     browser.install_addon(str(addon_path), temporary=True)
     logger.info(
         'Using Firefox version: %s', browser.capabilities['browserVersion'])
