@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import dataclasses
 import json
 import os
 import pytest
@@ -42,10 +43,14 @@ EXT_DIR = Path(__file__).parent
 # header for the second request (referer).
 testlink = namedtuple('testlink', ['source', 'target', 'referer'])
 
+
 # Selenium browser instance plus add-on installation data required for
 # tests
-BrowserInstance = namedtuple(
-    'BrowserInstance', ['browser', 'config_url', 'popup_url'])
+@dataclasses.dataclass
+class BrowserInstance:
+    browser: webdriver.Firefox
+    config_url: str
+    popup_url: str
 
 
 class ServiceArgs(typing.TypedDict):
@@ -178,16 +183,19 @@ def toggle_deactivate(instance: BrowserInstance) -> bool:
     """
     instance.browser.get(instance.popup_url)
     deactivate_button = instance.browser.find_element(By.ID, 'deactivate')
-    initial = 'off' in deactivate_button.get_attribute("class")
+
+    def activated() -> bool:
+        return 'off' not in (deactivate_button.get_attribute('class') or ())
+
+    initial = activated()
     deactivate_button.click()
 
     # wait for the change to take effect
     wait = WebDriverWait(instance.browser, 10)
     # b is the driver supplied to wait, unused here because the
     # lambda function has access to the current context anyway
-    wait.until(lambda b: initial
-               != ('off' in deactivate_button.get_attribute("class")))
-    return 'off' not in deactivate_button.get_attribute("class")
+    wait.until(lambda b: initial != activated())
+    return activated()
 
 
 def test_direct(default_instance):
