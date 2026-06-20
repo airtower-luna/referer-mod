@@ -25,7 +25,6 @@ import shutil
 import sys
 import typing
 import uuid
-from collections import namedtuple
 from collections.abc import Iterator
 from pathlib import Path
 from selenium import webdriver
@@ -38,10 +37,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 # directory containing the add-on source (and this test module)
 EXT_DIR = Path(__file__).parent
 
+
 # Contains data for testing a link: The page to load initially
 # (source), the link to click there (target), and the expected Referer
 # header for the second request (referer).
-testlink = namedtuple('testlink', ['source', 'target', 'referer'])
+@dataclasses.dataclass
+class Testlink:
+    __test__: typing.ClassVar[bool] = False  # tells Pytest this is not a test
+    source: str
+    target: str
+    referer: str | None
 
 
 # Selenium browser instance plus add-on installation data required for
@@ -58,7 +63,7 @@ class ServiceArgs(typing.TypedDict):
     executable_path: typing.NotRequired[str]
 
 
-def _tl_id(link: testlink):
+def _tl_id(link: Testlink):
     """Helper function to format a testlink as a parametrized test ID."""
     return f'{link.source} -> {link.target}'
 
@@ -206,11 +211,11 @@ def test_direct(default_instance):
 
 def test_deactivate(default_instance):
     # expected behavior with Referer modification active
-    link_active = testlink(
+    link_active = Testlink(
         'http://www.x.test/page/', 'http://site.y.test/page/',
         'https://www.example.com/')
     # expected behavior with Referer modification deactivated
-    link_deactivated = testlink(
+    link_deactivated = Testlink(
         'http://www.x.test/page/', 'http://site.y.test/page/',
         'http://www.x.test/')
 
@@ -222,13 +227,13 @@ def test_deactivate(default_instance):
 
 
 @pytest.mark.parametrize("link", [
-        testlink('http://web.x.test/page/', 'http://web.x.test/page/',
+        Testlink('http://web.x.test/page/', 'http://web.x.test/page/',
                  'http://web.x.test/page/'),
-        testlink('http://web.x.test/page/', 'http://www.x.test/page/',
+        Testlink('http://web.x.test/page/', 'http://www.x.test/page/',
                  'http://web.x.test/'),
-        testlink('http://www.x.test/page/', 'http://site.y.test/page/',
+        Testlink('http://www.x.test/page/', 'http://site.y.test/page/',
                  'https://www.example.com/'),
-        testlink('http://site.y.test/page/', 'http://www.y.test/page/',
+        Testlink('http://site.y.test/page/', 'http://www.y.test/page/',
                  None),
 ], ids=_tl_id)
 def test_referers(default_instance, link):
@@ -238,18 +243,18 @@ def test_referers(default_instance, link):
 @pytest.mark.parametrize('link', [
     # rule with equal target and origin overrides rule for
     # same target with empty origin
-    testlink('http://www.x.test/page/', 'http://www.x.test/page/',
+    Testlink('http://www.x.test/page/', 'http://www.x.test/page/',
              'http://www.x.test/page/'),
     # longer target match is used regardless of length of
     # origin match
-    testlink('http://www.x.test/page/', 'http://web.x.test/page/',
+    Testlink('http://www.x.test/page/', 'http://web.x.test/page/',
              'https://www.example.com/'),
     # Between rules with the same target and different origin
     # longer origin wins.
-    testlink('http://site.y.test/page/', 'http://www.y.test/page/',
+    Testlink('http://site.y.test/page/', 'http://www.y.test/page/',
              'Meow'),
     # Negative regexp match for origin
-    testlink('http://web.x.test/page/', 'http://www.y.test/page/',
+    Testlink('http://web.x.test/page/', 'http://www.y.test/page/',
              'Hello World!'),
 ], ids=_tl_id)
 def test_referers_origin(origin_instance, link):
