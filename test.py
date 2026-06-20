@@ -25,6 +25,7 @@ import sys
 import typing
 import uuid
 from collections import namedtuple
+from collections.abc import Iterator
 from pathlib import Path
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -101,7 +102,7 @@ def set_up_instance() -> BrowserInstance:
 
 
 @pytest.fixture(scope='session')
-def browser_instance() -> BrowserInstance:
+def browser_instance() -> Iterator[BrowserInstance]:
     i = set_up_instance()
     yield i
     # The environment variable is set in __main__ code if requested, a
