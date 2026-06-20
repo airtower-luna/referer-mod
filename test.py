@@ -19,6 +19,7 @@
 
 import dataclasses
 import json
+import logging
 import os
 import pytest
 import shutil
@@ -33,6 +34,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support.ui import WebDriverWait
+
+logger = logging.getLogger(__name__)
 
 # directory containing the add-on source (and this test module)
 EXT_DIR = Path(__file__).parent
@@ -78,7 +81,7 @@ def set_up_instance() -> BrowserInstance:
                   f'referer-mod-{manifest["version"]}.zip').resolve()
     addon_id = manifest["browser_specific_settings"]["gecko"]["id"]
     addon_dyn_id = str(uuid.uuid4())
-    print(f'Dynamic ID: {addon_dyn_id}')
+    logger.info('Dynamic add-on ID: %s', addon_dyn_id)
 
     options = FirefoxOptions()
     if 'FIREFOX_BIN' in os.environ:
@@ -148,10 +151,10 @@ def assert_referer(browser: webdriver.Firefox, expected: str) -> None:
     try:
         http_referer = browser.find_element(
             By.XPATH, '//td[text()="Referer"]//following::td')
-        print(f'Page shows referer: {http_referer.text}')
+        logger.info('Page shows referer: %s', http_referer.text)
         assert expected == http_referer.text
     except NoSuchElementException:
-        print('Page shows no Referer.')
+        logger.info('Page shows no Referer.')
         if expected is not None:
             raise
     script_referrer = browser.find_element(By.ID, 'referrer')
@@ -177,7 +180,7 @@ def click_link(browser: webdriver.Firefox, target: str) -> None:
 def check_referer(browser, link):
     browser.get(link.source)
     click_link(browser, link.target)
-    print(f'Navigating: {link.source} -> {link.target}')
+    logger.info('Navigating: %s -> %s', link.source, link.target)
     assert_referer(browser, link.referer)
 
 
