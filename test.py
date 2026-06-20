@@ -85,9 +85,7 @@ def set_up_instance() -> BrowserInstance:
 
     options = FirefoxOptions()
     if 'FIREFOX_BIN' in os.environ:
-        # Selenium has a setter that accepts str | FirefoxBinary, but
-        # MyPy doesn't understand that yet.
-        options.binary = os.environ['FIREFOX_BIN']  # type: ignore
+        options.binary_location = os.environ['FIREFOX_BIN']
     # Pre-seed the dynamic addon ID so we can find the options page
     options.set_preference('extensions.webextensions.uuids',
                            json.dumps({addon_id: addon_dyn_id}))
