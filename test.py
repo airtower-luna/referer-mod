@@ -107,6 +107,8 @@ def set_up_instance() -> BrowserInstance:
 
     browser = webdriver.Firefox(options=options, service=service)
     browser.install_addon(str(addon_path), temporary=True)
+    logger.info(
+        'Using Firefox version: %s', browser.capabilities['browserVersion'])
 
     return BrowserInstance(
         browser=browser,
