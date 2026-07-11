@@ -17,14 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import dataclasses
 import json
+import logging
 import os
 import pytest
 import shutil
 import sys
 import typing
 import uuid
-from collections import namedtuple
+from collections.abc import Iterator
 from pathlib import Path
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -33,18 +35,30 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support.ui import WebDriverWait
 
+logger = logging.getLogger(__name__)
+
 # directory containing the add-on source (and this test module)
 EXT_DIR = Path(__file__).parent
+
 
 # Contains data for testing a link: The page to load initially
 # (source), the link to click there (target), and the expected Referer
 # header for the second request (referer).
-testlink = namedtuple('testlink', ['source', 'target', 'referer'])
+@dataclasses.dataclass
+class Testlink:
+    __test__: typing.ClassVar[bool] = False  # tells Pytest this is not a test
+    source: str
+    target: str
+    referer: str | None
+
 
 # Selenium browser instance plus add-on installation data required for
 # tests
-BrowserInstance = namedtuple(
-    'BrowserInstance', ['browser', 'config_url', 'popup_url'])
+@dataclasses.dataclass
+class BrowserInstance:
+    browser: webdriver.Firefox
+    config_url: str
+    popup_url: str
 
 
 class ServiceArgs(typing.TypedDict):
@@ -52,7 +66,7 @@ class ServiceArgs(typing.TypedDict):
     executable_path: typing.NotRequired[str]
 
 
-def _tl_id(link: testlink):
+def _tl_id(link: Testlink):
     """Helper function to format a testlink as a parametrized test ID."""
     return f'{link.source} -> {link.target}'
 
@@ -67,13 +81,11 @@ def set_up_instance() -> BrowserInstance:
                   f'referer-mod-{manifest["version"]}.zip').resolve()
     addon_id = manifest["browser_specific_settings"]["gecko"]["id"]
     addon_dyn_id = str(uuid.uuid4())
-    print(f'Dynamic ID: {addon_dyn_id}')
+    logger.info('Dynamic add-on ID: %s', addon_dyn_id)
 
     options = FirefoxOptions()
     if 'FIREFOX_BIN' in os.environ:
-        # Selenium has a setter that accepts str | FirefoxBinary, but
-        # MyPy doesn't understand that yet.
-        options.binary = os.environ['FIREFOX_BIN']  # type: ignore
+        options.binary_location = os.environ['FIREFOX_BIN']
     # Pre-seed the dynamic addon ID so we can find the options page
     options.set_preference('extensions.webextensions.uuids',
                            json.dumps({addon_id: addon_dyn_id}))
@@ -92,7 +104,10 @@ def set_up_instance() -> BrowserInstance:
     service = FirefoxService(**service_args)
 
     browser = webdriver.Firefox(options=options, service=service)
+    browser.timeouts.implicit_wait = 1.0
     browser.install_addon(str(addon_path), temporary=True)
+    logger.info(
+        'Using Firefox version: %s', browser.capabilities['browserVersion'])
 
     return BrowserInstance(
         browser=browser,
@@ -101,7 +116,7 @@ def set_up_instance() -> BrowserInstance:
 
 
 @pytest.fixture(scope='session')
-def browser_instance() -> BrowserInstance:
+def browser_instance() -> Iterator[BrowserInstance]:
     i = set_up_instance()
     yield i
     # The environment variable is set in __main__ code if requested, a
@@ -137,10 +152,10 @@ def assert_referer(browser: webdriver.Firefox, expected: str) -> None:
     try:
         http_referer = browser.find_element(
             By.XPATH, '//td[text()="Referer"]//following::td')
-        print(f'Page shows referer: {http_referer.text}')
+        logger.info('Page shows referer: %s', http_referer.text)
         assert expected == http_referer.text
     except NoSuchElementException:
-        print('Page shows no Referer.')
+        logger.info('Page shows no Referer.')
         if expected is not None:
             raise
     script_referrer = browser.find_element(By.ID, 'referrer')
@@ -166,7 +181,7 @@ def click_link(browser: webdriver.Firefox, target: str) -> None:
 def check_referer(browser, link):
     browser.get(link.source)
     click_link(browser, link.target)
-    print(f'Navigating: {link.source} -> {link.target}')
+    logger.info('Navigating: %s -> %s', link.source, link.target)
     assert_referer(browser, link.referer)
 
 
@@ -177,16 +192,19 @@ def toggle_deactivate(instance: BrowserInstance) -> bool:
     """
     instance.browser.get(instance.popup_url)
     deactivate_button = instance.browser.find_element(By.ID, 'deactivate')
-    initial = 'off' in deactivate_button.get_attribute("class")
+
+    def activated() -> bool:
+        return 'off' not in (deactivate_button.get_attribute('class') or ())
+
+    initial = activated()
     deactivate_button.click()
 
     # wait for the change to take effect
     wait = WebDriverWait(instance.browser, 10)
     # b is the driver supplied to wait, unused here because the
     # lambda function has access to the current context anyway
-    wait.until(lambda b: initial
-               != ('off' in deactivate_button.get_attribute("class")))
-    return 'off' not in deactivate_button.get_attribute("class")
+    wait.until(lambda b: initial != activated())
+    return activated()
 
 
 def test_direct(default_instance):
@@ -197,11 +215,11 @@ def test_direct(default_instance):
 
 def test_deactivate(default_instance):
     # expected behavior with Referer modification active
-    link_active = testlink(
+    link_active = Testlink(
         'http://www.x.test/page/', 'http://site.y.test/page/',
         'https://www.example.com/')
     # expected behavior with Referer modification deactivated
-    link_deactivated = testlink(
+    link_deactivated = Testlink(
         'http://www.x.test/page/', 'http://site.y.test/page/',
         'http://www.x.test/')
 
@@ -213,13 +231,13 @@ def test_deactivate(default_instance):
 
 
 @pytest.mark.parametrize("link", [
-        testlink('http://web.x.test/page/', 'http://web.x.test/page/',
+        Testlink('http://web.x.test/page/', 'http://web.x.test/page/',
                  'http://web.x.test/page/'),
-        testlink('http://web.x.test/page/', 'http://www.x.test/page/',
+        Testlink('http://web.x.test/page/', 'http://www.x.test/page/',
                  'http://web.x.test/'),
-        testlink('http://www.x.test/page/', 'http://site.y.test/page/',
+        Testlink('http://www.x.test/page/', 'http://site.y.test/page/',
                  'https://www.example.com/'),
-        testlink('http://site.y.test/page/', 'http://www.y.test/page/',
+        Testlink('http://site.y.test/page/', 'http://www.y.test/page/',
                  None),
 ], ids=_tl_id)
 def test_referers(default_instance, link):
@@ -229,18 +247,18 @@ def test_referers(default_instance, link):
 @pytest.mark.parametrize('link', [
     # rule with equal target and origin overrides rule for
     # same target with empty origin
-    testlink('http://www.x.test/page/', 'http://www.x.test/page/',
+    Testlink('http://www.x.test/page/', 'http://www.x.test/page/',
              'http://www.x.test/page/'),
     # longer target match is used regardless of length of
     # origin match
-    testlink('http://www.x.test/page/', 'http://web.x.test/page/',
+    Testlink('http://www.x.test/page/', 'http://web.x.test/page/',
              'https://www.example.com/'),
     # Between rules with the same target and different origin
     # longer origin wins.
-    testlink('http://site.y.test/page/', 'http://www.y.test/page/',
+    Testlink('http://site.y.test/page/', 'http://www.y.test/page/',
              'Meow'),
     # Negative regexp match for origin
-    testlink('http://web.x.test/page/', 'http://www.y.test/page/',
+    Testlink('http://web.x.test/page/', 'http://www.y.test/page/',
              'Hello World!'),
 ], ids=_tl_id)
 def test_referers_origin(origin_instance, link):
