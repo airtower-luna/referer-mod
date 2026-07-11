@@ -11,7 +11,7 @@ referer-mod-$(VERSION).zip: $(MANIFEST) $(CODE) $(LOCALES) LICENSE icon.svg
 	zip -r -FS referer-mod-$(VERSION).zip $(MANIFEST) $(CODE) $(LOCALES) LICENSE icon.svg
 
 check: dist
-	$(PYTHON) test.py -v
+	$(PYTHON) test.py -v --log-cli-level=INFO
 
 clean:
 	-rm referer-mod-$(VERSION).zip geckodriver.log
