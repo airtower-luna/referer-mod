@@ -5,18 +5,26 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'saturday'
+    cooldown:
+      default-days: 7
   - package-ecosystem: 'gomod'
     directory: '/testserver'
     schedule:
       interval: 'weekly'
       day: 'saturday'
+    cooldown:
+      default-days: 7
   - package-ecosystem: 'docker'
     directory: '/testserver'
     schedule:
       interval: 'weekly'
       day: 'saturday'
+    cooldown:
+      default-days: 7
   - package-ecosystem: 'docker'
     directory: '/testserver/proxy'
     schedule:
       interval: 'weekly'
       day: 'saturday'
+    cooldown:
+      default-days: 7
