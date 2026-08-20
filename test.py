@@ -63,6 +63,7 @@ class BrowserInstance:
 
 class ServiceArgs(typing.TypedDict):
     log_output: str
+    service_args: list[str]
     executable_path: typing.NotRequired[str]
 
 
@@ -96,7 +97,10 @@ def set_up_instance() -> BrowserInstance:
     if not os.environ.get('DISPLAY'):
         options.add_argument('-headless')
 
-    service_args: ServiceArgs = {'log_output': 'geckodriver.log'}
+    service_args: ServiceArgs = {
+        'log_output': 'geckodriver.log',
+        'service_args': ['--allow-system-access'],
+    }
     # try to find geckodriver without selenium-manager (which is
     # not in the Debian package)
     if (g := shutil.which('geckodriver')) is not None:

@@ -3,7 +3,7 @@ CODE=*.js *.html *.css
 LOCALES=_locales/*/messages.json
 VERSION:=$(shell grep --only-matching -P '(?<="version":\s")([\d\.a-z]+)(?=",?$$)' $(MANIFEST))
 PYTHON=$(shell command -v python3 || command -v python)
-.PHONY: check clean
+.PHONY: check clean dist
 
 dist: referer-mod-$(VERSION).zip
 
