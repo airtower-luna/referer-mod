@@ -20,6 +20,10 @@ Users should install the add-on from the [addons.mozilla.org page](https://addon
 
 If you're working on the code you can load your work in progress as a temporary add-on using the Firefox `about:debugging` page.
 
+## Settings
+
+Useful website referer settings can be shared in this discussion: https://github.com/airtower-luna/referer-mod/discussions/43
+
 ## Developer information
 
 The following files implement the core functionality:
